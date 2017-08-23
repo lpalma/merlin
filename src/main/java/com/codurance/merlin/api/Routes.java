@@ -8,12 +8,12 @@ import spark.template.mustache.MustacheTemplateEngine;
 
 import java.util.HashMap;
 
-import static spark.Spark.before;
-import static spark.Spark.get;
-import static spark.Spark.staticFileLocation;
+import static spark.Spark.*;
 
 public class Routes {
     public void init(Authenticator authenticator, MustacheTemplateEngine templateEngine, AuthenticationFilter filter) {
+        port(8080);
+
         staticFileLocation("public");
 
         before("/*", filter);
