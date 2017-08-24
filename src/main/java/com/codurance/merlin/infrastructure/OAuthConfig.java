@@ -25,13 +25,21 @@ class OAuthConfig {
         return callbackUrl;
     }
 
-    public OAuthConfig build() throws IOException {
+    public OAuthConfig build() {
         Properties properties = new Properties();
-        properties.load(new FileInputStream(FILE_PATH));
 
-        cliendId = properties.getProperty(CLIENT_ID);
-        clientSecret = properties.getProperty(CLIENT_SECRET);
-        callbackUrl = properties.getProperty(CALLBACK_URL);
+        try {
+            properties.load(new FileInputStream(FILE_PATH));
+
+            cliendId = properties.getProperty(CLIENT_ID, "");
+            clientSecret = properties.getProperty(CLIENT_SECRET, "");
+            callbackUrl = properties.getProperty(CALLBACK_URL, "");
+        } catch (IOException e) {
+            cliendId = System.getenv(CLIENT_ID);
+            clientSecret = System.getenv(CLIENT_SECRET);
+            callbackUrl = System.getenv(CALLBACK_URL);
+        }
+
 
         return this;
     }
