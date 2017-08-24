@@ -1,0 +1,37 @@
+image: &docker-image
+  docker:
+    - image: circleci/openjdk:8-jdk
+
+master-filter: &only-on-master
+  filters:
+    branches:
+      only: master
+
+version: 2
+jobs:
+  build:
+    <<: *docker-image
+    steps:
+      - checkout
+      - run: gradle clean fatJar
+
+  deploy-pro:
+    <<: *docker-image
+    steps:
+      - checkout
+      - deploy:
+          command: |
+            gradle clean fatJar
+            sudo apt install -y python-pip
+            sudo pip install --upgrade awscli
+            ./scripts/deploy-to-eb.sh merlin merlin-standalone.zip merlin-dev
+
+workflows:
+  version: 2
+  build-and-deploy-to-pro:
+    jobs:
+      - build
+      - deploy-pro:
+          <<: *only-on-master
+          requires:
+            - build
