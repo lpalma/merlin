@@ -14,6 +14,7 @@ dependencies {
 
     compile "com.sparkjava:spark-core:2.6.0"
     compile "com.sparkjava:spark-template-mustache:2.5.5"
+    compile "org.slf4j:slf4j-simple:1.7.21"
     compile "com.google.code.gson:gson:2.8.1"
     compile "com.google.api-client:google-api-client:1.22.0"
 }
