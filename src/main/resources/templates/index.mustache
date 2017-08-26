@@ -1,70 +1,27 @@
 <link href="css/style.css" rel="stylesheet" type="text/css" />
 
 <html>
-    <h1>Craftspeople Allocation</h1>
+    <h1>Current Project Commitments</h1>
     <table>
         <tr class="background-grey">
             <th>Name<br />Position</th>
-            <th>Jun</th>
-            <th>Jul</th>
-            <th>Aug</th>
-            <th>Sep</th>
-            <th>Oct</th>
-            <th>Nov</th>
+            <th>September</th>
+            <th>October</th>
+            <th>November</th>
+            <th>December</th>
+            <th>January</th>
+            <th>February</th>
         </tr>
-        <tr>
-            <td>Ragnar<br />Craftsman</td>
-            <td>Sparrow</td>
-            <td>Sparrow</td>
-            <td>Sparrow</td>
-            <td>Sparrow</td>
-            <td>Sparrow</td>
-            <td>Sparrow</td>
-        </tr>
-        <tr class="background-grey">
-            <td>Lagertha<br />Craftswoman</td>
-            <td>Goldfinch</td>
-            <td>Goldfinch</td>
-            <td>Goldfinch</td>
-            <td>Goldfinch</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Helga<br />Principal Craftswoman</td>
-            <td>Goldfinch</td>
-            <td>Goldfinch</td>
-            <td>Goldfinch</td>
-            <td>N/A</td>
-            <td>N/A</td>
-            <td>N/A</td>
-        </tr>
-        <tr class="background-grey">
-            <td>Floki<br />Craftsman</td>
-            <td></td>
-            <td></td>
-            <td>Starling</td>
-            <td>Starling</td>
-            <td>Starling</td>
-            <td>Starling</td>
-        </tr>
-        <tr>
-            <td>Rollo<br />Apprentice</td>
-            <td>Apprenticeship</td>
-            <td>Apprenticeship</td>
-            <td>Apprenticeship</td>
-            <td>Apprenticeship</td>
-            <td>Starling</td>
-            <td>Starling</td>
-        </tr>
-        <tr class="background-grey">
-            <td>Spiderman<br />Senior Craftsman</td>
-            <td>N/A</td>
-            <td>N/A</td>
-            <td>N/A</td>
-            <td>N/A</td>
-            <td></td>
-            <td></td>
-        </tr>
+        {{#commitments}}
+           <tr>
+               <td>{{name}}<br />{{role}}</td>
+               <td>{{sep}}</td>
+               <td>{{oct}}</td>
+               <td>{{nov}}</td>
+               <td>{{dec}}</td>
+               <td>{{jan}}</td>
+               <td>{{feb}}</td>
+           </tr>
+        {{/commitments}}
     </table>
 </html>
