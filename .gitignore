@@ -4,3 +4,5 @@ build/
 out/
 config.properties
 project_commitments.json
+*.swp
+*.swo
