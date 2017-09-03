@@ -13,14 +13,19 @@ class App extends Component {
 
     loadInitialState() {
         return {
+            people: [{
+                id: '',
+                title: ''
+            }],
             commitments: [{
-                name: '',
-                role: '',
-                projects: [{
-                    name: '',
-                    startDate: '',
-                    endDate:''
-                }]
+                id: '',
+                group: '',
+                title: '',
+                start_time: '',
+                end_time: '',
+                canMove: '',
+                //canResize: false,
+                className: '',
             }]
         }
     }
@@ -28,23 +33,24 @@ class App extends Component {
     componentWillMount() {
         this.route
             .getCommitments()
-            .then(result => {
-                this.setState((precState, props) => ({
-                    commitments: result
+            .then(commitments => {
+                this.setState((prevState, props) => ({
+                    people: this.setPeople(commitments),
+                    commitments: this.setCommitments(commitments)
                 }))
         })
     }
 
-    groups() {
-        return this.state.commitments.map(commitment => ({
+    setPeople(commitments) {
+        return commitments.map(commitment => ({
             id: commitment.name,
             title: commitment.name
         }))
     }
 
-    items() {
+    setCommitments(commitments) {
         let result = []
-        this.state.commitments.forEach(commitment => {
+        commitments.forEach(commitment => {
             commitment.projects.forEach(project => {
                 const className = 'project-' + project.name.toLowerCase()
                 result.push({
@@ -54,11 +60,8 @@ class App extends Component {
                     start_time: moment(project.startDate),
                     end_time: moment(project.endDate),
                     canMove: false,
-                    canResize: false,
+                    canResize: 'both',
                     className: className,
-                    itemProps: {
-                        onDoubleClick: () => { console.log('clicked!') }
-                    }
                 })
             })
         })
@@ -66,13 +69,32 @@ class App extends Component {
         return result
     }
 
+    handleCommitmentResize = (commitmentId, time, edge) => {
+        const { commitments }  = this.state
+        
+        const newCommitments = commitments.map(commitment => {
+            let newCommitment = Object.assign({}, commitment)
+
+            if (newCommitment.id === commitmentId) {
+                newCommitment.start_time = edge === 'left' ? time : commitment.start_time
+                newCommitment.end_time = edge === 'right' ? time : commitment.end_time
+            }
+
+            return newCommitment
+        })
+
+        this.setState((prevState, props) => ({ commitments: newCommitments }))
+    }
+
     render() {
         return (
             <div className="commitments">
-                <Timeline groups={this.groups()}
-                    items={this.items()}
+                <Timeline groups={this.state.people}
+                    items={this.state.commitments}
                     defaultTimeStart={moment()}
                     defaultTimeEnd={moment().add(6, 'month')}
+                    //timeSteps={{second: 0, minute: 0, hour: 0, day: 1, month: 1, year: 1}}
+                    onItemResize={this.handleCommitmentResize}
                 />
             </div>
        );
