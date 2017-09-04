@@ -26,7 +26,7 @@ class App extends Component {
                 canMove: '',
                 //canResize: false,
                 className: '',
-            }]
+            }],
         }
     }
 
@@ -49,10 +49,11 @@ class App extends Component {
     }
 
     setCommitments(commitments) {
+        let classNames = []
         let result = []
         commitments.forEach(commitment => {
             commitment.projects.forEach(project => {
-                const className = 'project-' + project.name.toLowerCase()
+                const className = this.calculateClassName(classNames, project.name.toLowerCase())
                 result.push({
                     id: project.name + commitment.name,
                     group: commitment.name,
@@ -67,6 +68,14 @@ class App extends Component {
         })
 
         return result
+    }
+
+    calculateClassName (classList, projectName) {
+        if (!classList.includes(projectName)) {
+            classList.push(projectName)
+        }
+
+        return 'project-' + classList.indexOf(projectName)
     }
 
     handleCommitmentResize = (commitmentId, time, edge) => {
@@ -93,7 +102,7 @@ class App extends Component {
                     items={this.state.commitments}
                     defaultTimeStart={moment()}
                     defaultTimeEnd={moment().add(6, 'month')}
-                    //timeSteps={{second: 0, minute: 0, hour: 0, day: 1, month: 1, year: 1}}
+                    timeSteps={{second: 0, minute: 0, hour: 0, day: 1, month: 1, year: 1}}
                     onItemResize={this.handleCommitmentResize}
                     dragSnap={24 * 60 * 60 * 1000}
                 />
