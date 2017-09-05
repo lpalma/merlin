@@ -19,13 +19,23 @@ public class Routes {
     public static final String PROJECT_COMMITMENTS = "PROJECT_COMMITMENTS";
     public static final String PROJECT_COMMITMENTS_FILE = "project_commitments.json";
 
-   public void init(Authenticator authenticator, TemplateEngine templateEngine, AuthenticationFilter filter) {
+    public void init(Authenticator authenticator, TemplateEngine templateEngine, AuthenticationFilter filter) {
         port(8080);
 
         staticFileLocation("public");
 
         before("/*", filter);
 
+        initialiseMainRoutes(templateEngine);
+        initialiseAuthenticationRoutes(authenticator);
+        initialiseApiRoutes();
+    }
+
+    private void initialiseMainRoutes(TemplateEngine templateEngine) {
+        get("/", (req, res) -> render(new HashMap<>(), "index.mustache", templateEngine));
+    }
+
+    private void initialiseAuthenticationRoutes(Authenticator authenticator) {
         get("/callback", ((request, response) -> {
             String code = request.queryParams("code");
             User user = authenticator.authenticate(code);
@@ -36,13 +46,9 @@ public class Routes {
 
             return null;
         }));
+    }
 
-        get("/", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
-
-            return render(model, "index.mustache", templateEngine);
-        });
-
+    private void initialiseApiRoutes() {
         path("/api", () -> {
             get("/commitments", "application/json", (req, res) -> loadCommitments());
         });
@@ -65,5 +71,4 @@ public class Routes {
                 new ModelAndView(model, view)
         );
     }
-
 }
