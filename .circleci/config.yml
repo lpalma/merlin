@@ -21,6 +21,10 @@ jobs:
       - checkout
       - deploy:
           command: |
+            sudo apt update
+            curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+            sudo apt install -y nodejs
+            npm install
             gradle clean fatJar
             sudo apt install -y python-pip
             sudo pip install --upgrade awscli

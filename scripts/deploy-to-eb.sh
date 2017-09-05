@@ -8,6 +8,7 @@ function usage() {
 }
 
 function buildDeployable() {
+                ./node_modules/.bin/webpack -d
 		gradle clean fatJar
 		cd scripts
 		zip -j ../"$1" Dockerfile ../build/libs/"$2"-standalone.jar
