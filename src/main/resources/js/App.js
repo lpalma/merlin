@@ -104,7 +104,7 @@ class App extends Component {
                     defaultTimeEnd={moment().add(6, 'month')}
                     timeSteps={{second: 0, minute: 0, hour: 0, day: 1, month: 1, year: 1}}
                     onItemResize={this.handleCommitmentResize}
-                    dragSnap={24 * 60 * 60 * 1000}
+                    dragSnap={60 * 60 * 1000}
                 />
             </div>
        );
