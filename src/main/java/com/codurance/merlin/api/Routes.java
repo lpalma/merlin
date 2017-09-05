@@ -4,7 +4,7 @@ import com.codurance.merlin.infrastructure.AuthenticationFilter;
 import com.codurance.merlin.infrastructure.Authenticator;
 import com.codurance.merlin.infrastructure.User;
 import spark.ModelAndView;
-import spark.template.mustache.MustacheTemplateEngine;
+import spark.TemplateEngine;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,10 +16,10 @@ import static spark.Spark.*;
 
 public class Routes {
 
-    public static final String COMMITMENTS = "PROJECT_COMMITMENTS";
-    public static final String COMMITMENTS_FILE = "commitments.json";
+    public static final String PROJECT_COMMITMENTS = "PROJECT_COMMITMENTS";
+    public static final String PROJECT_COMMITMENTS_FILE = "project_commitments.json";
 
-   public void init(Authenticator authenticator, MustacheTemplateEngine templateEngine, AuthenticationFilter filter) {
+   public void init(Authenticator authenticator, TemplateEngine templateEngine, AuthenticationFilter filter) {
         port(8080);
 
         staticFileLocation("public");
@@ -40,7 +40,7 @@ public class Routes {
         get("/", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
 
-            return render(model, "index.mustache");
+            return render(model, "index.mustache", templateEngine);
         });
 
         path("/api", () -> {
@@ -52,16 +52,16 @@ public class Routes {
         String commitmentsJson;
 
         try {
-            commitmentsJson = String.join("", Files.readAllLines(Paths.get(COMMITMENTS_FILE)));
+            commitmentsJson = String.join("", Files.readAllLines(Paths.get(PROJECT_COMMITMENTS_FILE)));
         } catch (IOException e) {
-            commitmentsJson = System.getenv(COMMITMENTS);
+            commitmentsJson = System.getenv(PROJECT_COMMITMENTS);
         }
 
         return commitmentsJson;
     }
 
-    private static String render(Map<String, Object> model, String view) {
-        return new MustacheTemplateEngine().render(
+    private static String render(Map<String, Object> model, String view, TemplateEngine templateEngine) {
+        return templateEngine.render(
                 new ModelAndView(model, view)
         );
     }
