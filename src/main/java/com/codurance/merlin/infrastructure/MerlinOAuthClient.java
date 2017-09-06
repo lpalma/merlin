@@ -47,19 +47,19 @@ public class MerlinOAuthClient {
         return new MerlinOAuthClient(googleAuth, oAuthConfig);
     }
 
-    public TokenResponse getTokenResponse(String callbackUrl, String code) throws AuthenticationException {
+    public TokenResponse getTokenResponse(String code) throws AuthenticationException {
         try {
             return authorizationFlow.newTokenRequest(code)
-                    .setRedirectUri(callbackUrl)
+                    .setRedirectUri(callbackUrl())
                     .execute();
         } catch (IOException e) {
             throw new AuthenticationException(e);
         }
     }
 
-    public String getNewAuthorizationUrl(String callbackUrl) {
+    public String getNewAuthorizationUrl() {
         return authorizationFlow.newAuthorizationUrl()
-                .setRedirectUri(callbackUrl)
+                .setRedirectUri(callbackUrl())
                 .setScopes(singleton(EMAIL))
                 .build();
     }
@@ -80,7 +80,7 @@ public class MerlinOAuthClient {
         }
     }
 
-    public String callbackUrl() {
+    private String callbackUrl() {
         return oAuthConfig.getCallbackUrl();
     }
 }

@@ -33,12 +33,12 @@ public class MerlinAuthenticator implements Authenticator {
 
     @Override
     public String getAuthenticationUrl() {
-         return oAuthClient.getNewAuthorizationUrl(oAuthClient.callbackUrl());
+         return oAuthClient.getNewAuthorizationUrl();
     }
 
     @Override
     public User authenticate(String code) throws AuthenticationException {
-        TokenResponse tokenResponse = oAuthClient.getTokenResponse(oAuthClient.callbackUrl(), code);
+        TokenResponse tokenResponse = oAuthClient.getTokenResponse(code);
 
         User user = getUserDetails(tokenResponse);
 
