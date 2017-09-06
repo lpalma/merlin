@@ -33,7 +33,7 @@ public class MerlinAuthenticator implements Authenticator {
     }
 
     @Override
-    public String getLoginUrl() {
+    public String getAuthenticationUrl() {
          return oAuthClient.getNewAuthorizationUrl(oAuthClient.callbackUrl());
     }
 

@@ -18,7 +18,7 @@ public class AuthorisationFilter implements Filter {
     public void handle(Request request, Response response) throws Exception {
         if (this.isNotCallbackUrl(request) && this.isNotAuthenticated(request)) {
             request.session().invalidate();
-            String url = authenticator.getLoginUrl();
+            String url = authenticator.getAuthenticationUrl();
             response.redirect(url);
         }
     }

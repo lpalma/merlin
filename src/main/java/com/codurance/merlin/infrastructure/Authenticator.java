@@ -5,7 +5,7 @@ import java.io.IOException;
 public interface Authenticator {
     boolean isNotAuthenticated(String token) throws IOException;
 
-    String getLoginUrl();
+    String getAuthenticationUrl();
 
     User authenticate(String code) throws IOException;
 }
