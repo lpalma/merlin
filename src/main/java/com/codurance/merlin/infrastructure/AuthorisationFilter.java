@@ -6,11 +6,11 @@ import spark.Response;
 
 import java.io.IOException;
 
-public class AuthenticationFilter implements Filter {
+public class AuthorisationFilter implements Filter {
 
     private Authenticator authenticator;
 
-    public AuthenticationFilter(Authenticator authenticator) {
+    public AuthorisationFilter(Authenticator authenticator) {
         this.authenticator = authenticator;
     }
 

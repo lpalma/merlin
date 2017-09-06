@@ -1,7 +1,7 @@
 package com.codurance.merlin;
 
-import com.codurance.merlin.infrastructure.AuthenticationFilter;
 import com.codurance.merlin.api.Routes;
+import com.codurance.merlin.infrastructure.AuthorisationFilter;
 import com.codurance.merlin.infrastructure.GoogleAuthenticator;
 import com.codurance.merlin.infrastructure.GoogleOAuthClient;
 import spark.template.mustache.MustacheTemplateEngine;
@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         GoogleAuthenticator authenticator = buildAuthenticator();
 
-        AuthenticationFilter filter = new AuthenticationFilter(authenticator);
+        AuthorisationFilter filter = new AuthorisationFilter(authenticator);
 
         MustacheTemplateEngine templateEngine = new MustacheTemplateEngine();
 
