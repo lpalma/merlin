@@ -25,7 +25,7 @@ public class MerlinOAuthClient {
         this.oAuthConfig = oAuthConfig;
     }
 
-    public static MerlinOAuthClient buildOauthClient() throws IOException {
+    public static MerlinOAuthClient buildOauthClient() throws AuthenticationException {
         OAuthConfig oAuthConfig = new OAuthConfig().build();
 
         String cliendId = oAuthConfig.getCliendId();
@@ -33,18 +33,28 @@ public class MerlinOAuthClient {
 
         HttpTransport transport = new ApacheHttpTransport();
         JsonFactory jsonFactory = new JacksonFactory();
-        GoogleAuthorizationCodeFlow googleAuth = new GoogleAuthorizationCodeFlow
-                .Builder(transport, jsonFactory, cliendId, clientSecret, singleton(EMAIL))
-                .setDataStoreFactory(MemoryDataStoreFactory.getDefaultInstance())
-                .build();
+        GoogleAuthorizationCodeFlow googleAuth;
+
+        try {
+            googleAuth = new GoogleAuthorizationCodeFlow
+                    .Builder(transport, jsonFactory, cliendId, clientSecret, singleton(EMAIL))
+                    .setDataStoreFactory(MemoryDataStoreFactory.getDefaultInstance())
+                    .build();
+        } catch (IOException e) {
+            throw new AuthenticationException(e);
+        }
 
         return new MerlinOAuthClient(googleAuth, oAuthConfig);
     }
 
-    public TokenResponse getTokenResponse(String callbackUrl, String code) throws IOException {
-        return authorizationFlow.newTokenRequest(code)
-                .setRedirectUri(callbackUrl)
-                .execute();
+    public TokenResponse getTokenResponse(String callbackUrl, String code) throws AuthenticationException {
+        try {
+            return authorizationFlow.newTokenRequest(code)
+                    .setRedirectUri(callbackUrl)
+                    .execute();
+        } catch (IOException e) {
+            throw new AuthenticationException(e);
+        }
     }
 
     public String getNewAuthorizationUrl(String callbackUrl) {
@@ -54,12 +64,20 @@ public class MerlinOAuthClient {
                 .build();
     }
 
-    public Credential loadCredentials(String userId) throws IOException {
-        return authorizationFlow.loadCredential(userId);
+    public Credential loadCredentials(String userId) throws AuthenticationException {
+        try {
+            return authorizationFlow.loadCredential(userId);
+        } catch (IOException e) {
+            throw new AuthenticationException(e);
+        }
     }
 
-    public void createAndStoreCredentials(TokenResponse tokenResponse, User user) throws IOException {
-        authorizationFlow.createAndStoreCredential(tokenResponse, user.getUserId());
+    public void createAndStoreCredentials(TokenResponse tokenResponse, User user) throws AuthenticationException {
+        try {
+            authorizationFlow.createAndStoreCredential(tokenResponse, user.getUserId());
+        } catch (IOException e) {
+            throw new AuthenticationException(e);
+        }
     }
 
     public String callbackUrl() {

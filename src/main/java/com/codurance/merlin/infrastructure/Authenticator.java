@@ -1,11 +1,9 @@
 package com.codurance.merlin.infrastructure;
 
-import java.io.IOException;
-
 public interface Authenticator {
-    boolean isNotAuthenticated(String token) throws IOException;
+    boolean isNotAuthenticated(String token) throws AuthenticationException;
 
     String getAuthenticationUrl();
 
-    User authenticate(String code) throws IOException;
+    User authenticate(String code) throws AuthenticationException;
 }

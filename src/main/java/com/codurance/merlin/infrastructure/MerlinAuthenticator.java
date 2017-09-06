@@ -5,7 +5,6 @@ import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -22,7 +21,7 @@ public class MerlinAuthenticator implements Authenticator {
     }
 
     @Override
-    public boolean isNotAuthenticated(String token) throws IOException {
+    public boolean isNotAuthenticated(String token) throws AuthenticationException {
         if (token == null) {
             return true;
         }
@@ -38,7 +37,7 @@ public class MerlinAuthenticator implements Authenticator {
     }
 
     @Override
-    public User authenticate(String code) throws IOException {
+    public User authenticate(String code) throws AuthenticationException {
         TokenResponse tokenResponse = oAuthClient.getTokenResponse(oAuthClient.callbackUrl(), code);
 
         User user = getUserDetails(tokenResponse);
@@ -50,7 +49,7 @@ public class MerlinAuthenticator implements Authenticator {
         return user;
     }
 
-    private User getUserDetails(TokenResponse tokenResponse) throws IOException {
+    private User getUserDetails(TokenResponse tokenResponse) throws AuthenticationException {
         String tokenInfoResponse = fetchUserDetails(tokenResponse);
 
         Gson gson = new Gson();
@@ -58,13 +57,18 @@ public class MerlinAuthenticator implements Authenticator {
         return gson.fromJson(tokenInfoResponse, User.class);
     }
 
-    private String fetchUserDetails(TokenResponse tokenResponse) throws IOException {
+    private String fetchUserDetails(TokenResponse tokenResponse) throws AuthenticationException {
         String userInfo = TOKEN_INFO_URL + tokenResponse.getAccessToken();
-        URL url = new URL(userInfo);
-        URLConnection conn = url.openConnection();
 
-        return new BufferedReader(new InputStreamReader(conn.getInputStream()))
-                .lines()
-                .collect(Collectors.joining(NEW_LINE));
+        try {
+            URL url = new URL(userInfo);
+            URLConnection conn = url.openConnection();
+
+            return new BufferedReader(new InputStreamReader(conn.getInputStream()))
+                    .lines()
+                    .collect(Collectors.joining(NEW_LINE));
+        } catch (Exception e) {
+            throw new AuthenticationException(e);
+        }
     }
 }

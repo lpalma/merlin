@@ -4,8 +4,6 @@ import spark.Filter;
 import spark.Request;
 import spark.Response;
 
-import java.io.IOException;
-
 public class AuthorisationFilter implements Filter {
 
     private Authenticator authenticator;
@@ -23,7 +21,7 @@ public class AuthorisationFilter implements Filter {
         }
     }
 
-    private boolean isNotAuthenticated(Request request) throws IOException {
+    private boolean isNotAuthenticated(Request request) throws AuthenticationException {
 
         return authenticator.isNotAuthenticated(request.session().attribute("token"));
     }
