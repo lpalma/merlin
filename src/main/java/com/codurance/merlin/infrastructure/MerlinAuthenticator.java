@@ -1,7 +1,7 @@
 package com.codurance.merlin.infrastructure;
 
 import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -11,13 +11,13 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.stream.Collectors;
 
-public class GoogleAuthenticator implements Authenticator {
+public class MerlinAuthenticator implements Authenticator {
 
     public static final String TOKEN_INFO_URL = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=";
     public static final String NEW_LINE = "\n";
     public MerlinOAuthClient oAuthClient;
 
-    public GoogleAuthenticator(MerlinOAuthClient client) {
+    public MerlinAuthenticator(MerlinOAuthClient client) {
         this.oAuthClient = client;
     }
 
@@ -39,27 +39,27 @@ public class GoogleAuthenticator implements Authenticator {
 
     @Override
     public User authenticate(String code) throws IOException {
-        TokenResponse googleResponse = oAuthClient.getTokenResponse(oAuthClient.callbackUrl(), code);
+        TokenResponse tokenResponse = oAuthClient.getTokenResponse(oAuthClient.callbackUrl(), code);
 
-        User user = getGoogleUser(googleResponse);
+        User user = getUserDetails(tokenResponse);
 
         if (user.isFromCodurance()) {
-            oAuthClient.createAndStoreCredentials(googleResponse, user);
+            oAuthClient.createAndStoreCredentials(tokenResponse, user);
         }
 
         return user;
     }
 
-    private User getGoogleUser(GoogleTokenResponse googleResponse) throws IOException {
-        String tokenInfoResponse = fetchGoogleUser(googleResponse);
+    private User getUserDetails(TokenResponse tokenResponse) throws IOException {
+        String tokenInfoResponse = fetchUserDetails(tokenResponse);
 
         Gson gson = new Gson();
 
         return gson.fromJson(tokenInfoResponse, User.class);
     }
 
-    private String fetchGoogleUser(GoogleTokenResponse googleResponse) throws IOException {
-        String userInfo = TOKEN_INFO_URL + googleResponse.getAccessToken();
+    private String fetchUserDetails(TokenResponse tokenResponse) throws IOException {
+        String userInfo = TOKEN_INFO_URL + tokenResponse.getAccessToken();
         URL url = new URL(userInfo);
         URLConnection conn = url.openConnection();
 
