@@ -3,12 +3,12 @@ package com.codurance.merlin;
 import com.codurance.merlin.api.Routes;
 import com.codurance.merlin.infrastructure.AuthorisationFilter;
 import com.codurance.merlin.infrastructure.GoogleAuthenticator;
-import com.codurance.merlin.infrastructure.GoogleOAuthClient;
+import com.codurance.merlin.infrastructure.MerlinOAuthClient;
 import spark.template.mustache.MustacheTemplateEngine;
 
 import java.io.IOException;
 
-import static com.codurance.merlin.infrastructure.GoogleOAuthClient.buildGoogleOauthClient;
+import static com.codurance.merlin.infrastructure.MerlinOAuthClient.buildOauthClient;
 
 public class Main {
 
@@ -25,9 +25,9 @@ public class Main {
     }
 
     private static GoogleAuthenticator buildAuthenticator() throws IOException {
-        GoogleOAuthClient googleAuth = buildGoogleOauthClient();
+        MerlinOAuthClient oauthClient = buildOauthClient();
 
-        return new GoogleAuthenticator(googleAuth);
+        return new GoogleAuthenticator(oauthClient);
     }
 }
 

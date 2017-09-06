@@ -15,10 +15,10 @@ public class GoogleAuthenticator implements Authenticator {
 
     public static final String TOKEN_INFO_URL = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=";
     public static final String NEW_LINE = "\n";
-    public GoogleOAuthClient googleAuth;
+    public MerlinOAuthClient oAuthClient;
 
-    public GoogleAuthenticator(GoogleOAuthClient client) {
-        this.googleAuth = client;
+    public GoogleAuthenticator(MerlinOAuthClient client) {
+        this.oAuthClient = client;
     }
 
     @Override
@@ -27,24 +27,24 @@ public class GoogleAuthenticator implements Authenticator {
             return true;
         }
 
-        Credential credential = googleAuth.loadCredentials(token);
+        Credential credential = oAuthClient.loadCredentials(token);
 
         return (credential == null) || (credential.getExpiresInSeconds() <= 0);
     }
 
     @Override
     public String getLoginUrl() {
-         return googleAuth.getNewAuthorizationUrl(googleAuth.callbackUrl());
+         return oAuthClient.getNewAuthorizationUrl(oAuthClient.callbackUrl());
     }
 
     @Override
     public User authenticate(String code) throws IOException {
-        GoogleTokenResponse googleResponse = googleAuth.getTokenResponse(googleAuth.callbackUrl(), code);
+        TokenResponse googleResponse = oAuthClient.getTokenResponse(oAuthClient.callbackUrl(), code);
 
         User user = getGoogleUser(googleResponse);
 
         if (user.isFromCodurance()) {
-            googleAuth.createAndStoreCredentials(googleResponse, user);
+            oAuthClient.createAndStoreCredentials(googleResponse, user);
         }
 
         return user;

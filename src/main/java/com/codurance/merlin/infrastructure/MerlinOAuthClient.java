@@ -1,8 +1,9 @@
 package com.codurance.merlin.infrastructure;
 
+import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.apache.ApacheHttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -13,18 +14,18 @@ import java.io.IOException;
 
 import static java.util.Collections.singleton;
 
-public class GoogleOAuthClient {
+public class MerlinOAuthClient {
 
     public static final String EMAIL = "email";
-    private GoogleAuthorizationCodeFlow googleAuth;
+    private AuthorizationCodeFlow authorizationFlow;
     private OAuthConfig oAuthConfig;
 
-    public GoogleOAuthClient(GoogleAuthorizationCodeFlow googleAuth, OAuthConfig oAuthConfig) {
-        this.googleAuth = googleAuth;
+    public MerlinOAuthClient(AuthorizationCodeFlow authorizationFlow, OAuthConfig oAuthConfig) {
+        this.authorizationFlow = authorizationFlow;
         this.oAuthConfig = oAuthConfig;
     }
 
-    public static GoogleOAuthClient buildGoogleOauthClient() throws IOException {
+    public static MerlinOAuthClient buildOauthClient() throws IOException {
         OAuthConfig oAuthConfig = new OAuthConfig().build();
 
         String cliendId = oAuthConfig.getCliendId();
@@ -37,28 +38,28 @@ public class GoogleOAuthClient {
                 .setDataStoreFactory(MemoryDataStoreFactory.getDefaultInstance())
                 .build();
 
-        return new GoogleOAuthClient(googleAuth, oAuthConfig);
+        return new MerlinOAuthClient(googleAuth, oAuthConfig);
     }
 
-    public GoogleTokenResponse getTokenResponse(String callbackUrl, String code) throws IOException {
-        return googleAuth.newTokenRequest(code)
+    public TokenResponse getTokenResponse(String callbackUrl, String code) throws IOException {
+        return authorizationFlow.newTokenRequest(code)
                 .setRedirectUri(callbackUrl)
                 .execute();
     }
 
     public String getNewAuthorizationUrl(String callbackUrl) {
-        return googleAuth.newAuthorizationUrl()
+        return authorizationFlow.newAuthorizationUrl()
                 .setRedirectUri(callbackUrl)
                 .setScopes(singleton(EMAIL))
                 .build();
     }
 
     public Credential loadCredentials(String userId) throws IOException {
-        return googleAuth.loadCredential(userId);
+        return authorizationFlow.loadCredential(userId);
     }
 
-    public Credential createAndStoreCredentials(GoogleTokenResponse googleResponse, User user) throws IOException {
-        return googleAuth.createAndStoreCredential(googleResponse, user.getUserId());
+    public void createAndStoreCredentials(TokenResponse tokenResponse, User user) throws IOException {
+        authorizationFlow.createAndStoreCredential(tokenResponse, user.getUserId());
     }
 
     public String callbackUrl() {
