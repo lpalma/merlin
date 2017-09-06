@@ -1,8 +1,8 @@
 package com.codurance.merlin.api;
 
-import com.codurance.merlin.infrastructure.AuthenticationFilter;
+import com.codurance.merlin.controller.AuthenticationController;
+import com.codurance.merlin.infrastructure.AuthorisationFilter;
 import com.codurance.merlin.infrastructure.Authenticator;
-import com.codurance.merlin.infrastructure.User;
 import spark.ModelAndView;
 import spark.TemplateEngine;
 
@@ -18,34 +18,33 @@ public class Routes {
 
     public static final String PROJECT_COMMITMENTS = "PROJECT_COMMITMENTS";
     public static final String PROJECT_COMMITMENTS_FILE = "project_commitments.json";
+    private AuthenticationController authenticationController;
+    private Authenticator authenticator;
 
-    public void init(Authenticator authenticator, TemplateEngine templateEngine, AuthenticationFilter filter) {
+    public void init(Authenticator authenticator, TemplateEngine templateEngine, AuthorisationFilter authorisationFilter) {
+        this.authenticator = authenticator;
+
         port(8080);
-
         staticFileLocation("public");
 
-        before("/*", filter);
+        before("/*", authorisationFilter);
 
+        initialiseControllers();
         initialiseMainRoutes(templateEngine);
-        initialiseAuthenticationRoutes(authenticator);
+        initialiseAuthenticationRoutes();
         initialiseApiRoutes();
+    }
+
+    private void initialiseControllers() {
+        authenticationController = new AuthenticationController(this.authenticator);
     }
 
     private void initialiseMainRoutes(TemplateEngine templateEngine) {
         get("/", (req, res) -> render(new HashMap<>(), "index.mustache", templateEngine));
     }
 
-    private void initialiseAuthenticationRoutes(Authenticator authenticator) {
-        get("/callback", ((request, response) -> {
-            String code = request.queryParams("code");
-            User user = authenticator.authenticate(code);
-
-            request.session().attribute("token", user.getUserId());
-
-            response.redirect("/");
-
-            return null;
-        }));
+    private void initialiseAuthenticationRoutes() {
+        get("/callback", authenticationController::authenticate);
     }
 
     private void initialiseApiRoutes() {
