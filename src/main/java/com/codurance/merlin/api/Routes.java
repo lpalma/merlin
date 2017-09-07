@@ -1,6 +1,7 @@
 package com.codurance.merlin.api;
 
 import com.codurance.merlin.controller.AuthenticationController;
+import com.codurance.merlin.controller.CommitmentsController;
 import com.codurance.merlin.infrastructure.AuthorisationFilter;
 import com.codurance.merlin.infrastructure.Authenticator;
 import spark.ModelAndView;
@@ -20,6 +21,7 @@ public class Routes {
     public static final String PROJECT_COMMITMENTS_FILE = "project_commitments.json";
     private AuthenticationController authenticationController;
     private Authenticator authenticator;
+    private CommitmentsController commitmentsController;
 
     public void init(Authenticator authenticator, TemplateEngine templateEngine, AuthorisationFilter authorisationFilter) {
         this.authenticator = authenticator;
@@ -37,6 +39,7 @@ public class Routes {
 
     private void initialiseControllers() {
         authenticationController = new AuthenticationController(this.authenticator);
+        commitmentsController = new CommitmentsController();
     }
 
     private void initialiseMainRoutes(TemplateEngine templateEngine) {
@@ -49,20 +52,8 @@ public class Routes {
 
     private void initialiseApiRoutes() {
         path("/api", () -> {
-            get("/commitments", "application/json", (req, res) -> loadCommitments());
+            get("/commitments", "application/json", commitmentsController::getAll);
         });
-    }
-
-    private String loadCommitments() {
-        String commitmentsJson;
-
-        try {
-            commitmentsJson = String.join("", Files.readAllLines(Paths.get(PROJECT_COMMITMENTS_FILE)));
-        } catch (IOException e) {
-            commitmentsJson = System.getenv(PROJECT_COMMITMENTS);
-        }
-
-        return commitmentsJson;
     }
 
     private static String render(Map<String, Object> model, String view, TemplateEngine templateEngine) {
