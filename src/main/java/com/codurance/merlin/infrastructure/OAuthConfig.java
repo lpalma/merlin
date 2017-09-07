@@ -25,7 +25,7 @@ class OAuthConfig {
         return callbackUrl;
     }
 
-    public OAuthConfig build() {
+    public OAuthConfig load() {
         Properties properties = new Properties();
 
         try {
@@ -39,7 +39,6 @@ class OAuthConfig {
             clientSecret = System.getenv(CLIENT_SECRET);
             callbackUrl = System.getenv(CALLBACK_URL);
         }
-
 
         return this;
     }
