@@ -4,9 +4,7 @@ import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.apache.ApacheHttpTransport;
-import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.MemoryDataStoreFactory;
 
@@ -16,33 +14,19 @@ import static java.util.Collections.singleton;
 
 public class MerlinOAuthClient {
 
-    public static final String EMAIL = "email";
+    private static final String EMAIL = "email";
     private AuthorizationCodeFlow authorizationFlow;
     private OAuthConfig oAuthConfig;
 
-    public MerlinOAuthClient(AuthorizationCodeFlow authorizationFlow, OAuthConfig oAuthConfig) {
+    private MerlinOAuthClient(AuthorizationCodeFlow authorizationFlow, OAuthConfig oAuthConfig) {
         this.authorizationFlow = authorizationFlow;
         this.oAuthConfig = oAuthConfig;
     }
 
-    public static MerlinOAuthClient buildOauthClient() throws AuthenticationException {
-        OAuthConfig oAuthConfig = new OAuthConfig().build();
+    public static MerlinOAuthClient buildOauthClient() throws OauthConfigurationException {
+        OAuthConfig oAuthConfig = new OAuthConfig().load();
 
-        String cliendId = oAuthConfig.getCliendId();
-        String clientSecret = oAuthConfig.getClientSecret();
-
-        HttpTransport transport = new ApacheHttpTransport();
-        JsonFactory jsonFactory = new JacksonFactory();
-        GoogleAuthorizationCodeFlow googleAuth;
-
-        try {
-            googleAuth = new GoogleAuthorizationCodeFlow
-                    .Builder(transport, jsonFactory, cliendId, clientSecret, singleton(EMAIL))
-                    .setDataStoreFactory(MemoryDataStoreFactory.getDefaultInstance())
-                    .build();
-        } catch (IOException e) {
-            throw new AuthenticationException(e);
-        }
+        GoogleAuthorizationCodeFlow googleAuth = initialiseCodeFlow(oAuthConfig.getCliendId(), oAuthConfig.getClientSecret());
 
         return new MerlinOAuthClient(googleAuth, oAuthConfig);
     }
@@ -82,5 +66,20 @@ public class MerlinOAuthClient {
 
     private String callbackUrl() {
         return oAuthConfig.getCallbackUrl();
+    }
+
+    private static GoogleAuthorizationCodeFlow initialiseCodeFlow(String cliendId, String clientSecret) throws OauthConfigurationException {
+        GoogleAuthorizationCodeFlow googleAuth;
+
+        try {
+            googleAuth = new GoogleAuthorizationCodeFlow
+                    .Builder(new ApacheHttpTransport(), new JacksonFactory(), cliendId, clientSecret, singleton(EMAIL))
+                    .setDataStoreFactory(MemoryDataStoreFactory.getDefaultInstance())
+                    .build();
+        } catch (IOException e) {
+            throw new OauthConfigurationException(e);
+        }
+
+        return googleAuth;
     }
 }

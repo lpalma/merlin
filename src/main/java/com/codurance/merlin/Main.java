@@ -1,17 +1,14 @@
 package com.codurance.merlin;
 
 import com.codurance.merlin.api.Routes;
-import com.codurance.merlin.infrastructure.AuthenticationException;
-import com.codurance.merlin.infrastructure.AuthorisationFilter;
-import com.codurance.merlin.infrastructure.MerlinAuthenticator;
-import com.codurance.merlin.infrastructure.MerlinOAuthClient;
+import com.codurance.merlin.infrastructure.*;
 import spark.template.mustache.MustacheTemplateEngine;
 
 import static com.codurance.merlin.infrastructure.MerlinOAuthClient.buildOauthClient;
 
 public class Main {
 
-    public static void main(String[] args) throws AuthenticationException {
+    public static void main(String[] args) throws OauthConfigurationException {
         MerlinAuthenticator authenticator = buildAuthenticator();
 
         AuthorisationFilter filter = new AuthorisationFilter(authenticator);
@@ -23,7 +20,7 @@ public class Main {
         routes.init(authenticator, templateEngine, filter);
     }
 
-    private static MerlinAuthenticator buildAuthenticator() throws AuthenticationException {
+    private static MerlinAuthenticator buildAuthenticator() throws OauthConfigurationException {
         MerlinOAuthClient oauthClient = buildOauthClient();
 
         return new MerlinAuthenticator(oauthClient);
