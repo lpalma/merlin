@@ -4,12 +4,10 @@ import com.codurance.merlin.controller.AuthenticationController;
 import com.codurance.merlin.controller.CommitmentsController;
 import com.codurance.merlin.infrastructure.AuthorisationFilter;
 import com.codurance.merlin.infrastructure.Authenticator;
+import com.codurance.merlin.repository.CommitmentRepository;
 import spark.ModelAndView;
 import spark.TemplateEngine;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,8 +15,6 @@ import static spark.Spark.*;
 
 public class Routes {
 
-    public static final String PROJECT_COMMITMENTS = "PROJECT_COMMITMENTS";
-    public static final String PROJECT_COMMITMENTS_FILE = "project_commitments.json";
     private AuthenticationController authenticationController;
     private Authenticator authenticator;
     private CommitmentsController commitmentsController;
@@ -39,7 +35,7 @@ public class Routes {
 
     private void initialiseControllers() {
         authenticationController = new AuthenticationController(this.authenticator);
-        commitmentsController = new CommitmentsController();
+        commitmentsController = new CommitmentsController(new CommitmentRepository());
     }
 
     private void initialiseMainRoutes(TemplateEngine templateEngine) {
