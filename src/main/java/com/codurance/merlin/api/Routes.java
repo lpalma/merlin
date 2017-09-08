@@ -22,6 +22,8 @@ public class Routes {
 
     public static final String PROJECT_COMMITMENTS = "PROJECT_COMMITMENTS";
     public static final String PROJECT_COMMITMENTS_FILE = "project_commitments.json";
+    public static final String COMMITMENTS = "PROJECT_COMMITMENTS";
+    public static final String COMMITMENTS_FILE = "commitments.json";
 
    public void init(Authenticator authenticator, MustacheTemplateEngine templateEngine, AuthenticationFilter filter) {
         port(8080);
@@ -42,6 +44,20 @@ public class Routes {
         }));
 
         get("/", (req, res) -> new ModelAndView(loadProjectCommitments(), "index.mustache"), templateEngine);
+
+        get("/json", "application/json", (req, res) -> loadCommitments());
+    }
+
+    private String loadCommitments() {
+        String commitmentsJson;
+
+        try {
+            commitmentsJson = String.join("", Files.readAllLines(Paths.get(COMMITMENTS_FILE)));
+        } catch (IOException e) {
+            commitmentsJson = System.getenv(COMMITMENTS);
+        }
+
+        return commitmentsJson;
     }
 
     private Map<String, Collection<Commitment>> loadProjectCommitments(){

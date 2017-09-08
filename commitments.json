@@ -1,0 +1,67 @@
+[
+    {	
+        "name": "Rollo",
+        "role": "Craftsperson",
+        "projects": [
+            {
+                "name": "Alpha",
+                "startDate": "2017-09-01",
+                "endDate": "2017-10-10"
+            }
+        ]
+    },
+    {	
+        "name": "Bjorn",
+        "role": "Craftsperson",
+        "projects": [
+            {
+                "name": "Alpha",
+                "startDate": "2017-09-01",
+                "endDate": "2017-10-10"
+            },
+            {
+                "name": "Beta",
+                "startDate": "2017-11-01",
+                "endDate": "2018-02-28"
+            }
+        ]
+    },
+    {	
+        "name": "Ragnar",
+        "role": "Craftsperson",
+        "projects": [
+            {
+                "name": "Beta",
+                "startDate": "2017-11-01",
+                "endDate": "2018-02-28"
+            }
+        ]
+    },
+    {	
+        "name": "Helga",
+        "role": "Craftsperson",
+        "projects": [
+            {
+                "name": "Sigma",
+                "startDate": "2017-10-15",
+                "endDate": "2018-02-28"
+            }
+        ]
+    },
+    {	
+        "name": "Lagertha",
+        "role": "Apprentice",
+        "projects": []
+    },
+    {	
+        "name": "Spiderman",
+        "role": "Craftsperson",
+        "projects": [
+            {
+                "name": "Sigma",
+                "startDate": "2017-12-10",
+                "endDate": "2018-02-28"
+            }
+        ]
+    }
+]
