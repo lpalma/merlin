@@ -4,6 +4,7 @@ import com.codurance.merlin.controller.AuthenticationController;
 import com.codurance.merlin.controller.CommitmentsController;
 import com.codurance.merlin.infrastructure.AuthorisationFilter;
 import com.codurance.merlin.infrastructure.Authenticator;
+import com.codurance.merlin.infrastructure.JsonTransformer;
 import com.codurance.merlin.repository.CommitmentRepository;
 import spark.ModelAndView;
 import spark.TemplateEngine;
@@ -48,7 +49,7 @@ public class Routes {
 
     private void initialiseApiRoutes() {
         path("/api", () -> {
-            get("/commitments", "application/json", commitmentsController::getAll);
+            get("/commitments", "application/json", commitmentsController::getAll, new JsonTransformer());
         });
     }
 
