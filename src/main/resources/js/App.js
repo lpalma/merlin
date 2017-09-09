@@ -13,7 +13,7 @@ class App extends Component {
 
     loadInitialState() {
         return {
-            people: [{
+            employees: [{
                 id: '',
                 title: ''
             }],
@@ -24,7 +24,6 @@ class App extends Component {
                 start_time: '',
                 end_time: '',
                 canMove: '',
-                //canResize: false,
                 className: '',
             }],
         }
@@ -35,39 +34,58 @@ class App extends Component {
             .getCommitments()
             .then(commitments => {
                 this.setState((prevState, props) => ({
-                    people: this.setPeople(commitments),
+                    employees: this.setEmployess(commitments),
                     commitments: this.setCommitments(commitments)
                 }))
         })
     }
 
-    setPeople(commitments) {
-        return commitments.map(commitment => ({
-            id: commitment.name,
-            title: commitment.name
-        }))
+    setEmployess(commitments) {
+        let employees = []
+
+        commitments.forEach(commitment => {
+            const id = commitment.employee.id.value
+            const name = commitment.employee.name
+
+            if (!employees.some(e => (e.id == id))) {
+                employees.push({
+                    id: id,
+                    title: name,
+                })
+            }
+        })
+
+        return employees
     }
 
     setCommitments(commitments) {
         let classNames = []
         let result = []
+
         commitments.forEach(commitment => {
-            commitment.projects.forEach(project => {
-                const className = this.calculateClassName(classNames, project.name.toLowerCase())
+            const project = commitment.project
+            const employee = commitment.employee
+            const className = this.calculateClassName(classNames, project.name.toLowerCase())
+
+            if (!result.some(r => (r.group == employee.id.value))) {
                 result.push({
-                    id: project.name + commitment.name,
-                    group: commitment.name,
+                    id: commitment.id.value,
+                    group: employee.id.value,
                     title: project.name,
-                    start_time: moment(project.startDate),
-                    end_time: moment(project.endDate),
+                    start_time: this.formatDate(commitment.startDate),
+                    end_time: this.formatDate(commitment.endDate),
                     canMove: false,
                     canResize: 'both',
                     className: className,
                 })
-            })
+            }
         })
 
         return result
+    }
+
+    formatDate = (date) => {
+        return moment(date.year + "-" + date.month + "-" + date.day, "YYYY-MM-DD")
     }
 
     calculateClassName (classList, projectName) {
@@ -98,7 +116,7 @@ class App extends Component {
     render() {
         return (
             <div className="commitments">
-                <Timeline groups={this.state.people}
+                <Timeline groups={this.state.employees}
                     items={this.state.commitments}
                     defaultTimeStart={moment()}
                     defaultTimeEnd={moment().add(6, 'month')}
