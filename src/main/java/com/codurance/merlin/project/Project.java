@@ -1,6 +1,6 @@
 package com.codurance.merlin.project;
 
-import com.codurance.merlin.valueObjects.Id;
+import com.codurance.merlin.valueObject.Id;
 
 public class Project {
     private Id id;

@@ -1,7 +1,7 @@
 package com.codurance.merlin.craftsperson;
 
-import com.codurance.merlin.valueObjects.Id;
-import com.codurance.merlin.valueObjects.Role;
+import com.codurance.merlin.valueObject.Id;
+import com.codurance.merlin.valueObject.Role;
 
 public class Craftsperson {
     private String name;

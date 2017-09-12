@@ -1,4 +1,4 @@
-package com.codurance.merlin.valueObjects;
+package com.codurance.merlin.valueObject;
 
 public class Role {
     private String value;

@@ -2,8 +2,8 @@ package com.codurance.merlin.commitment;
 
 import com.codurance.merlin.craftsperson.Craftsperson;
 import com.codurance.merlin.project.Project;
-import com.codurance.merlin.valueObjects.Id;
-import com.codurance.merlin.valueObjects.Role;
+import com.codurance.merlin.valueObject.Id;
+import com.codurance.merlin.valueObject.Role;
 
 import java.time.LocalDate;
 import java.util.List;
