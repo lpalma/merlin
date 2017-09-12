@@ -6,14 +6,14 @@ import java.time.LocalDate;
 
 public class Commitment {
     private Id id;
-    private Employee employee;
+    private Craftsperson craftsperson;
     private Project project;
     private LocalDate startDate;
     private LocalDate endDate;
 
-    public Commitment(Id id, Employee employee, Project project, LocalDate startDate, LocalDate endDate) {
+    public Commitment(Id id, Craftsperson craftsperson, Project project, LocalDate startDate, LocalDate endDate) {
         this.id = id;
-        this.employee = employee;
+        this.craftsperson = craftsperson;
         this.project = project;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -23,8 +23,8 @@ public class Commitment {
         return id;
     }
 
-    public Employee employee() {
-        return employee;
+    public Craftsperson employee() {
+        return craftsperson;
     }
 
     public Project project() {

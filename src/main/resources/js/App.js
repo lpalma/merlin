@@ -13,7 +13,7 @@ class App extends Component {
 
     loadInitialState() {
         return {
-            employees: [{
+            craftspersons: [{
                 id: '',
                 title: ''
             }],
@@ -34,28 +34,28 @@ class App extends Component {
             .getCommitments()
             .then(commitments => {
                 this.setState((prevState, props) => ({
-                    employees: this.setEmployess(commitments),
+                    craftspersons: this.setEmployess(commitments),
                     commitments: this.setCommitments(commitments)
                 }))
         })
     }
 
     setEmployess(commitments) {
-        let employees = []
+        let craftspersons = []
 
         commitments.forEach(commitment => {
-            const id = commitment.employee.id.value
-            const name = commitment.employee.name
+            const id = commitment.craftsperson.id.value
+            const name = commitment.craftsperson.name
 
-            if (!employees.some(e => (e.id == id))) {
-                employees.push({
+            if (!craftspersons.some(e => (e.id == id))) {
+                craftspersons.push({
                     id: id,
                     title: name,
                 })
             }
         })
 
-        return employees
+        return craftspersons
     }
 
     setCommitments(commitments) {
@@ -64,13 +64,13 @@ class App extends Component {
 
         commitments.forEach(commitment => {
             const project = commitment.project
-            const employee = commitment.employee
+            const craftsperson = commitment.craftsperson
             const className = this.calculateClassName(classNames, project.name.toLowerCase())
 
-            if (!result.some(r => (r.group == employee.id.value))) {
+            if (!result.some(r => (r.group == craftsperson.id.value))) {
                 result.push({
                     id: commitment.id.value,
-                    group: employee.id.value,
+                    group: craftsperson.id.value,
                     title: project.name,
                     start_time: this.formatDate(commitment.startDate),
                     end_time: this.formatDate(commitment.endDate),
@@ -116,7 +116,7 @@ class App extends Component {
     render() {
         return (
             <div className="commitments">
-                <Timeline groups={this.state.employees}
+                <Timeline groups={this.state.craftspersons}
                     items={this.state.commitments}
                     defaultTimeStart={moment()}
                     defaultTimeEnd={moment().add(6, 'month')}
