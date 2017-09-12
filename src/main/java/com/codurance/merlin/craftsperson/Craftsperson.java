@@ -1,4 +1,4 @@
-package com.codurance.merlin.entity;
+package com.codurance.merlin.craftsperson;
 
 import com.codurance.merlin.valueObjects.Id;
 import com.codurance.merlin.valueObjects.Role;

@@ -1,4 +1,4 @@
-package com.codurance.merlin.entity;
+package com.codurance.merlin.project;
 
 import com.codurance.merlin.valueObjects.Id;
 
