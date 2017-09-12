@@ -10,12 +10,4 @@ public class Project {
         this.id = id;
         this.name = name;
     }
-
-    public String name() {
-        return name;
-    }
-
-    public Id id() {
-        return id;
-    }
 }

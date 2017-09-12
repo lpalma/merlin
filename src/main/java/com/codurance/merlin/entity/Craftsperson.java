@@ -13,16 +13,4 @@ public class Craftsperson {
         this.name = name;
         this.role = role;
     }
-
-    public Id id() {
-        return id;
-    }
-
-    public String name() {
-        return name;
-    }
-
-    public Role role() {
-        return role;
-    }
 }

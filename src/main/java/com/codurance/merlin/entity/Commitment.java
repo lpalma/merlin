@@ -18,24 +18,4 @@ public class Commitment {
         this.startDate = startDate;
         this.endDate = endDate;
     }
-
-    public Id id() {
-        return id;
-    }
-
-    public Craftsperson employee() {
-        return craftsperson;
-    }
-
-    public Project project() {
-        return project;
-    }
-
-    public LocalDate startDate() {
-        return startDate;
-    }
-
-    public LocalDate endDate() {
-        return endDate;
-    }
 }
