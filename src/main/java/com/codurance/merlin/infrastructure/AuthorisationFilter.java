@@ -1,5 +1,7 @@
 package com.codurance.merlin.infrastructure;
 
+import com.codurance.merlin.authentication.AuthenticationException;
+import com.codurance.merlin.authentication.Authenticator;
 import spark.Filter;
 import spark.Request;
 import spark.Response;

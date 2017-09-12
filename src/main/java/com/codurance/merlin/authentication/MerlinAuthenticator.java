@@ -1,4 +1,4 @@
-package com.codurance.merlin.infrastructure;
+package com.codurance.merlin.authentication;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;

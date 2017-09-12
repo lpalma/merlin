@@ -1,8 +1,5 @@
-package com.codurance.merlin.controller;
+package com.codurance.merlin.authentication;
 
-import com.codurance.merlin.infrastructure.AuthenticationException;
-import com.codurance.merlin.infrastructure.Authenticator;
-import com.codurance.merlin.infrastructure.User;
 import spark.Request;
 import spark.Response;
 

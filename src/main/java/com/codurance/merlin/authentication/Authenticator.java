@@ -1,4 +1,4 @@
-package com.codurance.merlin.infrastructure;
+package com.codurance.merlin.authentication;
 
 public interface Authenticator {
     boolean isNotAuthenticated(String token) throws AuthenticationException;

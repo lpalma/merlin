@@ -1,4 +1,4 @@
-package com.codurance.merlin.infrastructure;
+package com.codurance.merlin.authentication;
 
 import java.io.FileInputStream;
 import java.io.IOException;
