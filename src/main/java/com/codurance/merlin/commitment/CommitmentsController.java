@@ -1,7 +1,5 @@
-package com.codurance.merlin.controller;
+package com.codurance.merlin.commitment;
 
-import com.codurance.merlin.entity.Commitment;
-import com.codurance.merlin.repository.CommitmentRepository;
 import spark.Request;
 import spark.Response;
 

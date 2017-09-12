@@ -1,6 +1,5 @@
-package com.codurance.merlin.repository;
+package com.codurance.merlin.commitment;
 
-import com.codurance.merlin.entity.Commitment;
 import com.codurance.merlin.entity.Craftsperson;
 import com.codurance.merlin.entity.Project;
 import com.codurance.merlin.valueObjects.Id;

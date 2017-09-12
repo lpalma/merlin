@@ -1,5 +1,7 @@
-package com.codurance.merlin.entity;
+package com.codurance.merlin.commitment;
 
+import com.codurance.merlin.entity.Craftsperson;
+import com.codurance.merlin.entity.Project;
 import com.codurance.merlin.valueObjects.Id;
 
 import java.time.LocalDate;
