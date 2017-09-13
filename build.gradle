@@ -17,6 +17,8 @@ dependencies {
     compile "org.slf4j:slf4j-simple:1.7.21"
     compile "com.google.code.gson:gson:2.8.1"
     compile "com.google.api-client:google-api-client:1.22.0"
+    compile group: 'org.postgresql', name: 'postgresql', version: '9.4.1208-jdbc42-atlassian-hosted'
+    compile group: 'com.codurance', name: 'light-access', version: '0.1.0'
 }
 
 task fatJar(type: Jar) {
