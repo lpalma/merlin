@@ -3,7 +3,6 @@
 build/
 out/
 config.properties
-project_commitments.json
 node_modules
 src/main/resources/public/bundle.js
 *.swp
