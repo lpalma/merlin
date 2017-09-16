@@ -11,7 +11,7 @@ import spark.template.mustache.MustacheTemplateEngine;
 
 import static com.codurance.merlin.infrastructure.authentication.MerlinOAuthClient.buildOauthClient;
 
-public class Main {
+public class Merlin {
 
     public static void main(String[] args) throws OauthConfigurationException {
         migrateDatabase();
