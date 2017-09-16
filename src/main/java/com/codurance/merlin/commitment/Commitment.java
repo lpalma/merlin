@@ -7,13 +7,13 @@ import com.codurance.merlin.valueObject.Id;
 import java.time.LocalDate;
 
 public class Commitment {
-    private Id id;
+    private CommitmentId id;
     private Craftsperson craftsperson;
     private Project project;
     private LocalDate startDate;
     private LocalDate endDate;
 
-    public Commitment(Id id, Craftsperson craftsperson, Project project, LocalDate startDate, LocalDate endDate) {
+    public Commitment(CommitmentId id, Craftsperson craftsperson, Project project, LocalDate startDate, LocalDate endDate) {
         this.id = id;
         this.craftsperson = craftsperson;
         this.project = project;

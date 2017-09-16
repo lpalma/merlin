@@ -1,6 +1,7 @@
 package com.codurance.merlin.infrastructure.persistence.integration;
 
 import com.codurance.merlin.commitment.Commitment;
+import com.codurance.merlin.commitment.CommitmentId;
 import com.codurance.merlin.craftsperson.Craftsperson;
 import com.codurance.merlin.infrastructure.persistence.MerlinRepositoryContext;
 import com.codurance.merlin.infrastructure.persistence.PostgreSQLCommitmentRepository;
@@ -16,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class PostgreSQLCommitmentRepositoryShould {
     public static final Commitment COMMITMENT = new Commitment(
-            new Id(3),
+            new CommitmentId("3"),
             new Craftsperson(new Id(4), "Floki"),
             new Project(new Id(4), "Gama"),
             LocalDate.of(2017, 9, 1),
@@ -37,5 +38,4 @@ public class PostgreSQLCommitmentRepositoryShould {
         assertThat(commitments).hasSize(4)
                 .contains(COMMITMENT);
     }
-
 }
