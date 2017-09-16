@@ -1,4 +1,4 @@
-package com.codurance.merlin.authentication;
+package com.codurance.merlin.infrastructure.authentication;
 
 import com.google.gson.annotations.SerializedName;
 

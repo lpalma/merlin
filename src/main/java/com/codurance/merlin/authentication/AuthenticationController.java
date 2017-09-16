@@ -1,5 +1,6 @@
 package com.codurance.merlin.authentication;
 
+import com.codurance.merlin.infrastructure.authentication.User;
 import spark.Request;
 import spark.Response;
 
