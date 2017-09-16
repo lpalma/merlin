@@ -8,7 +8,6 @@ import com.codurance.merlin.infrastructure.persistence.MerlinRepositoryContext;
 import com.codurance.merlin.infrastructure.persistence.PostgreSQLCommitmentRepository;
 import com.codurance.merlin.project.Project;
 import com.codurance.merlin.project.ProjectId;
-import com.codurance.merlin.valueObject.Id;
 import org.junit.Before;
 import org.junit.Test;
 

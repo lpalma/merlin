@@ -4,8 +4,8 @@ import com.codurance.merlin.api.Routes;
 import com.codurance.merlin.authentication.MerlinAuthenticator;
 import com.codurance.merlin.authentication.MerlinOAuthClient;
 import com.codurance.merlin.authentication.OauthConfigurationException;
-import com.codurance.merlin.infrastructure.*;
-import com.codurance.merlin.infrastructure.persistence.MerlinRepositoryContext;
+import com.codurance.merlin.infrastructure.AuthorisationFilter;
+import com.codurance.merlin.infrastructure.MerlinEnvConfig;
 import org.flywaydb.core.Flyway;
 import spark.template.mustache.MustacheTemplateEngine;
 

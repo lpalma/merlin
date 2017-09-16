@@ -9,13 +9,9 @@ import com.codurance.merlin.craftsperson.Craftsperson;
 import com.codurance.merlin.craftsperson.CraftspersonId;
 import com.codurance.merlin.project.Project;
 import com.codurance.merlin.project.ProjectId;
-import com.codurance.merlin.valueObject.Id;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Function;
-
-import static java.util.Arrays.asList;
 
 public class PostgreSQLCommitmentRepository implements CommitmentRepository {
 
