@@ -27,7 +27,7 @@ public class Main {
                 MerlinEnvConfig.getDatabasePassword()
         );
 
-        flyway.setSchemas(MerlinEnvConfig.getDatabaseName());
+        flyway.setSchemas(MerlinEnvConfig.getDatabaseSchema());
         flyway.migrate();
     }
 

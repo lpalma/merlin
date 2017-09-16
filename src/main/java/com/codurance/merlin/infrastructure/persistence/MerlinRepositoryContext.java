@@ -26,6 +26,7 @@ public class MerlinRepositoryContext {
         hikariConfig.addDataSourceProperty(PASSWORD, MerlinEnvConfig.getDatabasePassword());
         hikariConfig.addDataSourceProperty(DATABASE_NAME, MerlinEnvConfig.getDatabaseName());
         hikariConfig.setDataSourceClassName(DATA_SOURCE_CLASS_NAME);
+        hikariConfig.setSchema(MerlinEnvConfig.getDatabaseSchema());
 
         return new HikariDataSource(hikariConfig);
     }

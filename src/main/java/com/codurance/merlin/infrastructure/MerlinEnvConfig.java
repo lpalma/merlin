@@ -4,8 +4,9 @@ public class MerlinEnvConfig {
 
     public static final String DATABASE_USER = "DATABASE_USER";
     public static final String DATABASE_PASSWORD = "DATABASE_PASSWORD";
-    public static final String DATABASE_NAME = "DATABASE_NAME";
+    public static final String DEFAULT_DATABASE_NAME = "merlin";
     private static final String DATABASE_URL = "DATABASE_URL";
+    public static final String DEFAULT_DATABASE_SCHEMA = "merlin";
 
     private static final class MerlinEnvConfigHolder {
         private static final MerlinEnvConfig INSTANCE = new MerlinEnvConfig();
@@ -15,7 +16,7 @@ public class MerlinEnvConfig {
         return MerlinEnvConfigHolder.INSTANCE;
     }
 
-    public String get(String property) {
+    private String get(String property) {
         String value =  System.getenv(property);
 
         if (value == null) {
@@ -34,10 +35,14 @@ public class MerlinEnvConfig {
     }
 
     public static String getDatabaseName() {
-        return instance().get(DATABASE_NAME);
+        return DEFAULT_DATABASE_NAME;
     }
 
     public static String getDatabaseURL() {
         return instance().get(DATABASE_URL);
+    }
+
+    public static String getDatabaseSchema() {
+        return DEFAULT_DATABASE_SCHEMA;
     }
 }
