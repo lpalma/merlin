@@ -8,6 +8,7 @@ import com.codurance.merlin.commitment.CommitmentRepository;
 import com.codurance.merlin.craftsperson.Craftsperson;
 import com.codurance.merlin.craftsperson.CraftspersonId;
 import com.codurance.merlin.project.Project;
+import com.codurance.merlin.project.ProjectId;
 import com.codurance.merlin.valueObject.Id;
 
 import java.time.LocalDate;
@@ -41,7 +42,7 @@ public class PostgreSQLCommitmentRepository implements CommitmentRepository {
         return laResultSet -> new Commitment(
                 new CommitmentId(laResultSet.getString(1)),
                 new Craftsperson(new CraftspersonId(laResultSet.getString(2)), laResultSet.getString(3)),
-                new Project(new Id(laResultSet.getInt(4)), laResultSet.getString(5)),
+                new Project(new ProjectId(laResultSet.getString(4)), laResultSet.getString(5)),
                 laResultSet.getLocalDate(6),
                 laResultSet.getLocalDate(7)
         );
