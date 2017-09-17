@@ -4,14 +4,13 @@ import com.codurance.lightaccess.LightAccess;
 import com.codurance.merlin.infrastructure.MerlinEnvConfig;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.postgresql.ds.PGSimpleDataSource;
 
 public class MerlinRepositoryContext {
 
     public static final String USER = "user";
     public static final String PASSWORD = "password";
     public static final String DATABASE_NAME = "databaseName";
-    public static final String DATA_SOURCE_CLASS_NAME = PGSimpleDataSource.class.getName();
+    public static final String CONNECTION_TEST_QUERY = "SELECT 1";
 
     public static PostgreSQLCommitmentRepository getCommitmentRepository() {
         LightAccess lightAccess = new LightAccess(buildDataSource());
@@ -25,8 +24,9 @@ public class MerlinRepositoryContext {
         hikariConfig.addDataSourceProperty(USER, MerlinEnvConfig.getDatabaseUser());
         hikariConfig.addDataSourceProperty(PASSWORD, MerlinEnvConfig.getDatabasePassword());
         hikariConfig.addDataSourceProperty(DATABASE_NAME, MerlinEnvConfig.getDatabaseName());
-        hikariConfig.setDataSourceClassName(DATA_SOURCE_CLASS_NAME);
+        hikariConfig.setJdbcUrl(MerlinEnvConfig.getDatabaseURL());
         hikariConfig.setSchema(MerlinEnvConfig.getDatabaseSchema());
+        hikariConfig.setConnectionTestQuery(CONNECTION_TEST_QUERY);
 
         return new HikariDataSource(hikariConfig);
     }
