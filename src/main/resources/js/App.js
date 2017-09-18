@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../css/App.css';
 import Route from './Routes.js'
 import Timeline from 'react-calendar-timeline/lib'
+import Header from './Header.js'
 import moment from 'moment'
 
 class App extends Component {
@@ -115,15 +116,18 @@ class App extends Component {
 
     render() {
         return (
-            <div className="commitments">
-                <Timeline groups={this.state.craftspersons}
-                    items={this.state.commitments}
-                    defaultTimeStart={moment()}
-                    defaultTimeEnd={moment().add(6, 'month')}
-                    timeSteps={{second: 0, minute: 0, hour: 0, day: 1, month: 1, year: 1}}
-                    onItemResize={this.handleCommitmentResize}
-                    dragSnap={60 * 60 * 1000}
-                />
+            <div>
+                <Header />
+                <div className="container-fluid commitments-board">
+                    <Timeline groups={this.state.craftspersons}
+                        items={this.state.commitments}
+                        defaultTimeStart={moment()}
+                        defaultTimeEnd={moment().add(6, 'month')}
+                        timeSteps={{second: 0, minute: 0, hour: 0, day: 1, month: 1, year: 1}}
+                        onItemResize={this.handleCommitmentResize}
+                        dragSnap={60 * 60 * 1000}
+                    />
+                </div>
             </div>
        );
     }
