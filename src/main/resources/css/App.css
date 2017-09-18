@@ -18,152 +18,166 @@
   font-size: large;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-0 {
+.commitments-board {
+    margin: 20px
+}
+
+.react-calendar-timeline {
+    border: 1px solid #e7e7e7;
+}
+
+.commitments-board .react-calendar-timeline .rct-items .project-0 {
   background-color: #4cb6dc;
   border-color: #4cb6dc;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-1 {
+.navbar {
+    font-color: #687074;
+    font-family: 'Open Sans';
+    font-size: 15px;
+}
+
+.commitments-board .react-calendar-timeline .rct-items .project-1 {
   background-color: #d65423;
   border-color: #d65423;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-2 {
+.commitments-board .react-calendar-timeline .rct-items .project-2 {
   background-color: #4875d7;
   border-color: #4875d7;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-3 {
+.commitments-board .react-calendar-timeline .rct-items .project-3 {
   background-color: #58b544;
   border-color: #58b544;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-4 {
+.commitments-board .react-calendar-timeline .rct-items .project-4 {
   background-color: #a44ec9;
   border-color: #a44ec9;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-5 {
+.commitments-board .react-calendar-timeline .rct-items .project-5 {
     background-color: #9ab53f;
     border-color: #9ab53f;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-6 {
+.commitments-board .react-calendar-timeline .rct-items .project-6 {
     background-color: #635bcd;
     border-color: #635bcd;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-7 {
+.commitments-board .react-calendar-timeline .rct-items .project-7 {
     background-color: #caaa3c;
     border-color: #caaa3c;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-8 {
+.commitments-board .react-calendar-timeline .rct-items .project-8 {
     background-color: #a081e6;
     border-color: #a081e6;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-9 {
+.commitments-board .react-calendar-timeline .rct-items .project-9 {
     background-color: #de8b23;
     border-color: #de8b23;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-10 {
+.commitments-board .react-calendar-timeline .rct-items .project-10 {
     background-color: #6098e0;
     border-color: #6098e0;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-12 {
+.commitments-board .react-calendar-timeline .rct-items .project-12 {
     background-color: #c74a3a;
     border-color: #c74a3a;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-13 {
+.commitments-board .react-calendar-timeline .rct-items .project-13 {
     background-color: #61be7a;
     border-color: #61be7a;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-14 {
+.commitments-board .react-calendar-timeline .rct-items .project-14 {
     background-color: #c344a3;
     border-color: #c344a3;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-15 {
+.commitments-board .react-calendar-timeline .rct-items .project-15 {
     background-color: #477e41;
     border-color: #477e41;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-16 {
+.commitments-board .react-calendar-timeline .rct-items .project-16 {
     background-color: #d67ddd;
     border-color: #d67ddd;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-17 {
+.commitments-board .react-calendar-timeline .rct-items .project-17 {
     background-color: #777529;
     border-color: #777529;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-18 {
+.commitments-board .react-calendar-timeline .rct-items .project-18 {
     background-color: #7a56a1;
     border-color: #7a56a1;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-19 {
+.commitments-board .react-calendar-timeline .rct-items .project-19 {
     background-color: #d7884a;
     border-color: #d7884a;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-20 {
+.commitments-board .react-calendar-timeline .rct-items .project-20 {
     background-color: #476ba4;
     border-color: #476ba4;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-21 {
+.commitments-board .react-calendar-timeline .rct-items .project-21 {
     background-color: #dc4561;
     border-color: #dc4561;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-22 {
+.commitments-board .react-calendar-timeline .rct-items .project-22 {
     background-color: #49b59e;
     border-color: #49b59e;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-23 {
+.commitments-board .react-calendar-timeline .rct-items .project-23 {
     background-color: #cf4283;
     border-color: #cf4283;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-24 {
+.commitments-board .react-calendar-timeline .rct-items .project-24 {
     background-color: #bdab6d;
     border-color: #bdab6d;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-25 {
+.commitments-board .react-calendar-timeline .rct-items .project-25 {
     background-color: #ae98da;
     border-color: #ae98da;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-26 {
+.commitments-board .react-calendar-timeline .rct-items .project-26 {
     background-color: #985d2b;
     border-color: #985d2b;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-27 {
+.commitments-board .react-calendar-timeline .rct-items .project-27 {
     background-color: #e286b5;
     border-color: #e286b5;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-28 {
+.commitments-board .react-calendar-timeline .rct-items .project-28 {
     background-color: #e18a7a;
     border-color: #e18a7a;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-29 {
+.commitments-board .react-calendar-timeline .rct-items .project-29 {
     background-color: #9c5888;
     border-color: #9c5888;
 }
 
-.commitments .react-calendar-timeline .rct-items .project-30 {
+.commitments-board .react-calendar-timeline .rct-items .project-30 {
     background-color: #a54b5a;
     border-color: #a54b5a;
 }
