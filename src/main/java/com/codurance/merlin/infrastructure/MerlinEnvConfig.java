@@ -5,10 +5,11 @@ public class MerlinEnvConfig {
     public static final String DATABASE_USER = "DATABASE_USER";
     public static final String DATABASE_PASSWORD = "DATABASE_PASSWORD";
     public static final String DEFAULT_DATABASE_NAME = "merlin";
-    private static final String DATABASE_URL = "DATABASE_URL";
     public static final String DEFAULT_DATABASE_SCHEMA = "merlin";
     public static final String DATABASE_PORT = "DATABASE_PORT";
     public static final String DATABASE_HOST = "DATABASE_HOST";
+    private static final String JDBC_POSTGRES_URL_FORMATER =
+            "jdbc:postgresql://%s:%s/%s";
 
     private static final class MerlinEnvConfigHolder {
         private static final MerlinEnvConfig INSTANCE = new MerlinEnvConfig();
@@ -41,7 +42,10 @@ public class MerlinEnvConfig {
     }
 
     public static String getDatabaseURL() {
-        return instance().get(DATABASE_URL);
+        return String.format(JDBC_POSTGRES_URL_FORMATER,
+                getDatabaseHost(),
+                getDatabasePortNumber(),
+                getDatabaseName());
     }
 
     public static String getDatabaseSchema() {
