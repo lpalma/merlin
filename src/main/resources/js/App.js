@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import '../css/App.css';
 import Route from './Routes.js'
-import Timeline from 'react-calendar-timeline/lib'
+import CommitmentsTimeline from './CommitmentsTimeline.js'
 import Header from './Header.js'
 import moment from 'moment'
 
 class App extends Component {
     constructor(props) {
         super(props)
-        this.state = this.loadInitialState()
         this.route = new Route()
-        this.projects = this.getProjects()
+        this.state = this.loadInitialState()
     }
 
     loadInitialState() {
@@ -18,21 +17,12 @@ class App extends Component {
             craftspeople: [{
                 id: '',
                 title: ''
-            }],
-            commitments: [{
-                id: '',
-                group: '',
-                title: '',
-                start_time: '',
-                end_time: '',
-                canMove: '',
-                className: '',
-            }],
+            }]
         }
     }
 
-    getProjects() {
-        return this.route
+    setProjects() {
+        this.projects = this.route
             .allProjects()
             .then(projects => projects.map(project => ({
                 id: project.id,
@@ -43,47 +33,18 @@ class App extends Component {
     componentWillMount() {
         this.route
             .allCraftspeople()
-            .then(craftspeople => {
+            .then(craftspeople => 
                 this.setState((prevState, props) => ({
-                    craftspeople: this.setCraftspeople(craftspeople)
+                    craftspeople: this.mapCraftspeople(craftspeople)
                 }))
-            })
+            )
     }
 
-    setCraftspeople(craftspeople) {
+    mapCraftspeople(craftspeople) {
         return craftspeople.map(craftsperson => ({
             id: craftsperson.id,
             title: craftsperson.name
         }))
-    }
-
-    formatDate = (date) => {
-        return moment(date.year + "-" + date.month + "-" + date.day, "YYYY-MM-DD")
-    }
-
-    calculateClassName (classList, projectName) {
-        if (!classList.includes(projectName)) {
-            classList.push(projectName)
-        }
-
-        return 'project-' + classList.indexOf(projectName)
-    }
-
-    handleCommitmentResize = (commitmentId, time, edge) => {
-        const { commitments } = this.state
-        
-        const newCommitments = commitments.map(commitment => {
-            let newCommitment = Object.assign({}, commitment)
-
-            if (newCommitment.id === commitmentId) {
-                newCommitment.start_time = edge === 'left' ? time : commitment.start_time
-                newCommitment.end_time = edge === 'right' ? time : commitment.end_time
-            }
-
-            return newCommitment
-        })
-
-        this.setState((prevState, props) => ({ commitments: newCommitments }))
     }
 
     render() {
@@ -91,14 +52,7 @@ class App extends Component {
             <div>
                 <Header />
                 <div className="container-fluid commitments-board">
-                    <Timeline groups={this.state.craftspeople}
-                        items={[]}
-                        defaultTimeStart={moment()}
-                        defaultTimeEnd={moment().add(6, 'month')}
-                        timeSteps={{second: 0, minute: 0, hour: 0, day: 1, month: 1, year: 1}}
-                        onItemResize={this.handleCommitmentResize}
-                        dragSnap={60 * 60 * 1000}
-                    />
+                    <CommitmentsTimeline craftspeople={this.state.craftspeople} />
                 </div>
             </div>
        );
