@@ -31,6 +31,20 @@ class App extends Component {
     }
 
     componentWillMount() {
+        this.route
+            .allCraftspeople()
+            .then(craftspeople => {
+                this.setState((prevState, props) => ({
+                    craftspeople: this.setCraftspeople(craftspeople)
+                }))
+            })
+    }
+
+    setCraftspeople(craftspeople) {
+        return craftspeople.map(craftsperson => ({
+            id: craftsperson.id,
+            title: craftsperson.name
+        }))
     }
 
     formatDate = (date) => {
