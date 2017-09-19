@@ -29,6 +29,22 @@ const craftspeople = [
         "active": false
     }]
 
+const projects = [
+    {
+        "id": "123-abc",
+        "name": "Setup & onboarding",
+        "description": "Generally use this to book time used when setting up machine and accounts (new starter)",
+        "activitytype": "Hourly",
+        "is_billable": false
+    },
+    {
+        "id": "321-bca",
+        "name": "Swift London",
+        "description": "Swift meetup ",
+        "activitytype": "Daily",
+        "is_billable": false
+    }]
+
 class Route {
     getCommitments() {
         return axios.get('/api/commitments').then((response) => {
@@ -40,6 +56,10 @@ class Route {
         const activesOnly = craftspeople.filter(craftsperson => craftsperson.active == true)
 
         return Promise.resolve(activesOnly)
+    }
+
+    allProjects() {
+        return Promise.resolve(projects)
     }
 }
 
