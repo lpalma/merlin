@@ -10,6 +10,7 @@ class App extends Component {
         super(props)
         this.state = this.loadInitialState()
         this.route = new Route()
+        this.projects = this.getProjects()
     }
 
     loadInitialState() {
@@ -28,6 +29,15 @@ class App extends Component {
                 className: '',
             }],
         }
+    }
+
+    getProjects() {
+        return this.route
+            .allProjects()
+            .then(projects => projects.map(project => ({
+                id: project.id,
+                name: project.name
+            })))
     }
 
     componentWillMount() {
