@@ -20,6 +20,13 @@ const craftspeople = [
         "email": "floki@codurance.com",
         "role": "user",
         "active": true
+    },
+    {
+        "id": "ragnar@codurance.com",
+        "name": "Ragnar Lothbrok",
+        "email": "ragnar@codurance.com",
+        "role": "admin",
+        "active": false
     }]
 
 class Route {
@@ -30,7 +37,9 @@ class Route {
     }
 
     allCraftspeople() {
-        return Promise.resolve(craftspeople)
+        const activesOnly = craftspeople.filter(craftsperson => craftsperson.active == true)
+
+        return Promise.resolve(activesOnly)
     }
 }
 
