@@ -14,7 +14,7 @@ class App extends Component {
 
     loadInitialState() {
         return {
-            craftspersons: [{
+            craftspeople: [{
                 id: '',
                 title: ''
             }],
@@ -67,7 +67,7 @@ class App extends Component {
             <div>
                 <Header />
                 <div className="container-fluid commitments-board">
-                    <Timeline groups={[]}
+                    <Timeline groups={this.state.craftspeople}
                         items={[]}
                         defaultTimeStart={moment()}
                         defaultTimeEnd={moment().add(6, 'month')}
