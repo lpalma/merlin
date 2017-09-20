@@ -39,8 +39,8 @@ const projects = [
     },
     {
         "id": "321-bca",
-        "name": "Swift London",
-        "description": "Swift meetup ",
+        "name": "Alpha London",
+        "description": "Alpha meetup ",
         "activitytype": "Daily",
         "is_billable": false
     }]

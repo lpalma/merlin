@@ -13,6 +13,14 @@ class CommitmentsTimeline extends Component {
 
     loadInitialState() {
         return {
+            craftspeople: [{
+                id: '',
+                title: ''
+            }],
+            projects: [{
+                id: '',
+                name: ''
+            }],
             commitments: [{
                 id: '',
                 group: '',
@@ -27,6 +35,22 @@ class CommitmentsTimeline extends Component {
 
     componentWillMount() {
         this.route
+            .allProjects()
+            .then(projects => 
+                this.setState((prevState, props) => ({
+                    projects: this.mapProjects(projects)
+                }))
+            )
+
+        this.route
+            .allCraftspeople()
+            .then(craftspeople => 
+                this.setState((prevState, props) => ({
+                    craftspeople: this.mapCraftspeople(craftspeople)
+                }))
+            )
+
+        this.route
             .getCommitments()
             .then(commitments => {
                 this.setState((prevState, props) => ({
@@ -35,17 +59,32 @@ class CommitmentsTimeline extends Component {
             })
     }
 
+    mapCraftspeople(craftspeople) {
+        return craftspeople.map(craftsperson => ({
+            id: craftsperson.id,
+            title: craftsperson.name
+        }))
+    }
+
+    mapProjects(projects) {
+        return projects.map(project => ({
+            id: project.id,
+            name: project.name
+        }))
+    }
+
     createCommitments(commitments) {
         let classNames = []
         let result = []
 
         commitments.forEach(commitment => {
-            const className = this.calculateClassName(classNames, 'deal with it')
+            const project = this.getProject(commitment.projectId)
+            const className = this.calculateClassName(classNames, project.name)
 
             result.push({
                 id: commitment.id,
                 group: commitment.craftspersonId,
-                title: 'deal with it (no, srly, you gotta get the correct name',
+                title: project.name,
                 start_time: this.formatDate(commitment.startDate),
                 end_time: this.formatDate(commitment.endDate),
                 canMove: false,
@@ -55,6 +94,12 @@ class CommitmentsTimeline extends Component {
         })
 
         return result
+    }
+
+    getProject(id) {
+        return this.state
+            .projects
+            .find(project => project.id === id)
     }
 
     formatDate = (date) => {
