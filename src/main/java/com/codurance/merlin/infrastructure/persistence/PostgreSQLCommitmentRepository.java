@@ -9,10 +9,7 @@ import java.util.function.Function;
 
 public class PostgreSQLCommitmentRepository implements CommitmentRepository {
 
-    public static final String SELECT_ALL_COMMITMENTS = "SELECT c.id, craft.id, craft.name, p.id, p.name, c.start_date, c.end_date " +
-            "FROM commitments AS c " +
-            "LEFT JOIN craftspeople AS craft ON c.craftsperson_id = craft.id " +
-            "LEFT JOIN projects AS p ON c.project_id = p.id";
+    public static final String SELECT_ALL_COMMITMENTS = "SELECT * FROM commitments";
 
     private LightAccess lightAccess;
 
@@ -32,9 +29,9 @@ public class PostgreSQLCommitmentRepository implements CommitmentRepository {
         return laResultSet -> new Commitment(
                 new CommitmentId(laResultSet.getString(1)),
                 new CraftspersonId(laResultSet.getString(2)),
-                new ProjectId(laResultSet.getString(4)),
-                laResultSet.getLocalDate(6),
-                laResultSet.getLocalDate(7)
+                new ProjectId(laResultSet.getString(3)),
+                laResultSet.getLocalDate(4),
+                laResultSet.getLocalDate(5)
         );
     }
 }
