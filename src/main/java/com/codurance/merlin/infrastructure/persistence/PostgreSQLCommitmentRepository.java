@@ -8,7 +8,7 @@ import com.codurance.merlin.commitment.CommitmentRepository;
 import com.codurance.merlin.craftsperson.Craftsperson;
 import com.codurance.merlin.commitment.CraftspersonId;
 import com.codurance.merlin.project.Project;
-import com.codurance.merlin.project.ProjectId;
+import com.codurance.merlin.commitment.ProjectId;
 
 import java.util.List;
 import java.util.function.Function;

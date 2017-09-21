@@ -1,4 +1,4 @@
-package com.codurance.merlin.project;
+package com.codurance.merlin.commitment;
 
 public class ProjectId {
     private String value;

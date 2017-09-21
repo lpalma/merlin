@@ -1,5 +1,7 @@
 package com.codurance.merlin.project;
 
+import com.codurance.merlin.commitment.ProjectId;
+
 public class Project {
     private ProjectId id;
     private String name;

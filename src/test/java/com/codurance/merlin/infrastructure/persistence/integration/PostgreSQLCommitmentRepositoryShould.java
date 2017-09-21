@@ -7,7 +7,7 @@ import com.codurance.merlin.commitment.CraftspersonId;
 import com.codurance.merlin.infrastructure.persistence.MerlinRepositoryContext;
 import com.codurance.merlin.infrastructure.persistence.PostgreSQLCommitmentRepository;
 import com.codurance.merlin.project.Project;
-import com.codurance.merlin.project.ProjectId;
+import com.codurance.merlin.commitment.ProjectId;
 import org.junit.Before;
 import org.junit.Test;
 
