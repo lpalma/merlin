@@ -1,4 +1,4 @@
-package com.codurance.merlin.craftsperson;
+package com.codurance.merlin.commitment;
 
 public class CraftspersonId {
     private String value;

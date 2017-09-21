@@ -1,5 +1,7 @@
 package com.codurance.merlin.craftsperson;
 
+import com.codurance.merlin.commitment.CraftspersonId;
+
 public class Craftsperson {
     private String name;
     private CraftspersonId id;

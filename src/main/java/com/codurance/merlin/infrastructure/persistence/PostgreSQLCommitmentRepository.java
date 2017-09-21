@@ -6,7 +6,7 @@ import com.codurance.merlin.commitment.Commitment;
 import com.codurance.merlin.commitment.CommitmentId;
 import com.codurance.merlin.commitment.CommitmentRepository;
 import com.codurance.merlin.craftsperson.Craftsperson;
-import com.codurance.merlin.craftsperson.CraftspersonId;
+import com.codurance.merlin.commitment.CraftspersonId;
 import com.codurance.merlin.project.Project;
 import com.codurance.merlin.project.ProjectId;
 

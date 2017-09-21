@@ -1,7 +1,6 @@
 package com.codurance.merlin.commitment;
 
 import com.codurance.merlin.craftsperson.Craftsperson;
-import com.codurance.merlin.craftsperson.CraftspersonId;
 import com.codurance.merlin.project.Project;
 import com.codurance.merlin.project.ProjectId;
 import org.junit.Before;
