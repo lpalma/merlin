@@ -136,7 +136,7 @@ class CommitmentsTimeline extends Component {
     render() {
         return (
             <div className="container-fluid commitments-board">
-                <Timeline groups={this.props.craftspeople}
+                <Timeline groups={this.state.craftspeople}
                     items={this.state.commitments}
                     defaultTimeStart={moment()}
                     defaultTimeEnd={moment().add(6, 'month')}
