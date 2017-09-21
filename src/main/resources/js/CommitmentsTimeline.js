@@ -116,7 +116,7 @@ class CommitmentsTimeline extends Component {
         return 'project-' + classList.indexOf(projectName)
     }
 
-    handleCommitmentResize = (commitmentId, time, edge) => {
+    updateCommitment = (commitmentId, time, edge) => {
         const { commitments } = this.state
         
         const newCommitments = commitments.map(commitment => {
@@ -141,7 +141,7 @@ class CommitmentsTimeline extends Component {
                     defaultTimeStart={moment()}
                     defaultTimeEnd={moment().add(6, 'month')}
                     timeSteps={{second: 0, minute: 0, hour: 0, day: 1, month: 1, year: 1}}
-                    onItemResize={this.handleCommitmentResize}
+                    onItemResize={this.updateCommitment}
                     dragSnap={60 * 60 * 1000}
                 />
             </div>
