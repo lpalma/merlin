@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../css/App.css';
 import Route from './Routes.js'
 import CommitmentsTimeline from './CommitmentsTimeline.js'
 import Header from './Header.js'
