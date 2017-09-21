@@ -1,20 +1,18 @@
 package com.codurance.merlin.commitment;
 
-import com.codurance.merlin.project.Project;
-
 import java.time.LocalDate;
 
 public class Commitment {
     private CommitmentId id;
     private CraftspersonId craftsperson;
-    private Project project;
+    private ProjectId project;
     private LocalDate startDate;
     private LocalDate endDate;
 
-    public Commitment(CommitmentId id, CraftspersonId craftspersonId, Project project, LocalDate startDate, LocalDate endDate) {
+    public Commitment(CommitmentId id, CraftspersonId craftspersonId, ProjectId projectId, LocalDate startDate, LocalDate endDate) {
         this.id = id;
         this.craftsperson = craftspersonId;
-        this.project = project;
+        this.project = projectId;
         this.startDate = startDate;
         this.endDate = endDate;
     }

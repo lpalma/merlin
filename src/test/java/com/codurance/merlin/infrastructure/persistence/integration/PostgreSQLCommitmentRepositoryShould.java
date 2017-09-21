@@ -6,7 +6,6 @@ import com.codurance.merlin.commitment.CraftspersonId;
 import com.codurance.merlin.commitment.ProjectId;
 import com.codurance.merlin.infrastructure.persistence.MerlinRepositoryContext;
 import com.codurance.merlin.infrastructure.persistence.PostgreSQLCommitmentRepository;
-import com.codurance.merlin.project.Project;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +18,7 @@ public class PostgreSQLCommitmentRepositoryShould {
     public static final Commitment COMMITMENT = new Commitment(
             new CommitmentId("3"),
             new CraftspersonId("4"),
-            new Project(new ProjectId("4"), "Gama"),
+            new ProjectId("project1"),
             LocalDate.of(2017, 9, 1),
             LocalDate.of(2017, 12, 22)
     );

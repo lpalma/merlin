@@ -1,6 +1,5 @@
 package com.codurance.merlin.commitment;
 
-import com.codurance.merlin.project.Project;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,8 +18,6 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CommitmentsControllerShould {
-
-    public static final Project PROJECT_ALPHA = new Project(new ProjectId("1"), "Alpha");
 
     @Mock
     private Request request;
@@ -50,8 +47,8 @@ public class CommitmentsControllerShould {
     private Commitment aCommitment() {
         return new Commitment(
             new CommitmentId("1"),
-            new CraftspersonId("1"),
-            PROJECT_ALPHA,
+            new CraftspersonId("craftsperson1"),
+            new ProjectId("project1"),
             LocalDate.of(2017, 10, 10),
             LocalDate.of(2017, 12, 10)
         );
