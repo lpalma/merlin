@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Route from './Routes.js'
+import NewCommitment from './NewCommitment.js'
 import Timeline from 'react-calendar-timeline/lib'
+import {ModalContainer, ModalDialog} from 'react-modal-dialog'
 import moment from 'moment'
 
 class CommitmentsTimeline extends Component {
@@ -134,8 +136,46 @@ class CommitmentsTimeline extends Component {
     }
 
     render() {
+        const creatingCommitment = this.state.creatingCommitment
+
         return (
             <div className="container-fluid commitments-board">
+                {
+                    this.state.isCreatingCommitment &&
+                    <ModalContainer onClose={this.closeCommitmentForm}>
+                        <ModalDialog className="new-commitment-form" onClose={this.closeCommitmentForm}>
+                            <div className="modal-header">
+                                <h2 className="modal-title">New Commitment</h2>
+                            </div>
+                            <NewCommitment
+                                craftspeople={this.allCraftspeople}
+                                projects={this.allProjects}
+                                defaultCraftsperson={creatingCommitment.craftspersonId}
+                                defaultProject={creatingCommitment.projectId}
+                                defaultStartDate={creatingCommitment.startDate}
+                                defaultEndDate={creatingCommitment.endDate}
+                                onCraftspersonChange={this.handleFormCraftspersonChange}
+                                onProjectChange={this.handleFormProjectChange}
+                                onStartDateChange={this.handleFormStartDateChange}
+                                onEndDateChange={this.handleFormEndDateChange}
+                            />
+                            <div className="modal-footer">
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={this.closeCommitmentForm}>
+                                        Cancel
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-primary"
+                                    onClick={this.createCommitment}>
+                                        Save
+                                </button>
+                            </div>
+                        </ModalDialog>
+                    </ModalContainer>
+                }
                 <Timeline groups={this.state.craftspeople}
                     items={this.state.commitments}
                     defaultTimeStart={moment()}

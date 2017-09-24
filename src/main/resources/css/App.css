@@ -19,7 +19,8 @@
 }
 
 .commitments-board {
-    margin: 20px
+    margin: 20px;
+    position: fixed;
 }
 
 .react-calendar-timeline {
@@ -35,6 +36,15 @@
     font-color: #687074;
     font-family: 'Open Sans';
     font-size: 15px;
+}
+
+.new-commitment-form {
+    width: 50% !important;
+    left: 25% !important;
+}
+
+.new-commitment-form > a {
+    display: none;
 }
 
 .commitments-board .react-calendar-timeline .rct-items .project-1 {
