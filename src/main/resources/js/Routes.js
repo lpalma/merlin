@@ -106,6 +106,14 @@ class Route {
     allProjects() {
         return Promise.resolve(projects)
     }
+
+    createCommitment(commitment) {
+        const newCommitment = Object.assign({}, commitment)
+
+        newCommitment.id = Date.now()
+
+        return Promise.resolve(newCommitment)
+    }
 }
 
 export default Route

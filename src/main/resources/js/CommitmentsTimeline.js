@@ -32,7 +32,22 @@ class CommitmentsTimeline extends Component {
                 canMove: '',
                 className: '',
             }],
+            creatingCommitment: {
+                craftspersonId: '',
+                projectId: '',
+                startDate: '',
+                endDate: ''
+            },
+            isCreatingCommitment: false,
         }
+    }
+
+    allCraftspeople = () => {
+        return this.state.craftspeople
+    }
+
+    allProjects = () => {
+        return this.state.projects
     }
 
     componentWillMount() {
@@ -98,7 +113,7 @@ class CommitmentsTimeline extends Component {
         return result
     }
 
-    getProject(id) {
+    getProject = (id) => {
         return this.state
             .projects
             .find(project => project.id === id)
@@ -133,6 +148,93 @@ class CommitmentsTimeline extends Component {
         })
 
         this.setState((prevState, props) => ({ commitments: newCommitments }))
+    }
+
+    createCommitment = () => {
+        const newCommitment = Object.assign({}, this.state.creatingCommitment)
+
+        newCommitment.startDate = this.toCommitmentDate(newCommitment.startDate)
+        newCommitment.endDate = this.toCommitmentDate(newCommitment.endDate)
+
+        this.route
+            .createCommitment(newCommitment)
+            .then(commitment => {
+                const asItem = {
+                    id: commitment.id,
+                    group: commitment.craftspersonId,
+                    title: this.getProject(commitment.projectId).name,
+                    start_time: this.formatDate(commitment.startDate),
+                    end_time: this.formatDate(commitment.endDate),
+                    canMove: false,
+                    canResize: 'both',
+                    className: 'project-4'
+                }
+
+                this.setState((prevState) => ({
+                    commitments: prevState.commitments.concat([asItem]),
+                    isCreatingCommitment: false
+                }))
+            })
+    }
+
+    toCommitmentDate = (date) => {
+        return {
+            year: date.year(),
+            month: date.month() + 1,
+            day: date.date()
+        }
+    }
+
+    newCommitmentForm = (craftsperson, time, e) => {
+        this.setState((prevState) => ({
+            isCreatingCommitment: true, 
+            creatingCommitment: {
+                craftspersonId: craftsperson.id,
+                startDate: moment(time),
+                endDate: moment().add(3, 'month'),
+                projectId: prevState.projects[0].id
+            }
+        }))
+    }
+
+    closeCommitmentForm = () => (
+        this.setState((prevState) => ({ isCreatingCommitment: false }))
+    )
+
+    handleFormCraftspersonChange = (craftspersonId) => {
+        this.setState(prevState => {
+            const { creatingCommitment } = prevState
+            creatingCommitment.craftspersonId = craftspersonId
+
+            return { creatingCommitment: creatingCommitment }
+        })
+    }
+
+    handleFormProjectChange = (projectId) => {
+        this.setState(prevState => {
+            const { creatingCommitment } = prevState
+            creatingCommitment.projectId = projectId
+
+            return { creatingCommitment: creatingCommitment }
+        })
+    }
+
+    handleFormStartDateChange = (startDate) => {
+        this.setState(prevState => {
+            const { creatingCommitment } = prevState
+            creatingCommitment.startDate = startDate
+
+            return { creatingCommitment: creatingCommitment }
+        })
+    }
+
+    handleFormEndDateChange = (endDate) => {
+        this.setState(prevState => {
+            const { creatingCommitment } = prevState
+            creatingCommitment.endDate = endDate
+
+            return { creatingCommitment: creatingCommitment }
+        })
     }
 
     render() {
@@ -181,6 +283,7 @@ class CommitmentsTimeline extends Component {
                     defaultTimeEnd={moment().add(6, 'month')}
                     timeSteps={{second: 0, minute: 0, hour: 0, day: 1, month: 1, year: 1}}
                     onItemResize={this.updateCommitment}
+                    onCanvasDoubleClick={this.newCommitmentForm}
                     dragSnap={60 * 60 * 1000}
                 />
             </div>
