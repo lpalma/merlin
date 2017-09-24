@@ -153,7 +153,6 @@ class CommitmentsTimeline extends Component {
                                 defaultCraftsperson={creatingCommitment.craftspersonId}
                                 defaultProject={creatingCommitment.projectId}
                                 defaultStartDate={creatingCommitment.startDate}
-                                defaultEndDate={creatingCommitment.endDate}
                                 onCraftspersonChange={this.handleFormCraftspersonChange}
                                 onProjectChange={this.handleFormProjectChange}
                                 onStartDateChange={this.handleFormStartDateChange}

@@ -3,6 +3,7 @@ import Route from './Routes.js'
 import CommitmentsTimeline from './CommitmentsTimeline.js'
 import Header from './Header.js'
 import moment from 'moment'
+import 'react-dates/lib/css/_datepicker.css';
 
 class App extends Component {
     constructor(props) {

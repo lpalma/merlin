@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import {ModalContainer, ModalDialog} from 'react-modal-dialog'
+import { DateRangePicker, SingleDatePicker, DayPickerRangeController } from 'react-dates'
 
 class NewCommitment extends Component {
     constructor(props) {
         super(props)
+        
+        this.state = {
+            startDate: props.defaultStartDate,
+            endDate: null,
+            focusedInput: null
+        }
     }
 
     handleCraftspersonChange = (event) => {
@@ -14,12 +21,15 @@ class NewCommitment extends Component {
         this.props.onProjectChange(event.target.value)
     }
 
-    handleStartDateChange = (event) => {
-        this.props.onStartDateChange(event.target.value)
+    handleDatesChange = ({ startDate, endDate }) => {
+        this.setState({ startDate, endDate })
+
+        this.props.onStartDateChange(startDate)
+        this.props.onEndDateChange(endDate)
     }
 
-    handleEndDateChange = (event) => {
-        this.props.onEndDateChange(event.target.value)
+    handleFocusChange = (focusedInput) => {
+        this.setState({ focusedInput })
     }
 
     render() {
@@ -48,33 +58,21 @@ class NewCommitment extends Component {
                                 id="project" value={this.props.defaultProject}
                                 onChange={this.handleProjectChange}>
                                     {this.props.projects().map(project => (
-                                        <option key={project.id}>{project.name}</option>
+                                        <option value={project.id} key={project.id}>{project.name}</option>
                                     ))}
                             </select>
                         </div>
                     </div>
                     <div className="form-group row">
-                        <label htmlFor="startDate" className="col-sm-3 col-form-label">Start Date</label>
-                        <div className="col-sm-9">
-                            <input
-                                type="text"
-                                className="form-control col-sm-6"
-                                id="startDate"
-                                defaultValue={this.props.defaultStartDate}
-                                onChange={this.handleStartDateChange}>
-                            </input>
-                        </div>
-                    </div>
-                    <div className="form-group row">
-                        <label htmlFor="endDate" className="col-sm-3 col-form-label">End Date</label>
-                        <div className="col-sm-9">
-                            <input
-                                type="text"
-                                className="form-control col-sm-6"
-                                id="endDate"
-                                defaultValue={this.props.defaultEndDate}
-                                onChange={this.handleEndDateChange}>
-                            </input>
+                        <div className="col-sm-9 ml-auto">
+                            <DateRangePicker
+                                startDate={this.state.startDate}
+                                endDate={this.state.endDate}
+                                onDatesChange={this.handleDatesChange}
+                                focusedInput={this.state.focusedInput}
+                                onFocusChange={this.handleFocusChange}
+                                displayFormat={'DD/MM/YYYY'}
+                            />
                         </div>
                     </div>
                 </form>
