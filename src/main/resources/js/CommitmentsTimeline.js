@@ -11,6 +11,7 @@ class CommitmentsTimeline extends Component {
 
         this.route = new Route()
         this.state = this.loadInitialState()
+        this.displayedProjects = []
     }
 
     loadInitialState() {
@@ -91,26 +92,7 @@ class CommitmentsTimeline extends Component {
     }
 
     createCommitments(commitments) {
-        let classNames = []
-        let result = []
-
-        commitments.forEach(commitment => {
-            const project = this.getProject(commitment.projectId)
-            const className = this.calculateClassName(classNames, project.name)
-
-            result.push({
-                id: commitment.id,
-                group: commitment.craftspersonId,
-                title: project.name,
-                start_time: this.formatDate(commitment.startDate),
-                end_time: this.formatDate(commitment.endDate),
-                canMove: false,
-                canResize: 'both',
-                className: className
-            })
-        })
-
-        return result
+        return commitments.map(commitment => this.asItem(commitment))
     }
 
     getProject = (id) => {
@@ -119,18 +101,16 @@ class CommitmentsTimeline extends Component {
             .find(project => project.id === id)
     }
 
-    formatDate = (date) => {
+    toMomentDate = (date) => {
         return moment(date.year + "-" + date.month + "-" + date.day, "YYYY-MM-DD")
     }
 
-    calculateClassName (classList, projectName) {
-        const fixedName = projectName.toLowerCase().replace(/\s/g, '')
-
-        if (!classList.includes(projectName)) {
-            classList.push(projectName)
+    projectCSSClass = (projectId) => {
+        if (!this.displayedProjects.includes(projectId)) {
+            this.displayedProjects.push(projectId)
         }
 
-        return 'project-' + classList.indexOf(projectName)
+        return 'project-' + this.displayedProjects.indexOf(projectId)
     }
 
     updateCommitment = (commitmentId, time, edge) => {
@@ -159,22 +139,26 @@ class CommitmentsTimeline extends Component {
         this.route
             .createCommitment(newCommitment)
             .then(commitment => {
-                const asItem = {
-                    id: commitment.id,
-                    group: commitment.craftspersonId,
-                    title: this.getProject(commitment.projectId).name,
-                    start_time: this.formatDate(commitment.startDate),
-                    end_time: this.formatDate(commitment.endDate),
-                    canMove: false,
-                    canResize: 'both',
-                    className: 'project-4'
-                }
+                const asItem = this.asItem(commitment)
 
                 this.setState((prevState) => ({
                     commitments: prevState.commitments.concat([asItem]),
                     isCreatingCommitment: false
                 }))
             })
+    }
+
+    asItem = (commitment) => {
+        return {
+            id: commitment.id,
+            group: commitment.craftspersonId,
+            title: this.getProject(commitment.projectId).name,
+            start_time: this.toMomentDate(commitment.startDate),
+            end_time: this.toMomentDate(commitment.endDate),
+            canMove: false,
+            canResize: 'both',
+            className: this.projectCSSClass(commitment.projectId)
+        }
     }
 
     toCommitmentDate = (date) => {
