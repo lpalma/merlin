@@ -1,9 +1,6 @@
 package com.codurance.merlin.infrastructure.persistence.integration;
 
-import com.codurance.merlin.commitment.Commitment;
-import com.codurance.merlin.commitment.CommitmentId;
-import com.codurance.merlin.commitment.CraftspersonId;
-import com.codurance.merlin.commitment.ProjectId;
+import com.codurance.merlin.commitment.*;
 import com.codurance.merlin.infrastructure.persistence.MerlinRepositoryContext;
 import com.codurance.merlin.infrastructure.persistence.PostgreSQLCommitmentRepository;
 import org.junit.Before;
@@ -15,26 +12,35 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PostgreSQLCommitmentRepositoryShould {
-    public static final Commitment COMMITMENT = new Commitment(
-            new CommitmentId("3"),
-            new CraftspersonId("4"),
-            new ProjectId("project1"),
-            LocalDate.of(2017, 9, 1),
-            LocalDate.of(2017, 12, 22)
-    );
+    public static final String CRAFTSPERSON_ID = "craftsperson1";
+    public static final String PROJECT_ID = "project1";
+    public static final String START_DATE = "2017-10-10";
+    public static final String END_DATE = "2017-12-10";
 
     private PostgreSQLCommitmentRepository repository;
 
     @Before
     public void setUp() {
         repository = MerlinRepositoryContext.getCommitmentRepository();
+
+        repository.deleteAll();
     }
 
     @Test
-    public void retrieveAllCommitments() throws Exception {
+    public void add_commitment() {
+        repository.add(aCommitmentData());
+
         List<Commitment> commitments = repository.all();
 
-        assertThat(commitments).hasSize(4)
-                .contains(COMMITMENT);
+        assertThat(commitments).hasSize(1);
+    }
+
+    private CommitmentData aCommitmentData() {
+        return new CommitmentData(
+                new CraftspersonId(CRAFTSPERSON_ID),
+                new ProjectId(PROJECT_ID),
+                LocalDate.parse(START_DATE),
+                LocalDate.parse(END_DATE)
+        );
     }
 }

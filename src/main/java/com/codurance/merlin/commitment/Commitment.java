@@ -4,17 +4,38 @@ import java.time.LocalDate;
 
 public class Commitment {
     private CommitmentId id;
-    private CraftspersonId craftsperson;
-    private ProjectId project;
+    private CraftspersonId craftspersonId;
+    private ProjectId projectId;
     private LocalDate startDate;
     private LocalDate endDate;
 
     public Commitment(CommitmentId id, CraftspersonId craftspersonId, ProjectId projectId, LocalDate startDate, LocalDate endDate) {
         this.id = id;
-        this.craftsperson = craftspersonId;
-        this.project = projectId;
+        this.craftspersonId = craftspersonId;
+        this.projectId = projectId;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public CommitmentId id() {
+        return id;
+    }
+
+
+    public CraftspersonId craftspersonId() {
+        return craftspersonId;
+    }
+
+    public ProjectId projectId() {
+        return projectId;
+    }
+
+    public LocalDate startDate() {
+        return startDate;
+    }
+
+    public LocalDate endDate() {
+        return endDate;
     }
 
     @Override
@@ -25,8 +46,8 @@ public class Commitment {
         Commitment that = (Commitment) o;
 
         if (!id.equals(that.id)) return false;
-        if (!craftsperson.equals(that.craftsperson)) return false;
-        if (!project.equals(that.project)) return false;
+        if (!craftspersonId.equals(that.craftspersonId)) return false;
+        if (!projectId.equals(that.projectId)) return false;
         if (!startDate.equals(that.startDate)) return false;
         return endDate.equals(that.endDate);
     }
@@ -34,8 +55,8 @@ public class Commitment {
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + craftsperson.hashCode();
-        result = 31 * result + project.hashCode();
+        result = 31 * result + craftspersonId.hashCode();
+        result = 31 * result + projectId.hashCode();
         result = 31 * result + startDate.hashCode();
         result = 31 * result + endDate.hashCode();
         return result;
