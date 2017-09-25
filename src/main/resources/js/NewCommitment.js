@@ -14,18 +14,24 @@ class NewCommitment extends Component {
     }
 
     handleCraftspersonChange = (event) => {
-        this.props.onCraftspersonChange(event.target.value)
+        const craftspersonId = event.target.value
+
+        this.props.onCommitmentChange(commitment => commitment.craftspersonId = craftspersonId)
     }
 
     handleProjectChange = (event) => {
-        this.props.onProjectChange(event.target.value)
+        const projectId = event.target.value
+
+        this.props.onCommitmentChange(commitment => commitment.projectId = projectId)
     }
 
     handleDatesChange = ({ startDate, endDate }) => {
         this.setState({ startDate, endDate })
 
-        this.props.onStartDateChange(startDate)
-        this.props.onEndDateChange(endDate)
+        this.props.onCommitmentChange(commitment => {
+            commitment.startDate = startDate
+            commitment.endDate = endDate
+        })
     }
 
     handleFocusChange = (focusedInput) => {

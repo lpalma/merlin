@@ -33,7 +33,7 @@ class CommitmentsTimeline extends Component {
                 canMove: '',
                 className: '',
             }],
-            creatingCommitment: {
+            newCommitment: {
                 craftspersonId: '',
                 projectId: '',
                 startDate: '',
@@ -131,7 +131,7 @@ class CommitmentsTimeline extends Component {
     }
 
     createCommitment = () => {
-        const newCommitment = Object.assign({}, this.state.creatingCommitment)
+        const newCommitment = Object.assign({}, this.state.newCommitment)
 
         newCommitment.startDate = this.toCommitmentDate(newCommitment.startDate)
         newCommitment.endDate = this.toCommitmentDate(newCommitment.endDate)
@@ -172,10 +172,10 @@ class CommitmentsTimeline extends Component {
     newCommitmentForm = (craftsperson, time, e) => {
         this.setState((prevState) => ({
             isCreatingCommitment: true, 
-            creatingCommitment: {
+            newCommitment: {
                 craftspersonId: craftsperson.id,
                 startDate: moment(time),
-                endDate: moment().add(3, 'month'),
+                endDate: null,
                 projectId: prevState.projects[0].id
             }
         }))
@@ -185,44 +185,16 @@ class CommitmentsTimeline extends Component {
         this.setState((prevState) => ({ isCreatingCommitment: false }))
     )
 
-    handleFormCraftspersonChange = (craftspersonId) => {
-        this.setState(prevState => {
-            const { creatingCommitment } = prevState
-            creatingCommitment.craftspersonId = craftspersonId
+    updateNewCommitment = (update) => {
+        this.setState(({ newCommitment }) => {
+            update(newCommitment)
 
-            return { creatingCommitment: creatingCommitment }
-        })
-    }
-
-    handleFormProjectChange = (projectId) => {
-        this.setState(prevState => {
-            const { creatingCommitment } = prevState
-            creatingCommitment.projectId = projectId
-
-            return { creatingCommitment: creatingCommitment }
-        })
-    }
-
-    handleFormStartDateChange = (startDate) => {
-        this.setState(prevState => {
-            const { creatingCommitment } = prevState
-            creatingCommitment.startDate = startDate
-
-            return { creatingCommitment: creatingCommitment }
-        })
-    }
-
-    handleFormEndDateChange = (endDate) => {
-        this.setState(prevState => {
-            const { creatingCommitment } = prevState
-            creatingCommitment.endDate = endDate
-
-            return { creatingCommitment: creatingCommitment }
+            return { newCommitment }
         })
     }
 
     render() {
-        const creatingCommitment = this.state.creatingCommitment
+        const newCommitment = this.state.newCommitment
 
         return (
             <div className="container-fluid commitments-board">
@@ -236,13 +208,10 @@ class CommitmentsTimeline extends Component {
                             <NewCommitment
                                 craftspeople={this.allCraftspeople}
                                 projects={this.allProjects}
-                                defaultCraftsperson={creatingCommitment.craftspersonId}
-                                defaultProject={creatingCommitment.projectId}
-                                defaultStartDate={creatingCommitment.startDate}
-                                onCraftspersonChange={this.handleFormCraftspersonChange}
-                                onProjectChange={this.handleFormProjectChange}
-                                onStartDateChange={this.handleFormStartDateChange}
-                                onEndDateChange={this.handleFormEndDateChange}
+                                defaultCraftsperson={newCommitment.craftspersonId}
+                                defaultProject={newCommitment.projectId}
+                                defaultStartDate={newCommitment.startDate}
+                                onCommitmentChange={this.updateNewCommitment}
                             />
                             <div className="modal-footer">
                                 <button
