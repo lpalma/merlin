@@ -50,7 +50,7 @@ class NewCommitment extends Component {
                                 id="craftsperson"
                                 value={this.props.defaultCraftsperson}
                                 onChange={this.handleCraftspersonChange}>
-                                    {this.props.craftspeople().map(craftsperson => (
+                                    {this.props.craftspeople.map(craftsperson => (
                                         <option value={craftsperson.id} key={craftsperson.id}>{craftsperson.title}</option>
                                     ))}
                             </select>
@@ -63,7 +63,7 @@ class NewCommitment extends Component {
                                 className="form-control"
                                 id="project" value={this.props.defaultProject}
                                 onChange={this.handleProjectChange}>
-                                    {this.props.projects().map(project => (
+                                    {this.props.projects.map(project => (
                                         <option value={project.id} key={project.id}>{project.name}</option>
                                     ))}
                             </select>

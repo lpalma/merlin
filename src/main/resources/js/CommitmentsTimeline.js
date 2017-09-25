@@ -43,14 +43,6 @@ class CommitmentsTimeline extends Component {
         }
     }
 
-    allCraftspeople = () => {
-        return this.state.craftspeople
-    }
-
-    allProjects = () => {
-        return this.state.projects
-    }
-
     componentWillMount() {
         this.route
             .allProjects()
@@ -206,8 +198,8 @@ class CommitmentsTimeline extends Component {
                                 <h2 className="modal-title">New Commitment</h2>
                             </div>
                             <NewCommitment
-                                craftspeople={this.allCraftspeople}
-                                projects={this.allProjects}
+                                craftspeople={this.state.craftspeople}
+                                projects={this.state.projects}
                                 defaultCraftsperson={newCommitment.craftspersonId}
                                 defaultProject={newCommitment.projectId}
                                 defaultStartDate={newCommitment.startDate}
