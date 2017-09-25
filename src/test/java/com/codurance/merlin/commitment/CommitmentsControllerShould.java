@@ -14,10 +14,16 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CommitmentsControllerShould {
+
+    public static final String CRAFTSPERSON_ID = "craftsperson1";
+    public static final String PROJECT_ID = "project1";
+    public static final String START_DATE = "2017-10-10";
+    public static final String END_DATE = "2017-12-10";
 
     @Mock
     private Request request;
@@ -44,13 +50,40 @@ public class CommitmentsControllerShould {
         assertThat(controller.getAll(request, response), equalTo(allCommitments));
     }
 
+    @Test
+    public void add_new_commitment() {
+        when(request.body()).thenReturn(aCommitmentJson());
+
+        controller.add(request, response);
+
+        verify(commitmentRepository).add(aCommitmentData());
+    }
+
     private Commitment aCommitment() {
         return new Commitment(
             new CommitmentId("1"),
-            new CraftspersonId("craftsperson1"),
-            new ProjectId("project1"),
-            LocalDate.of(2017, 10, 10),
-            LocalDate.of(2017, 12, 10)
+            new CraftspersonId(CRAFTSPERSON_ID),
+            new ProjectId(PROJECT_ID),
+            LocalDate.parse(START_DATE),
+            LocalDate.parse(END_DATE)
         );
+    }
+
+    private CommitmentData aCommitmentData() {
+        return new CommitmentData(
+            new CraftspersonId(CRAFTSPERSON_ID),
+            new ProjectId(PROJECT_ID),
+            LocalDate.parse(START_DATE),
+            LocalDate.parse(END_DATE)
+        );
+    }
+
+    private String aCommitmentJson() {
+        return "{" +
+            "\"craftspersonId\": \"" + CRAFTSPERSON_ID + "\"," +
+            "\"projectId\": \"" + PROJECT_ID + "\"," +
+            "\"startDate\": \"" + START_DATE + "\"," +
+            "\"endDate\": \"" + END_DATE + "\"" +
+            "}";
     }
 }

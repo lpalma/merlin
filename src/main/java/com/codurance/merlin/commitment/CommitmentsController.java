@@ -1,5 +1,6 @@
 package com.codurance.merlin.commitment;
 
+import com.codurance.merlin.infrastructure.CommitmentDataJsonTransformer;
 import spark.Request;
 import spark.Response;
 
@@ -15,5 +16,11 @@ public class CommitmentsController {
 
     public List<Commitment> getAll(Request request, Response response) {
         return commitments.all();
+    }
+
+    public void add(Request request, Response response) {
+        CommitmentDataJsonTransformer transformer = new CommitmentDataJsonTransformer();
+
+        commitments.add(transformer.fromJson(request.body()));
     }
 }
