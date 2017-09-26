@@ -31,6 +31,15 @@ public class CommitmentData {
         return endDate;
     }
 
+    public boolean equalTo(Commitment commitment) {
+        return this.equals(new CommitmentData(
+                commitment.craftspersonId(),
+                commitment.projectId(),
+                commitment.startDate(),
+                commitment.endDate()
+        ));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -28,7 +28,7 @@ public class PostgreSQLCommitmentRepository implements CommitmentRepository {
                 .mapResults(toCommitment()));
     }
 
-    public void add(CommitmentData commitmentData) {
+    public Commitment add(CommitmentData commitmentData) {
         Commitment commitment = createCommitment(commitmentData);
 
         lightAccess.executeCommand(connection -> connection
@@ -39,6 +39,8 @@ public class PostgreSQLCommitmentRepository implements CommitmentRepository {
             .withParam(commitment.startDate().toString())
             .withParam(commitment.endDate().toString())
             .executeUpdate());
+
+        return commitment;
     }
 
     public void deleteAll() {

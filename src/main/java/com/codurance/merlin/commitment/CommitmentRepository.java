@@ -5,7 +5,7 @@ import java.util.List;
 public interface CommitmentRepository {
     List<Commitment> all();
 
-    void add(CommitmentData commitmentData);
+    Commitment add(CommitmentData commitmentData);
 
     void deleteAll();
 }

@@ -28,14 +28,17 @@ public class PostgreSQLCommitmentRepositoryShould {
 
     @Test
     public void add_commitment() {
-        repository.add(aCommitmentData());
+        CommitmentData aCommitmentData = createCommitmentData();
+
+        Commitment commitment = repository.add(aCommitmentData);
 
         List<Commitment> commitments = repository.all();
 
         assertThat(commitments).hasSize(1);
+        assertThat(aCommitmentData.equalTo(commitment)).isTrue();
     }
 
-    private CommitmentData aCommitmentData() {
+    private CommitmentData createCommitmentData() {
         return new CommitmentData(
                 new CraftspersonId(CRAFTSPERSON_ID),
                 new ProjectId(PROJECT_ID),
