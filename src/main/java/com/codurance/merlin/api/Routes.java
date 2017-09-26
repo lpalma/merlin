@@ -50,6 +50,7 @@ public class Routes {
     private void initialiseApiRoutes() {
         path("/api", () -> {
             get("/commitments", "application/json", commitmentsController::getAll, new JsonTransformer());
+            put("/commitments", "application/json", commitmentsController::add, new JsonTransformer());
         });
     }
 
