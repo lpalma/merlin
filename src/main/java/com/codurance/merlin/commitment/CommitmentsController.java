@@ -21,6 +21,10 @@ public class CommitmentsController {
     public Commitment add(Request request, Response response) {
         CommitmentDataJsonTransformer transformer = new CommitmentDataJsonTransformer();
 
-        return commitments.add(transformer.fromJson(request.body()));
+        Commitment commitment = commitments.add(transformer.fromJson(request.body()));
+
+        response.status(201);
+
+        return commitment;
     }
 }

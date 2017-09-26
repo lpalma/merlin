@@ -14,6 +14,7 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -23,6 +24,7 @@ public class CommitmentsControllerShould {
     public static final String PROJECT_ID = "project1";
     public static final String START_DATE = "2017-10-10";
     public static final String END_DATE = "2017-12-10";
+    public static final int HTTP_CREATED = 201;
 
     @Mock
     private Request request;
@@ -59,6 +61,7 @@ public class CommitmentsControllerShould {
 
         Commitment commitment = controller.add(request, response);
 
+        verify(response).status(HTTP_CREATED);
         assertThat(aCommitmentData.equalTo(commitment), equalTo(true));
     }
 
