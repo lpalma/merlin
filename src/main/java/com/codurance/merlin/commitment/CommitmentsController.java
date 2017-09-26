@@ -18,9 +18,9 @@ public class CommitmentsController {
         return commitments.all();
     }
 
-    public void add(Request request, Response response) {
+    public Commitment add(Request request, Response response) {
         CommitmentDataJsonTransformer transformer = new CommitmentDataJsonTransformer();
 
-        commitments.add(transformer.fromJson(request.body()));
+        return commitments.add(transformer.fromJson(request.body()));
     }
 }

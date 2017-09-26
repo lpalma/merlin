@@ -14,7 +14,6 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -52,11 +51,15 @@ public class CommitmentsControllerShould {
 
     @Test
     public void add_new_commitment() {
+        Commitment aCommitment = aCommitment();
+        CommitmentData aCommitmentData = aCommitmentData();
+
         when(request.body()).thenReturn(aCommitmentJson());
+        when(commitmentRepository.add(aCommitmentData)).thenReturn(aCommitment);
 
-        controller.add(request, response);
+        Commitment commitment = controller.add(request, response);
 
-        verify(commitmentRepository).add(aCommitmentData());
+        assertThat(aCommitmentData.equalTo(commitment), equalTo(true));
     }
 
     private Commitment aCommitment() {
