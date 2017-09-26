@@ -12,8 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -48,7 +47,7 @@ public class CommitmentsControllerShould {
 
         when(commitmentRepository.all()).thenReturn(allCommitments);
 
-        assertThat(controller.getAll(request, response), equalTo(allCommitments));
+        assertThat(controller.getAll(request, response)).isEqualTo(allCommitments);
     }
 
     @Test
@@ -62,7 +61,7 @@ public class CommitmentsControllerShould {
         Commitment commitment = controller.add(request, response);
 
         verify(response).status(HTTP_CREATED);
-        assertThat(aCommitmentData.equalTo(commitment), equalTo(true));
+        assertThat(aCommitmentData.equalTo(commitment)).isTrue();
     }
 
     private Commitment aCommitment() {
