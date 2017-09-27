@@ -93,10 +93,6 @@ class CommitmentsTimeline extends Component {
             .find(project => project.id === id)
     }
 
-    toMomentDate = (date) => {
-        return moment(date.year + "-" + date.month + "-" + date.day, "YYYY-MM-DD")
-    }
-
     projectCSSClass = (projectId) => {
         if (!this.displayedProjects.includes(projectId)) {
             this.displayedProjects.push(projectId)
@@ -129,7 +125,7 @@ class CommitmentsTimeline extends Component {
         newCommitment.endDate = this.toCommitmentDate(newCommitment.endDate)
 
         this.route
-            .createCommitment(newCommitment)
+            .addCommitment(newCommitment)
             .then(commitment => {
                 const asItem = this.asItem(commitment)
 
@@ -154,11 +150,7 @@ class CommitmentsTimeline extends Component {
     }
 
     toCommitmentDate = (date) => {
-        return {
-            year: date.year(),
-            month: date.month() + 1,
-            day: date.date()
-        }
+        return date.format("YYYY-MM-DD")
     }
 
     newCommitmentForm = (craftsperson, time, e) => {

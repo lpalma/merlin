@@ -107,12 +107,13 @@ class Route {
         return Promise.resolve(projects)
     }
 
-    createCommitment(commitment) {
-        const newCommitment = Object.assign({}, commitment)
-
-        newCommitment.id = Date.now()
-
-        return Promise.resolve(newCommitment)
+    addCommitment(commitmentData) {
+        return axios.put('api/commitments', commitmentData)
+            .then((response) => {
+                return Promise.resolve(response.data)
+            }).catch((error) => {
+                console.log(error)
+            })
     }
 }
 
