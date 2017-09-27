@@ -1,8 +1,16 @@
 package com.codurance.merlin.commitment;
 
+import com.codurance.merlin.infrastructure.commitment.CommitmentJson;
+
 import java.time.LocalDate;
 
 public class Commitment {
+    public static final String COMMITMENT_ID = "id";
+    public static final String CRAFTSPERSON_ID = "craftspersonId";
+    public static final String PROJECT_ID = "projectId";
+    public static final String START_DATE = "startDate";
+    public static final String END_DATE = "endDate";
+
     private CommitmentId id;
     private CraftspersonId craftspersonId;
     private ProjectId projectId;
@@ -36,6 +44,10 @@ public class Commitment {
 
     public LocalDate endDate() {
         return endDate;
+    }
+
+    public CommitmentJson asJson() {
+        return CommitmentJson.fromCommitment(this);
     }
 
     @Override

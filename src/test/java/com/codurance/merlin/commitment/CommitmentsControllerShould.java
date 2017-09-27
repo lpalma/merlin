@@ -1,5 +1,6 @@
 package com.codurance.merlin.commitment;
 
+import com.codurance.merlin.infrastructure.commitment.CommitmentJson;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +10,6 @@ import spark.Request;
 import spark.Response;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,6 +35,12 @@ public class CommitmentsControllerShould {
     @Mock
     private CommitmentRepository commitmentRepository;
 
+    @Mock
+    private Commitment aCommitment;
+
+    @Mock
+    private CommitmentJson aCommitmentJson;
+
     private CommitmentsController controller;
 
     @Before
@@ -44,11 +50,10 @@ public class CommitmentsControllerShould {
 
     @Test
     public void return_all_commitments() throws Exception {
-        List<Commitment> allCommitments = asList(aCommitment());
+        when(commitmentRepository.all()).thenReturn(asList(aCommitment));
+        when(aCommitment.asJson()).thenReturn(aCommitmentJson);
 
-        when(commitmentRepository.all()).thenReturn(allCommitments);
-
-        assertThat(controller.getAll(request, response)).isEqualTo(allCommitments);
+        assertThat(controller.getAll(request, response)).isEqualTo(asList(aCommitmentJson));
     }
 
     @Test
