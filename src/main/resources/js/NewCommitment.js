@@ -82,6 +82,7 @@ class NewCommitment extends Component {
                                 focusedInput={this.state.focusedInput}
                                 onFocusChange={this.handleFocusChange}
                                 displayFormat={'DD/MM/YYYY'}
+                                hideKeyboardShortcutsPanel={true}
                             />
                         </div>
                     </div>
