@@ -45,32 +45,12 @@ const projects = [
         "is_billable": false
     }]
 
-const commitments =  [
-    {
-        "id": "1",
-        "craftspersonId": "rollo@codurance.com",
-        "projectId": "123-abc",
-        "startDate": "2017-09-01",
-        "endDate": "2017-12-22" 
-    },
-    {
-        "id": "2",
-        "craftspersonId": "lagertha@codurance.com",
-        "projectId": "123-abc",
-        "startDate": "2017-09-01",
-        "endDate": "2017-12-22" 
-    },
-    {
-        "id": "3",
-        "craftspersonId": "floki@codurance.com",
-        "projectId": "321-bca",
-        "startDate": "2017-09-01",
-        "endDate": "2017-10-31" 
-    }]
-
 class Route {
-    getCommitments() {
-        return Promise.resolve(commitments)
+    allCommitments() {
+        return axios.get('api/commitments')
+            .then(response => {
+                return Promise.resolve(response.data)
+            })
     }
 
     allCraftspeople() {

@@ -61,7 +61,7 @@ class CommitmentsTimeline extends Component {
             )
 
         this.route
-            .getCommitments()
+            .allCommitments()
             .then(commitments => {
                 this.setState((prevState, props) => ({
                     commitments: this.createCommitments(commitments)
