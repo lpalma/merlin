@@ -3,6 +3,7 @@ package com.codurance.merlin.infrastructure.persistence.integration;
 import com.codurance.merlin.commitment.*;
 import com.codurance.merlin.infrastructure.persistence.MerlinRepositoryContext;
 import com.codurance.merlin.infrastructure.persistence.PostgreSQLCommitmentRepository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,6 +24,11 @@ public class PostgreSQLCommitmentRepositoryShould {
     public void setUp() {
         repository = MerlinRepositoryContext.getCommitmentRepository();
 
+        repository.deleteAll();
+    }
+
+    @After
+    public void tearDown() {
         repository.deleteAll();
     }
 
