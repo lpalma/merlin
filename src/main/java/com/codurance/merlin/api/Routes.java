@@ -6,6 +6,7 @@ import com.codurance.merlin.commitment.CommitmentsController;
 import com.codurance.merlin.infrastructure.AuthorisationFilter;
 import com.codurance.merlin.infrastructure.JsonTransformer;
 import com.codurance.merlin.infrastructure.persistence.MerlinRepositoryContext;
+import com.codurance.merlin.service.CommitmentService;
 import spark.ModelAndView;
 import spark.TemplateEngine;
 
@@ -35,8 +36,10 @@ public class Routes {
     }
 
     private void initialiseControllers() {
+        CommitmentService commitmentService = new CommitmentService(MerlinRepositoryContext.getCommitmentRepository());
+
         authenticationController = new AuthenticationController(this.authenticator);
-        commitmentsController = new CommitmentsController(MerlinRepositoryContext.getCommitmentRepository());
+        commitmentsController = new CommitmentsController(commitmentService);
     }
 
     private void initialiseMainRoutes(TemplateEngine templateEngine) {

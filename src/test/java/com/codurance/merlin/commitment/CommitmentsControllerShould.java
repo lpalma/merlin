@@ -1,6 +1,7 @@
 package com.codurance.merlin.commitment;
 
 import com.codurance.merlin.infrastructure.commitment.CommitmentJson;
+import com.codurance.merlin.service.CommitmentService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +11,7 @@ import spark.Request;
 import spark.Response;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +25,6 @@ public class CommitmentsControllerShould {
     public static final String PROJECT_ID = "project1";
     public static final String START_DATE = "2017-10-10";
     public static final String END_DATE = "2017-12-10";
-    public static final String COMMITMENT_ID = "commitmentId";
     public static final int HTTP_CREATED = 201;
 
     @Mock
@@ -33,51 +34,36 @@ public class CommitmentsControllerShould {
     private Response response;
 
     @Mock
-    private CommitmentRepository commitmentRepository;
-
-    @Mock
-    private Commitment aCommitment;
-
-    @Mock
     private CommitmentJson aCommitmentJson;
+
+    @Mock
+    private CommitmentService commitmentService;
 
     private CommitmentsController controller;
 
     @Before
     public void setUp() {
-        controller = new CommitmentsController(commitmentRepository);
+        controller = new CommitmentsController(commitmentService);
     }
 
     @Test
     public void return_all_commitments() throws Exception {
-        when(commitmentRepository.all()).thenReturn(asList(aCommitment));
-        when(aCommitment.asJson()).thenReturn(aCommitmentJson);
+        List<CommitmentJson> commitments = asList(aCommitmentJson);
 
-        assertThat(controller.getAll(request, response)).isEqualTo(asList(aCommitmentJson));
+        when(commitmentService.all()).thenReturn(commitments);
+
+        assertThat(controller.getAll(request, response)).isEqualTo(commitments);
     }
 
     @Test
     public void add_new_commitment() {
-        Commitment aCommitment = aCommitment();
-        CommitmentData aCommitmentData = aCommitmentData();
+        when(request.body()).thenReturn(commitmentAsJsonString());
+        when(commitmentService.add(aCommitmentData())).thenReturn(aCommitmentJson);
 
-        when(request.body()).thenReturn(aCommitmentJson());
-        when(commitmentRepository.add(aCommitmentData)).thenReturn(aCommitment);
-
-        Commitment commitment = controller.add(request, response);
+        CommitmentJson commitment = controller.add(request, response);
 
         verify(response).status(HTTP_CREATED);
-        assertThat(aCommitmentData.equalTo(commitment)).isTrue();
-    }
-
-    private Commitment aCommitment() {
-        return new Commitment(
-            new CommitmentId(COMMITMENT_ID),
-            new CraftspersonId(CRAFTSPERSON_ID),
-            new ProjectId(PROJECT_ID),
-            LocalDate.parse(START_DATE),
-            LocalDate.parse(END_DATE)
-        );
+        assertThat(commitment).isEqualTo(aCommitmentJson);
     }
 
     private CommitmentData aCommitmentData() {
@@ -89,7 +75,7 @@ public class CommitmentsControllerShould {
         );
     }
 
-    private String aCommitmentJson() {
+    private String commitmentAsJsonString() {
         return "{" +
             "\"craftspersonId\": \"" + CRAFTSPERSON_ID + "\"," +
             "\"projectId\": \"" + PROJECT_ID + "\"," +
