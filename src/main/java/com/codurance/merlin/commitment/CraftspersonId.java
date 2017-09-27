@@ -21,4 +21,8 @@ public class CraftspersonId {
     public int hashCode() {
         return value != null ? value.hashCode() : 0;
     }
+
+    public String asString() {
+        return value;
+    }
 }

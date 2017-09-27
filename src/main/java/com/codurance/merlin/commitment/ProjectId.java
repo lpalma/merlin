@@ -21,4 +21,8 @@ public class ProjectId {
     public int hashCode() {
         return value.hashCode();
     }
+
+    public String asString() {
+        return value;
+    }
 }

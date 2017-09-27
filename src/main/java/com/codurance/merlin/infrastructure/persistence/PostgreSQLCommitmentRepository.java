@@ -33,9 +33,9 @@ public class PostgreSQLCommitmentRepository implements CommitmentRepository {
 
         lightAccess.executeCommand(connection -> connection
             .prepareStatement(INSERT_INTO_COMMITMENTS)
-            .withParam(commitment.id().toString())
-            .withParam(commitment.craftspersonId().toString())
-            .withParam(commitment.projectId().toString())
+            .withParam(commitment.id().asString())
+            .withParam(commitment.craftspersonId().asString())
+            .withParam(commitment.projectId().asString())
             .withParam(commitment.startDate().toString())
             .withParam(commitment.endDate().toString())
             .executeUpdate());
