@@ -10,17 +10,17 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CommitmentDataJsonTransformerShould {
+public class CommitmentDataTransformerShould {
     public static final String CRAFTSPERSON_ID = "craftsperson1";
     public static final String PROJECT_ID = "project1";
     public static final String START_DATE = "2017-10-10";
     public static final String END_DATE = "2017-12-10";
 
-    private CommitmentDataJsonTransformer transformer;
+    private CommitmentDataTransformer transformer;
 
     @Before
     public void setUp() {
-        transformer = new CommitmentDataJsonTransformer();
+        transformer = new CommitmentDataTransformer();
     }
 
     @Test

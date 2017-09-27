@@ -8,7 +8,7 @@ import com.google.gson.JsonObject;
 
 import java.time.LocalDate;
 
-public class CommitmentDataJsonTransformer {
+public class CommitmentDataTransformer {
 
     public static final String CRAFTSPERSON_ID = "craftspersonId";
     public static final String PROJECT_ID = "projectId";

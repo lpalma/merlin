@@ -1,6 +1,6 @@
 package com.codurance.merlin.commitment;
 
-import com.codurance.merlin.infrastructure.CommitmentDataJsonTransformer;
+import com.codurance.merlin.infrastructure.CommitmentDataTransformer;
 import spark.Request;
 import spark.Response;
 
@@ -19,7 +19,7 @@ public class CommitmentsController {
     }
 
     public Commitment add(Request request, Response response) {
-        CommitmentDataJsonTransformer transformer = new CommitmentDataJsonTransformer();
+        CommitmentDataTransformer transformer = new CommitmentDataTransformer();
 
         Commitment commitment = commitments.add(transformer.fromJson(request.body()));
 
