@@ -23,6 +23,7 @@ public class CommitmentsControllerShould {
     public static final String PROJECT_ID = "project1";
     public static final String START_DATE = "2017-10-10";
     public static final String END_DATE = "2017-12-10";
+    public static final String COMMITMENT_ID = "commitmentId";
     public static final int HTTP_CREATED = 201;
 
     @Mock
@@ -66,7 +67,7 @@ public class CommitmentsControllerShould {
 
     private Commitment aCommitment() {
         return new Commitment(
-            new CommitmentId("1"),
+            new CommitmentId(COMMITMENT_ID),
             new CraftspersonId(CRAFTSPERSON_ID),
             new ProjectId(PROJECT_ID),
             LocalDate.parse(START_DATE),
