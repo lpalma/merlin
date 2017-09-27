@@ -121,9 +121,6 @@ class CommitmentsTimeline extends Component {
     createCommitment = () => {
         const newCommitment = Object.assign({}, this.state.newCommitment)
 
-        newCommitment.startDate = this.toCommitmentDate(newCommitment.startDate)
-        newCommitment.endDate = this.toCommitmentDate(newCommitment.endDate)
-
         this.route
             .addCommitment(newCommitment)
             .then(commitment => {
@@ -141,16 +138,12 @@ class CommitmentsTimeline extends Component {
             id: commitment.id,
             group: commitment.craftspersonId,
             title: this.getProject(commitment.projectId).name,
-            start_time: this.toMomentDate(commitment.startDate),
-            end_time: this.toMomentDate(commitment.endDate),
+            start_time: moment(commitment.startDate),
+            end_time: moment(commitment.endDate),
             canMove: false,
             canResize: 'both',
             className: this.projectCSSClass(commitment.projectId)
         }
-    }
-
-    toCommitmentDate = (date) => {
-        return date.format("YYYY-MM-DD")
     }
 
     newCommitmentForm = (craftsperson, time, e) => {

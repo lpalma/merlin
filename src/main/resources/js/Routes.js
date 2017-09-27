@@ -50,46 +50,22 @@ const commitments =  [
         "id": "1",
         "craftspersonId": "rollo@codurance.com",
         "projectId": "123-abc",
-        "startDate": { 
-            "year": 2017,
-            "month": 9,
-            "day": 1
-        },
-        "endDate": { 
-            "year": 2017,
-            "month": 12,
-            "day": 22
-        },
+        "startDate": "2017-09-01",
+        "endDate": "2017-12-22" 
     },
     {
         "id": "2",
         "craftspersonId": "lagertha@codurance.com",
         "projectId": "123-abc",
-        "startDate": { 
-            "year": 2017,
-            "month": 9,
-            "day": 1
-        },
-        "endDate": { 
-            "year": 2017,
-            "month": 12,
-            "day": 22
-        },
+        "startDate": "2017-09-01",
+        "endDate": "2017-12-22" 
     },
     {
         "id": "3",
         "craftspersonId": "floki@codurance.com",
         "projectId": "321-bca",
-        "startDate": { 
-            "year": 2017,
-            "month": 9,
-            "day": 1
-        },
-        "endDate": { 
-            "year": 2017,
-            "month": 10,
-            "day": 31
-        },
+        "startDate": "2017-09-01",
+        "endDate": "2017-10-31" 
     }]
 
 class Route {

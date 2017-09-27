@@ -29,9 +29,13 @@ class NewCommitment extends Component {
         this.setState({ startDate, endDate })
 
         this.props.onCommitmentChange(commitment => {
-            commitment.startDate = startDate
-            commitment.endDate = endDate
+            commitment.startDate = this.formatDate(startDate)
+            commitment.endDate = this.formatDate(endDate)
         })
+    }
+
+    formatDate = (date) => {
+        return date.format("YYYY-MM-DD")
     }
 
     handleFocusChange = (focusedInput) => {
