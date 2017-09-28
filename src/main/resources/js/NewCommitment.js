@@ -35,7 +35,7 @@ class NewCommitment extends Component {
     }
 
     formatDate = (date) => {
-        return date.format("YYYY-MM-DD")
+        return date == null ? '' : date.format("YYYY-MM-DD")
     }
 
     handleFocusChange = (focusedInput) => {
