@@ -34,6 +34,7 @@ class CommitmentsTimeline extends Component {
                 className: '',
             }],
             newCommitment: {
+                id: '',
                 craftspersonId: '',
                 projectId: '',
                 startDate: '',
@@ -150,6 +151,7 @@ class CommitmentsTimeline extends Component {
         this.setState((prevState) => ({
             isEditingCommitment: true, 
             newCommitment: {
+                id: '',
                 craftspersonId: craftsperson.id,
                 startDate: moment(time),
                 endDate: null,
@@ -191,6 +193,10 @@ class CommitmentsTimeline extends Component {
         })
     }
 
+    deleteCommitment = () => {
+        console.log('start destruction process')
+    }
+
     render() {
         const newCommitment = this.state.newCommitment
 
@@ -213,6 +219,15 @@ class CommitmentsTimeline extends Component {
                                 onCommitmentChange={this.updateNewCommitment}
                             />
                             <div className="modal-footer">
+                                {
+                                    (this.state.newCommitment.id != '') &&
+                                    <button
+                                        type="button"
+                                        className="btn btn-danger"
+                                        onClick={this.deleteCommitment}>
+                                            Delete
+                                    </button>
+                                }
                                 <button
                                     type="button"
                                     className="btn btn-secondary"
