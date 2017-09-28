@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Route from './Routes.js'
-import NewCommitment from './NewCommitment.js'
+import CommitmentModal from './CommitmentModal.js'
 import Timeline from 'react-calendar-timeline/lib'
-import {ModalContainer, ModalDialog} from 'react-modal-dialog'
 import moment from 'moment'
 
 class CommitmentsTimeline extends Component {
@@ -33,7 +32,7 @@ class CommitmentsTimeline extends Component {
                 canMove: '',
                 className: '',
             }],
-            newCommitment: {
+            commitmentData: {
                 id: '',
                 craftspersonId: '',
                 projectId: '',
@@ -119,13 +118,11 @@ class CommitmentsTimeline extends Component {
         this.setState((prevState, props) => ({ commitments: newCommitments }))
     }
 
-    createCommitment = () => {
-        const newCommitment = Object.assign({}, this.state.newCommitment)
-
+    onFormSave = (commitment) => {
         this.route
-            .addCommitment(newCommitment)
-            .then(commitment => {
-                const asItem = this.asItem(commitment)
+            .addCommitment(commitment)
+            .then(newCommitment => {
+                const asItem = this.asItem(newCommitment)
 
                 this.setState((prevState) => ({
                     commitments: prevState.commitments.concat([asItem]),
@@ -147,10 +144,10 @@ class CommitmentsTimeline extends Component {
         }
     }
 
-    newCommitmentForm = (craftsperson, time, e) => {
+    onNewFormOpen = (craftsperson, time, e) => {
         this.setState((prevState) => ({
             isEditingCommitment: true, 
-            newCommitment: {
+            commitmentData: {
                 id: '',
                 craftspersonId: craftsperson.id,
                 startDate: moment(time),
@@ -160,7 +157,7 @@ class CommitmentsTimeline extends Component {
         }))
     }
 
-    newEditForm = (itemId, e) => {
+    onEditFormOpen = (itemId, e) => {
         const item = this.state
             .commitments
             .find(c => c.id == itemId)
@@ -171,7 +168,7 @@ class CommitmentsTimeline extends Component {
 
         this.setState((prevState) => ({
             isEditingCommitment: true,
-            newCommitment: {
+            commitmentData: {
                 id: itemId,
                 craftspersonId: item.group,
                 startDate: item.start_time,
@@ -181,68 +178,27 @@ class CommitmentsTimeline extends Component {
         }))
     }
 
-    closeCommitmentForm = () => (
+    onFormClose = () => (
         this.setState((prevState) => ({ isEditingCommitment: false }))
     )
 
-    updateNewCommitment = (update) => {
-        this.setState(({ newCommitment }) => {
-            update(newCommitment)
-
-            return { newCommitment }
-        })
-    }
-
-    deleteCommitment = () => {
+    onFormDelete = () => {
         console.log('start destruction process')
     }
 
     render() {
-        const newCommitment = this.state.newCommitment
-
         return (
             <div className="container-fluid commitments-board">
                 {
                     this.state.isEditingCommitment &&
-                    <ModalContainer onClose={this.closeCommitmentForm}>
-                        <ModalDialog className="new-commitment-form" onClose={this.closeCommitmentForm}>
-                            <div className="modal-header">
-                                <h2 className="modal-title">New Commitment</h2>
-                            </div>
-                            <NewCommitment
-                                craftspeople={this.state.craftspeople}
-                                projects={this.state.projects}
-                                defaultCraftsperson={newCommitment.craftspersonId}
-                                defaultProject={newCommitment.projectId}
-                                defaultStartDate={newCommitment.startDate}
-                                defaultEndDate={newCommitment.endDate}
-                                onCommitmentChange={this.updateNewCommitment}
-                            />
-                            <div className="modal-footer">
-                                {
-                                    (this.state.newCommitment.id != '') &&
-                                    <button
-                                        type="button"
-                                        className="btn btn-danger"
-                                        onClick={this.deleteCommitment}>
-                                            Delete
-                                    </button>
-                                }
-                                <button
-                                    type="button"
-                                    className="btn btn-secondary"
-                                    onClick={this.closeCommitmentForm}>
-                                        Cancel
-                                </button>
-                                <button
-                                    type="button"
-                                    className="btn btn-primary"
-                                    onClick={this.createCommitment}>
-                                        Save
-                                </button>
-                            </div>
-                        </ModalDialog>
-                    </ModalContainer>
+                    <CommitmentModal
+                        onClose={this.onFormClose}
+                        onSave={this.onFormSave}
+                        onDelete={this.onFormDelete}
+                        craftspeople={this.state.craftspeople}
+                        projects={this.state.projects}
+                        defaultCommitment={this.state.commitmentData}
+                    />
                 }
                 <Timeline groups={this.state.craftspeople}
                     items={this.state.commitments}
@@ -250,8 +206,8 @@ class CommitmentsTimeline extends Component {
                     defaultTimeEnd={moment().add(6, 'month')}
                     timeSteps={{second: 0, minute: 0, hour: 0, day: 1, month: 1, year: 1}}
                     onItemResize={this.updateCommitment}
-                    onCanvasDoubleClick={this.newCommitmentForm}
-                    onItemDoubleClick={this.newEditForm}
+                    onCanvasDoubleClick={this.onNewFormOpen}
+                    onItemDoubleClick={this.onEditFormOpen}
                     dragSnap={60 * 60 * 1000}
                 />
             </div>
