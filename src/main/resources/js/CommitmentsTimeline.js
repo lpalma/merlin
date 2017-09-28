@@ -39,7 +39,7 @@ class CommitmentsTimeline extends Component {
                 startDate: '',
                 endDate: ''
             },
-            isCreatingCommitment: false,
+            isEditingCommitment: false,
         }
     }
 
@@ -128,7 +128,7 @@ class CommitmentsTimeline extends Component {
 
                 this.setState((prevState) => ({
                     commitments: prevState.commitments.concat([asItem]),
-                    isCreatingCommitment: false
+                    isEditingCommitment: false
                 }))
             })
     }
@@ -148,7 +148,7 @@ class CommitmentsTimeline extends Component {
 
     newCommitmentForm = (craftsperson, time, e) => {
         this.setState((prevState) => ({
-            isCreatingCommitment: true, 
+            isEditingCommitment: true, 
             newCommitment: {
                 craftspersonId: craftsperson.id,
                 startDate: moment(time),
@@ -158,8 +158,29 @@ class CommitmentsTimeline extends Component {
         }))
     }
 
+    newEditForm = (itemId, e) => {
+        const item = this.state
+            .commitments
+            .find(c => c.id == itemId)
+
+        const project = this.state
+            .projects
+            .find(c => c.name == item.title)
+
+        this.setState((prevState) => ({
+            isEditingCommitment: true,
+            newCommitment: {
+                id: itemId,
+                craftspersonId: item.group,
+                startDate: item.start_time,
+                endDate: item.end_time,
+                projectId: project.id
+            }
+        }))
+    }
+
     closeCommitmentForm = () => (
-        this.setState((prevState) => ({ isCreatingCommitment: false }))
+        this.setState((prevState) => ({ isEditingCommitment: false }))
     )
 
     updateNewCommitment = (update) => {
@@ -176,7 +197,7 @@ class CommitmentsTimeline extends Component {
         return (
             <div className="container-fluid commitments-board">
                 {
-                    this.state.isCreatingCommitment &&
+                    this.state.isEditingCommitment &&
                     <ModalContainer onClose={this.closeCommitmentForm}>
                         <ModalDialog className="new-commitment-form" onClose={this.closeCommitmentForm}>
                             <div className="modal-header">
@@ -188,6 +209,7 @@ class CommitmentsTimeline extends Component {
                                 defaultCraftsperson={newCommitment.craftspersonId}
                                 defaultProject={newCommitment.projectId}
                                 defaultStartDate={newCommitment.startDate}
+                                defaultEndDate={newCommitment.endDate}
                                 onCommitmentChange={this.updateNewCommitment}
                             />
                             <div className="modal-footer">
@@ -214,6 +236,7 @@ class CommitmentsTimeline extends Component {
                     timeSteps={{second: 0, minute: 0, hour: 0, day: 1, month: 1, year: 1}}
                     onItemResize={this.updateCommitment}
                     onCanvasDoubleClick={this.newCommitmentForm}
+                    onItemDoubleClick={this.newEditForm}
                     dragSnap={60 * 60 * 1000}
                 />
             </div>

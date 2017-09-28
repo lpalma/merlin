@@ -8,7 +8,7 @@ class NewCommitment extends Component {
         
         this.state = {
             startDate: props.defaultStartDate,
-            endDate: null,
+            endDate: props.defaultEndDate,
             focusedInput: null
         }
     }
