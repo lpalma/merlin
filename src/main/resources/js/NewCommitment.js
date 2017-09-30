@@ -55,7 +55,7 @@ class NewCommitment extends Component {
                                 value={this.props.defaultCraftsperson}
                                 onChange={this.handleCraftspersonChange}>
                                     {this.props.craftspeople.map(craftsperson => (
-                                        <option value={craftsperson.id} key={craftsperson.id}>{craftsperson.title}</option>
+                                        <option value={craftsperson.id} key={craftsperson.id}>{craftsperson.name}</option>
                                     ))}
                             </select>
                         </div>

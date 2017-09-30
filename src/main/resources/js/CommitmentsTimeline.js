@@ -17,7 +17,7 @@ class CommitmentsTimeline extends Component {
         return {
             craftspeople: [{
                 id: '',
-                title: ''
+                name: ''
             }],
             projects: [{
                 id: '',
@@ -211,7 +211,8 @@ class CommitmentsTimeline extends Component {
                         defaultCommitment={this.state.commitmentData}
                     />
                 }
-                <Timeline groups={this.state.craftspeople}
+                <Timeline
+                    groups={this.toGroups(this.state.craftspeople)}
                     items={this.toItems(this.state.commitments)}
                     defaultTimeStart={moment()}
                     defaultTimeEnd={moment().add(6, 'month')}
