@@ -5,7 +5,7 @@ var BUILD_DIR = path.resolve(__dirname, 'src/main/resources/public');
 var APP_DIR = path.resolve(__dirname, 'src/main/resources/js');
 
 var config = {
-    entry: APP_DIR + '/index.js',
+    entry: ['babel-polyfill', APP_DIR + '/index.js'],
     output: {
         path: BUILD_DIR,
         filename: 'bundle.js'
@@ -16,7 +16,8 @@ var config = {
             include: APP_DIR,
             loader: 'babel-loader',
             query: {
-                presets: ['es2015', 'react', 'stage-2']
+                presets: ['es2015', 'react', 'stage-2'],
+                plugins: ['transform-async-to-generator']
             }
         }, {
             test: /\.css$/,
