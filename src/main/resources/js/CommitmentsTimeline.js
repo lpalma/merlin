@@ -41,12 +41,6 @@ class CommitmentsTimeline extends Component {
         }
     }
 
-    componentWillMount() {
-        this.loadProjects()
-        this.loadCraftspeople()
-        this.loadCommitments()
-    }
-
     loadProjects = () => {
         this.route
             .allProjects()
@@ -195,6 +189,12 @@ class CommitmentsTimeline extends Component {
 
     onFormDelete = () => {
         console.log('start destruction process')
+    }
+
+    componentDidMount = () => {
+        this.loadProjects()
+        this.loadCraftspeople()
+        this.loadCommitments()
     }
 
     render() {
