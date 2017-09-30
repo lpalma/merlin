@@ -25,12 +25,10 @@ class CommitmentsTimeline extends Component {
             }],
             commitments: [{
                 id: '',
-                group: '',
-                title: '',
-                start_time: '',
-                end_time: '',
-                canMove: '',
-                className: '',
+                craftspersonId: '',
+                projectId: '',
+                startDate: '',
+                endDate: ''
             }],
             commitmentData: {
                 id: '',
@@ -44,46 +42,43 @@ class CommitmentsTimeline extends Component {
     }
 
     componentWillMount() {
-        this.route
-            .allProjects()
-            .then(projects => 
-                this.setState((prevState, props) => ({
-                    projects: this.mapProjects(projects)
-                }))
-            )
-
-        this.route
-            .allCraftspeople()
-            .then(craftspeople => 
-                this.setState((prevState, props) => ({
-                    craftspeople: this.mapCraftspeople(craftspeople)
-                }))
-            )
-
-        this.route
-            .allCommitments()
-            .then(commitments => {
-                this.setState((prevState, props) => ({
-                    commitments: this.createCommitments(commitments)
-                }))
-            })
+        this.loadProjects()
+        this.loadCraftspeople()
+        this.loadCommitments()
     }
 
-    mapCraftspeople(craftspeople) {
+    loadProjects = () => {
+        this.route
+            .allProjects()
+            .then(projects =>
+                this.setState(() => ({ projects }))
+            )
+    }
+
+    loadCraftspeople = () => {
+        this.route
+            .allCraftspeople()
+            .then(craftspeople =>
+                this.setState(() => ({ craftspeople }))
+            )
+    }
+
+    loadCommitments = () => {
+        this.route
+            .allCommitments()
+            .then(commitments =>
+                this.setState(() => ({ commitments }))
+            )
+    }
+
+    toGroups = (craftspeople) => {
         return craftspeople.map(craftsperson => ({
             id: craftsperson.id,
             title: craftsperson.name
         }))
     }
 
-    mapProjects(projects) {
-        return projects.map(project => ({
-            id: project.id,
-            name: project.name
-        }))
-    }
-
-    createCommitments(commitments) {
+    toItems(commitments) {
         return commitments.map(commitment => this.asItem(commitment))
     }
 
@@ -91,6 +86,12 @@ class CommitmentsTimeline extends Component {
         return this.state
             .projects
             .find(project => project.id === id)
+    }
+
+    getCommitment = (id) => {
+        return this.state
+            .commitments
+            .find(c => c.id == id)
     }
 
     projectCSSClass = (projectId) => {
@@ -122,25 +123,41 @@ class CommitmentsTimeline extends Component {
         this.route
             .addCommitment(commitment)
             .then(newCommitment => {
-                const asItem = this.asItem(newCommitment)
-
                 this.setState((prevState) => ({
-                    commitments: prevState.commitments.concat([asItem]),
+                    commitments: prevState.commitments.concat([newCommitment]),
                     isEditingCommitment: false
                 }))
             })
     }
 
     asItem = (commitment) => {
+        const item = this.emptyItem()
+
+        if (commitment.id) {
+            const projectId = commitment.projectId
+            item.id = commitment.id,
+            item.group = commitment.craftspersonId,
+            item.title = this.getProject(projectId).name,
+            item.start_time = moment(commitment.startDate),
+            item.end_time = moment(commitment.endDate),
+            item.canMove = false,
+            item.canResize = 'both',
+            item.className = this.projectCSSClass(projectId)
+        }
+
+        return item
+    }
+
+    emptyItem = () => {
         return {
-            id: commitment.id,
-            group: commitment.craftspersonId,
-            title: this.getProject(commitment.projectId).name,
-            start_time: moment(commitment.startDate),
-            end_time: moment(commitment.endDate),
-            canMove: false,
-            canResize: 'both',
-            className: this.projectCSSClass(commitment.projectId)
+            id: '',
+            group: '',
+            title: '',
+            start_time: '',
+            end_time: '',
+            canMove: '',
+            canResize: '',
+            className: ''
         }
     }
 
@@ -158,22 +175,16 @@ class CommitmentsTimeline extends Component {
     }
 
     onEditFormOpen = (itemId, e) => {
-        const item = this.state
-            .commitments
-            .find(c => c.id == itemId)
-
-        const project = this.state
-            .projects
-            .find(c => c.name == item.title)
+        const commitment = this.getCommitment(itemId)
 
         this.setState((prevState) => ({
             isEditingCommitment: true,
             commitmentData: {
-                id: itemId,
-                craftspersonId: item.group,
-                startDate: item.start_time,
-                endDate: item.end_time,
-                projectId: project.id
+                id: commitment.id,
+                craftspersonId: commitment.craftspersonId,
+                startDate: moment(commitment.startDate),
+                endDate: moment(commitment.endDate),
+                projectId: commitment.projectId
             }
         }))
     }
@@ -201,7 +212,7 @@ class CommitmentsTimeline extends Component {
                     />
                 }
                 <Timeline groups={this.state.craftspeople}
-                    items={this.state.commitments}
+                    items={this.toItems(this.state.commitments)}
                     defaultTimeStart={moment()}
                     defaultTimeEnd={moment().add(6, 'month')}
                     timeSteps={{second: 0, minute: 0, hour: 0, day: 1, month: 1, year: 1}}
