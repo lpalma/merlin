@@ -41,28 +41,22 @@ class CommitmentsTimeline extends Component {
         }
     }
 
-    loadProjects = () => {
-        this.route
-            .allProjects()
-            .then(projects =>
-                this.setState(() => ({ projects }))
-            )
+    loadProjects = async() => {
+        const projects = await this.route.allProjects()
+
+        this.setState(() => ({ projects }))
     }
 
-    loadCraftspeople = () => {
-        this.route
-            .allCraftspeople()
-            .then(craftspeople =>
-                this.setState(() => ({ craftspeople }))
-            )
+    loadCraftspeople = async() => {
+        const craftspeople = await this.route.allCraftspeople()
+
+        this.setState(() => ({ craftspeople }))
     }
 
-    loadCommitments = () => {
-        this.route
-            .allCommitments()
-            .then(commitments =>
-                this.setState(() => ({ commitments }))
-            )
+    loadCommitments = async() => {
+        const commitments = await this.route.allCommitments()
+
+        this.setState(() => ({ commitments }))
     }
 
     toGroups = (craftspeople) => {
@@ -113,15 +107,13 @@ class CommitmentsTimeline extends Component {
         this.setState((prevState, props) => ({ commitments: newCommitments }))
     }
 
-    onFormSave = (commitment) => {
-        this.route
-            .addCommitment(commitment)
-            .then(newCommitment => {
-                this.setState((prevState) => ({
-                    commitments: prevState.commitments.concat([newCommitment]),
-                    isEditingCommitment: false
-                }))
-            })
+    onFormSave = async(commitment) => {
+        const newCommitment = await this.route.addCommitment(commitment)
+
+        this.setState((prevState) => ({
+            commitments: prevState.commitments.concat([newCommitment]),
+            isEditingCommitment: false
+        }))
     }
 
     asItem = (commitment) => {
