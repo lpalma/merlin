@@ -2,6 +2,7 @@ package com.codurance.merlin.service;
 
 import com.codurance.merlin.commitment.Commitment;
 import com.codurance.merlin.commitment.CommitmentData;
+import com.codurance.merlin.commitment.CommitmentId;
 import com.codurance.merlin.commitment.CommitmentRepository;
 import com.codurance.merlin.infrastructure.commitment.CommitmentJson;
 
@@ -24,5 +25,9 @@ public class CommitmentService {
                 .stream()
                 .map(Commitment::asJson)
                 .collect(Collectors.toList());
+    }
+
+    public void delete(CommitmentId commitmentId) {
+        repository.delete(commitmentId);
     }
 }

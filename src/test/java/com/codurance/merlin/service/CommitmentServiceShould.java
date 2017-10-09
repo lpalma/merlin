@@ -2,6 +2,7 @@ package com.codurance.merlin.service;
 
 import com.codurance.merlin.commitment.Commitment;
 import com.codurance.merlin.commitment.CommitmentData;
+import com.codurance.merlin.commitment.CommitmentId;
 import com.codurance.merlin.commitment.CommitmentRepository;
 import com.codurance.merlin.infrastructure.commitment.CommitmentJson;
 import org.junit.Before;
@@ -12,6 +13,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -30,6 +32,8 @@ public class CommitmentServiceShould {
     private CommitmentData aCommitmentData;
 
     private CommitmentService service;
+
+    public static final CommitmentId COMMITMENT_ID = new CommitmentId("commitmentId");
 
     @Before
     public void setUp() {
@@ -50,5 +54,12 @@ public class CommitmentServiceShould {
         when(aCommitment.asJson()).thenReturn(aCommitmentJson);
 
         assertThat(service.add(aCommitmentData)).isEqualTo(aCommitmentJson);
+    }
+
+    @Test
+    public void delete_a_commitment() {
+        service.delete(COMMITMENT_ID);
+
+        verify(repository).delete(COMMITMENT_ID);
     }
 }
