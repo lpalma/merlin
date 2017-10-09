@@ -71,6 +71,13 @@ class Route {
                 console.log(error)
             })
     }
+
+    deleteCommitment(id) {
+        axios.delete('api/commitments/' + id)
+            .catch((error) => {
+                console.log(error)
+            })
+    }
 }
 
 export default Route

@@ -179,8 +179,15 @@ class CommitmentsTimeline extends Component {
         this.setState((prevState) => ({ isEditingCommitment: false }))
     )
 
-    onFormDelete = () => {
-        console.log('start destruction process')
+    onFormDelete = async() => {
+        const id = this.state.commitmentData.id
+
+        await this.route.deleteCommitment(id)
+
+        this.setState(prevState => ({
+            commitments: prevState.commitments.filter(c => c.id != id),
+            isEditingCommitment: false
+        }))
     }
 
     componentDidMount = () => {
