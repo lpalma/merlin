@@ -54,6 +54,7 @@ public class Routes {
         path("/api", () -> {
             get("/commitments", "application/json", commitmentsController::getAll, new JsonTransformer());
             put("/commitments", "application/json", commitmentsController::add, new JsonTransformer());
+            delete("/commitments/:id", "application/json", commitmentsController::delete);
         });
     }
 
