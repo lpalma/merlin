@@ -8,4 +8,6 @@ public interface CommitmentRepository {
     Commitment add(CommitmentData commitmentData);
 
     void deleteAll();
+
+    void delete(CommitmentId commitmentId);
 }

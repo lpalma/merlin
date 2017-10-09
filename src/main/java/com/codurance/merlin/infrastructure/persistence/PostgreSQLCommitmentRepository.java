@@ -13,6 +13,7 @@ public class PostgreSQLCommitmentRepository implements CommitmentRepository {
     public static final String DELETE_ALL_COMMITMENTS = "DELETE FROM commitments;";
     public static final String INSERT_INTO_COMMITMENTS = "INSERT INTO commitments VALUES (?, ?, ?, date(?), date(?))";
     public static final String COMMITMENTS_SEQUENCE = "commitments_seq";
+    private static final String DELETE_FROM_COMMITMENTS = "DELETE FROM commitments WHERE id=?";
 
     private LightAccess lightAccess;
 
@@ -46,6 +47,13 @@ public class PostgreSQLCommitmentRepository implements CommitmentRepository {
     public void deleteAll() {
         lightAccess.executeCommand(connection -> connection
                 .prepareStatement(DELETE_ALL_COMMITMENTS)
+                .executeUpdate());
+    }
+
+    public void delete(CommitmentId commitmentId) {
+        lightAccess.executeCommand(connection -> connection
+                .prepareStatement(DELETE_FROM_COMMITMENTS)
+                .withParam(commitmentId.asString())
                 .executeUpdate());
     }
 
