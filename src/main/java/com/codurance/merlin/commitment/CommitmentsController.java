@@ -10,6 +10,8 @@ import java.util.List;
 
 public class CommitmentsController {
 
+    public static final String ID = ":id";
+    public static final int HTTP_NO_CONTENT = 204;
     private CommitmentService commitmentService;
     private CommitmentDataTransformer dataTransformer = new CommitmentDataTransformer();
 
@@ -28,5 +30,15 @@ public class CommitmentsController {
         response.status(201);
 
         return commitment;
+    }
+
+    public Object delete(Request request, Response response) {
+        CommitmentId commitmentId = new CommitmentId(request.params(ID));
+
+        commitmentService.delete(commitmentId);
+
+        response.status(HTTP_NO_CONTENT);
+
+        return response;
     }
 }
