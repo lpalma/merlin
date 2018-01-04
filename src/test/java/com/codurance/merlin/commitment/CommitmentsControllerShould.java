@@ -27,7 +27,7 @@ public class CommitmentsControllerShould {
     public static final String END_DATE = "2017-12-10";
     public static final int HTTP_CREATED = 201;
     public static final int HTTP_NO_CONTENT = 204;
-    public static final String ID = "id";
+    public static final String ID = ":id";
     public static final String COMMITMENT_ID = "commitmentId";
 
     @Mock
