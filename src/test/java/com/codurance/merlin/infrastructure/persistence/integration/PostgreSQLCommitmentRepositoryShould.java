@@ -1,8 +1,11 @@
 package com.codurance.merlin.infrastructure.persistence.integration;
 
 import com.codurance.merlin.commitment.*;
+import com.codurance.merlin.infrastructure.MerlinEnvConfig;
+import com.codurance.merlin.infrastructure.persistence.DatabaseConfig;
 import com.codurance.merlin.infrastructure.persistence.MerlinRepositoryContext;
 import com.codurance.merlin.infrastructure.persistence.PostgreSQLCommitmentRepository;
+import org.flywaydb.core.Flyway;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +28,8 @@ public class PostgreSQLCommitmentRepositoryShould {
 
     @Before
     public void setUp() {
+        DatabaseConfig.migrate();
+
         repository = MerlinRepositoryContext.getCommitmentRepository();
 
         repository.deleteAll();
