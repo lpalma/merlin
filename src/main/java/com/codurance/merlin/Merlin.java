@@ -5,8 +5,7 @@ import com.codurance.merlin.infrastructure.authentication.MerlinAuthenticator;
 import com.codurance.merlin.infrastructure.authentication.MerlinOAuthClient;
 import com.codurance.merlin.infrastructure.authentication.OauthConfigurationException;
 import com.codurance.merlin.infrastructure.AuthorisationFilter;
-import com.codurance.merlin.infrastructure.MerlinEnvConfig;
-import org.flywaydb.core.Flyway;
+import com.codurance.merlin.infrastructure.persistence.DatabaseConfig;
 import spark.template.mustache.MustacheTemplateEngine;
 
 import static com.codurance.merlin.infrastructure.authentication.MerlinOAuthClient.buildOauthClient;
@@ -14,21 +13,9 @@ import static com.codurance.merlin.infrastructure.authentication.MerlinOAuthClie
 public class Merlin {
 
     public static void main(String[] args) throws OauthConfigurationException {
-        migrateDatabase();
+        DatabaseConfig.migrate();
+
         initialiseRoutes();
-    }
-
-    private static void migrateDatabase() {
-        Flyway flyway = new Flyway();
-
-        flyway.setDataSource(
-                MerlinEnvConfig.getDatabaseURL(),
-                MerlinEnvConfig.getDatabaseUser(),
-                MerlinEnvConfig.getDatabasePassword()
-        );
-
-        flyway.setSchemas(MerlinEnvConfig.getDatabaseSchema());
-        flyway.migrate();
     }
 
     private static void initialiseRoutes() throws OauthConfigurationException {
