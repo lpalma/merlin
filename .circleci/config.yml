@@ -15,6 +15,12 @@ jobs:
       - checkout
       - run: gradle clean fatJar
 
+  test:
+    <<: *docker-image
+    steps:
+      - checkout
+      - run: gradle test
+
   deploy-pro:
     <<: *docker-image
     steps:
@@ -35,7 +41,10 @@ workflows:
   build-and-deploy-to-pro:
     jobs:
       - build
+      - test:
+          requires:
+            - build
       - deploy-pro:
           <<: *only-on-master
           requires:
-            - build
+            - test
