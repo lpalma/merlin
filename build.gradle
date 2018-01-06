@@ -23,6 +23,13 @@ dependencies {
     compile group: 'org.flywaydb', name: 'flyway-core', version: '4.2.0'
 }
 
+test {
+    environment "DATABASE_USER", "merlin"
+    environment "DATABASE_PASSWORD", "merlin@local"
+    environment "DATABASE_HOST", "localhost"
+    environment "DATABASE_PORT", "5432"
+}
+
 task fatJar(type: Jar) {
     manifest {
         attributes("Main-Class": "com.codurance.merlin.Merlin")
