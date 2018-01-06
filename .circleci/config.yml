@@ -16,7 +16,12 @@ jobs:
       - run: gradle clean fatJar
 
   test:
-    <<: *docker-image
+    docker:
+      - image: circleci/openjdk:8-jdk
+      - image: postgres:9.6
+        environment:
+          POSTGRES_USER: merlin
+          POSTGRES_PASSWORD: merlin@local
     steps:
       - checkout
       - run: gradle test
