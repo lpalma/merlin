@@ -28,6 +28,10 @@ test {
     environment "DATABASE_PASSWORD", "merlin@local"
     environment "DATABASE_HOST", "localhost"
     environment "DATABASE_PORT", "5432"
+
+    testLogging {
+        exceptionFormat "full"
+    }
 }
 
 task fatJar(type: Jar) {
