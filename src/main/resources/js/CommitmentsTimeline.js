@@ -154,7 +154,7 @@ class CommitmentsTimeline extends Component {
                 id: '',
                 craftspersonId: craftsperson.id,
                 startDate: moment(time),
-                endDate: null,
+                endDate: moment(time).add(1, 'month'),
                 projectId: prevState.projects[0].id
             }
         }))
