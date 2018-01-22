@@ -108,19 +108,12 @@ class CommitmentsTimeline extends Component {
     }
 
     onFormSave = async(commitment) => {
-        commitment.startDate = this.formatDate(commitment.startDate)
-        commitment.endDate = this.formatDate(commitment.endDate)
-
         const newCommitment = await this.route.addCommitment(commitment)
 
         this.setState((prevState) => ({
             commitments: prevState.commitments.concat([newCommitment]),
             isEditingCommitment: false
         }))
-    }
-
-    formatDate = (date) => {
-        return date == null ? '' : date.format("YYYY-MM-DD")
     }
 
     asItem = (commitment) => {

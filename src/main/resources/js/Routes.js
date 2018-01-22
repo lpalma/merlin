@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 const axios = require('axios')
 const craftspeople = [
     {
@@ -49,7 +51,7 @@ class Route {
     allCommitments() {
         return axios.get('api/commitments')
             .then(response => {
-                return Promise.resolve(response.data)
+                return Promise.resolve(this.toCommitments(response.data))
             })
     }
 
@@ -64,9 +66,9 @@ class Route {
     }
 
     addCommitment(commitmentData) {
-        return axios.put('api/commitments', commitmentData)
+        return axios.put('api/commitments', this.toJson(commitmentData))
             .then((response) => {
-                return Promise.resolve(response.data)
+                return Promise.resolve(this.toCommitment(response.data))
             }).catch((error) => {
                 console.log(error)
             })
@@ -77,6 +79,34 @@ class Route {
             .catch((error) => {
                 console.log(error)
             })
+    }
+
+    toCommitments(data) {
+        return data.map(d => this.toCommitment(d))
+    }
+
+    toCommitment(data) {
+        return {
+            id: data.id,
+            craftspersonId: data.craftspersonId,
+            projectId: data.projectId,
+            startDate: moment(data.startDate),
+            endDate: moment(data.endDate)
+        }
+    }
+
+    toJson(commitment) {
+        return {
+            id: commitment.id,
+            craftspersonId: commitment.craftspersonId,
+            projectId: commitment.projectId,
+            startDate: this.formatDate(commitment.startDate),
+            endDate: this.formatDate(commitment.endDate)
+        }
+    }
+
+    formatDate = (date) => {
+        return date == null ? '' : date.format("YYYY-MM-DD")
     }
 }
 
