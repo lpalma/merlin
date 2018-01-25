@@ -2,7 +2,6 @@ package com.codurance.merlin.api;
 
 import com.codurance.merlin.commitment.*;
 import com.codurance.merlin.infrastructure.CommitmentDataTransformer;
-import com.codurance.merlin.infrastructure.commitment.CommitmentJson;
 import com.codurance.merlin.service.CommitmentService;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,9 +12,8 @@ import spark.Request;
 import spark.Response;
 
 import java.time.LocalDate;
-import java.util.List;
 
-import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -47,9 +45,6 @@ public class CommitmentsAPIShould {
     private Response response;
 
     @Mock
-    private CommitmentJson aCommitmentJson;
-
-    @Mock
     private CommitmentService commitmentService;
 
     @Mock
@@ -67,11 +62,10 @@ public class CommitmentsAPIShould {
 
     @Test
     public void return_all_commitments() {
-        List<CommitmentJson> commitments = asList(aCommitmentJson);
+        when(commitmentService.all()).thenReturn(singletonList(commitment));
+        when(dataTransformer.jsonFor(commitment)).thenReturn(COMMITMENT_JSON);
 
-        when(commitmentService.all()).thenReturn(commitments);
-
-        assertThat(controller.getAll(request, response)).isEqualTo(commitments);
+        assertThat(controller.getAll(request, response)).isEqualTo(singletonList(COMMITMENT_JSON));
     }
 
     @Test

@@ -4,12 +4,12 @@ import com.codurance.merlin.commitment.Commitment;
 import com.codurance.merlin.commitment.CommitmentData;
 import com.codurance.merlin.commitment.CommitmentId;
 import com.codurance.merlin.infrastructure.CommitmentDataTransformer;
-import com.codurance.merlin.infrastructure.commitment.CommitmentJson;
 import com.codurance.merlin.service.CommitmentService;
 import spark.Request;
 import spark.Response;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CommitmentsAPI {
 
@@ -23,8 +23,11 @@ public class CommitmentsAPI {
         this.dataTransformer = dataTransformer;
     }
 
-    public List<CommitmentJson> getAll(Request request, Response response) {
-        return commitmentService.all();
+    public List<String> getAll(Request request, Response response) {
+        return commitmentService.all()
+                .stream()
+                .map(dataTransformer::jsonFor)
+                .collect(Collectors.toList());
     }
 
     public String add(Request request, Response response) {
