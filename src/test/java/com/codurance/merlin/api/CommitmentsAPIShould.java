@@ -47,11 +47,17 @@ public class CommitmentsAPIShould {
     @Mock
     private CommitmentService commitmentService;
 
+    @Mock
+    private Commitment commitment;
+
+    @Mock
+    private CommitmentDataTransformer dataTransformer;
+
     private CommitmentsAPI controller;
 
     @Before
     public void setUp() {
-        controller = new CommitmentsAPI(commitmentService);
+        controller = new CommitmentsAPI(commitmentService, dataTransformer);
     }
 
     @Test

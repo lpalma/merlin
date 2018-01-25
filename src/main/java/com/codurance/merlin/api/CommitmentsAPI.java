@@ -15,10 +15,11 @@ public class CommitmentsAPI {
     public static final String ID = ":id";
     public static final int HTTP_NO_CONTENT = 204;
     private CommitmentService commitmentService;
-    private CommitmentDataTransformer dataTransformer = new CommitmentDataTransformer();
+    private CommitmentDataTransformer dataTransformer;
 
-    public CommitmentsAPI(CommitmentService commitmentService) {
+    public CommitmentsAPI(CommitmentService commitmentService, CommitmentDataTransformer dataTransformer) {
         this.commitmentService = commitmentService;
+        this.dataTransformer = dataTransformer;
     }
 
     public List<CommitmentJson> getAll(Request request, Response response) {
