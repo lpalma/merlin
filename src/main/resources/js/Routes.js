@@ -65,7 +65,7 @@ class Route {
         return Promise.resolve(projects)
     }
 
-    addCommitment(commitmentData) {
+    saveCommitment(commitmentData) {
         return axios.put('api/commitments', this.toJson(commitmentData))
             .then((response) => {
                 return Promise.resolve(this.toCommitment(response.data))

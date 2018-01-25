@@ -91,24 +91,20 @@ class CommitmentsTimeline extends Component {
     }
 
     updateCommitment = (commitmentId, time, edge) => {
-        const { commitments } = this.state
-        
-        const newCommitments = commitments.map(commitment => {
-            let newCommitment = Object.assign({}, commitment)
+        const commitment = Object.assign({}, this.getCommitment(commitmentId))
 
-            if (newCommitment.id === commitmentId) {
-                newCommitment.start_time = edge === 'left' ? time : commitment.start_time
-                newCommitment.end_time = edge === 'right' ? time : commitment.end_time
-            }
+        const date = moment(time)
 
-            return newCommitment
-        })
+        commitment.startDate = edge === 'left' ? date : commitment.startDate
+        commitment.endDate = edge === 'right' ? date : commitment.endDate
 
-        this.setState((prevState, props) => ({ commitments: newCommitments }))
+        this.onFormSave(commitment)
+
+        this.loadCommitments()
     }
 
     onFormSave = async(commitment) => {
-        const newCommitment = await this.route.addCommitment(commitment)
+        const newCommitment = await this.route.saveCommitment(commitment)
 
         this.setState((prevState) => ({
             commitments: prevState.commitments.concat([newCommitment]),
