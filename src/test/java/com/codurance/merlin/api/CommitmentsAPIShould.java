@@ -1,5 +1,10 @@
-package com.codurance.merlin.commitment;
+package com.codurance.merlin.api;
 
+import com.codurance.merlin.api.CommitmentsAPI;
+import com.codurance.merlin.commitment.CommitmentData;
+import com.codurance.merlin.commitment.CommitmentId;
+import com.codurance.merlin.commitment.CraftspersonId;
+import com.codurance.merlin.commitment.ProjectId;
 import com.codurance.merlin.infrastructure.commitment.CommitmentJson;
 import com.codurance.merlin.service.CommitmentService;
 import org.junit.Before;
@@ -19,7 +24,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CommitmentsControllerShould {
+public class CommitmentsAPIShould {
 
     public static final String CRAFTSPERSON_ID = "craftsperson1";
     public static final String PROJECT_ID = "project1";
@@ -42,11 +47,11 @@ public class CommitmentsControllerShould {
     @Mock
     private CommitmentService commitmentService;
 
-    private CommitmentsController controller;
+    private CommitmentsAPI controller;
 
     @Before
     public void setUp() {
-        controller = new CommitmentsController(commitmentService);
+        controller = new CommitmentsAPI(commitmentService);
     }
 
     @Test

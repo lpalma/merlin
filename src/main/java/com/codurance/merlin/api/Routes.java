@@ -2,7 +2,6 @@ package com.codurance.merlin.api;
 
 import com.codurance.merlin.authentication.AuthenticationController;
 import com.codurance.merlin.authentication.Authenticator;
-import com.codurance.merlin.commitment.CommitmentsController;
 import com.codurance.merlin.infrastructure.AuthorisationFilter;
 import com.codurance.merlin.infrastructure.JsonTransformer;
 import com.codurance.merlin.infrastructure.persistence.MerlinRepositoryContext;
@@ -19,7 +18,7 @@ public class Routes {
 
     private AuthenticationController authenticationController;
     private Authenticator authenticator;
-    private CommitmentsController commitmentsController;
+    private CommitmentsAPI commitmentsAPI;
 
     public void init(Authenticator authenticator, TemplateEngine templateEngine, AuthorisationFilter authorisationFilter) {
         this.authenticator = authenticator;
@@ -39,7 +38,7 @@ public class Routes {
         CommitmentService commitmentService = new CommitmentService(MerlinRepositoryContext.getCommitmentRepository());
 
         authenticationController = new AuthenticationController(this.authenticator);
-        commitmentsController = new CommitmentsController(commitmentService);
+        commitmentsAPI = new CommitmentsAPI(commitmentService);
     }
 
     private void initialiseMainRoutes(TemplateEngine templateEngine) {
@@ -52,9 +51,9 @@ public class Routes {
 
     private void initialiseApiRoutes() {
         path("/api", () -> {
-            get("/commitments", "application/json", commitmentsController::getAll, new JsonTransformer());
-            put("/commitments", "application/json", commitmentsController::add, new JsonTransformer());
-            delete("/commitments/:id", "application/json", commitmentsController::delete);
+            get("/commitments", "application/json", commitmentsAPI::getAll, new JsonTransformer());
+            put("/commitments", "application/json", commitmentsAPI::add, new JsonTransformer());
+            delete("/commitments/:id", "application/json", commitmentsAPI::delete);
         });
     }
 

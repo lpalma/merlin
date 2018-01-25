@@ -1,5 +1,7 @@
-package com.codurance.merlin.commitment;
+package com.codurance.merlin.api;
 
+import com.codurance.merlin.commitment.CommitmentData;
+import com.codurance.merlin.commitment.CommitmentId;
 import com.codurance.merlin.infrastructure.CommitmentDataTransformer;
 import com.codurance.merlin.infrastructure.commitment.CommitmentJson;
 import com.codurance.merlin.service.CommitmentService;
@@ -8,14 +10,14 @@ import spark.Response;
 
 import java.util.List;
 
-public class CommitmentsController {
+public class CommitmentsAPI {
 
     public static final String ID = ":id";
     public static final int HTTP_NO_CONTENT = 204;
     private CommitmentService commitmentService;
     private CommitmentDataTransformer dataTransformer = new CommitmentDataTransformer();
 
-    public CommitmentsController(CommitmentService commitmentService) {
+    public CommitmentsAPI(CommitmentService commitmentService) {
         this.commitmentService = commitmentService;
     }
 
