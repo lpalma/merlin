@@ -1,5 +1,6 @@
 package com.codurance.merlin.api;
 
+import com.codurance.merlin.commitment.Commitment;
 import com.codurance.merlin.commitment.CommitmentData;
 import com.codurance.merlin.commitment.CommitmentId;
 import com.codurance.merlin.infrastructure.CommitmentDataTransformer;
@@ -26,13 +27,13 @@ public class CommitmentsAPI {
         return commitmentService.all();
     }
 
-    public CommitmentJson add(Request request, Response response) {
+    public String add(Request request, Response response) {
         CommitmentData commitmentData = dataTransformer.fromJson(request.body());
-        CommitmentJson commitment = commitmentService.add(commitmentData);
+        Commitment commitment = commitmentService.add(commitmentData);
 
         response.status(201);
 
-        return commitment;
+        return dataTransformer.jsonFor(commitment);
     }
 
     public Object delete(Request request, Response response) {

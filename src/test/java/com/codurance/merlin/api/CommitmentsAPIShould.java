@@ -1,10 +1,7 @@
 package com.codurance.merlin.api;
 
-import com.codurance.merlin.api.CommitmentsAPI;
-import com.codurance.merlin.commitment.CommitmentData;
-import com.codurance.merlin.commitment.CommitmentId;
-import com.codurance.merlin.commitment.CraftspersonId;
-import com.codurance.merlin.commitment.ProjectId;
+import com.codurance.merlin.commitment.*;
+import com.codurance.merlin.infrastructure.CommitmentDataTransformer;
 import com.codurance.merlin.infrastructure.commitment.CommitmentJson;
 import com.codurance.merlin.service.CommitmentService;
 import org.junit.Before;
@@ -30,6 +27,14 @@ public class CommitmentsAPIShould {
     public static final String PROJECT_ID = "project1";
     public static final String START_DATE = "2017-10-10";
     public static final String END_DATE = "2017-12-10";
+
+    public static final String COMMITMENT_JSON = "{" +
+            "\"craftspersonId\": \"" + CRAFTSPERSON_ID + "\"," +
+            "\"projectId\": \"" + PROJECT_ID + "\"," +
+            "\"startDate\": \"" + START_DATE + "\"," +
+            "\"endDate\": \"" + END_DATE + "\"" +
+            "}";
+
     public static final int HTTP_CREATED = 201;
     public static final int HTTP_NO_CONTENT = 204;
     public static final String ID = ":id";
@@ -61,7 +66,7 @@ public class CommitmentsAPIShould {
     }
 
     @Test
-    public void return_all_commitments() throws Exception {
+    public void return_all_commitments() {
         List<CommitmentJson> commitments = asList(aCommitmentJson);
 
         when(commitmentService.all()).thenReturn(commitments);
@@ -71,13 +76,17 @@ public class CommitmentsAPIShould {
 
     @Test
     public void add_new_commitment() {
-        when(request.body()).thenReturn(commitmentAsJsonString());
-        when(commitmentService.add(aCommitmentData())).thenReturn(aCommitmentJson);
+        CommitmentData commitmentData = aCommitmentData();
 
-        CommitmentJson commitment = controller.add(request, response);
+        when(request.body()).thenReturn(COMMITMENT_JSON);
+        when(dataTransformer.fromJson(COMMITMENT_JSON)).thenReturn(commitmentData);
+        when(commitmentService.add(commitmentData)).thenReturn(commitment);
+        when(dataTransformer.jsonFor(commitment)).thenReturn(COMMITMENT_JSON);
+
+        String commitment = controller.add(request, response);
 
         verify(response).status(HTTP_CREATED);
-        assertThat(commitment).isEqualTo(aCommitmentJson);
+        assertThat(commitment).isEqualTo(COMMITMENT_JSON);
     }
 
     @Test
@@ -101,12 +110,4 @@ public class CommitmentsAPIShould {
         );
     }
 
-    private String commitmentAsJsonString() {
-        return "{" +
-            "\"craftspersonId\": \"" + CRAFTSPERSON_ID + "\"," +
-            "\"projectId\": \"" + PROJECT_ID + "\"," +
-            "\"startDate\": \"" + START_DATE + "\"," +
-            "\"endDate\": \"" + END_DATE + "\"" +
-            "}";
-    }
 }

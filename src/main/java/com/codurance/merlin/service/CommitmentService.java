@@ -16,8 +16,8 @@ public class CommitmentService {
         this.repository = repository;
     }
 
-    public CommitmentJson add(CommitmentData commitmentData) {
-        return repository.add(commitmentData).asJson();
+    public Commitment add(CommitmentData commitmentData) {
+        return repository.add(commitmentData);
     }
 
     public List<CommitmentJson> all() {

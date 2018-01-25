@@ -1,5 +1,6 @@
 package com.codurance.merlin.infrastructure;
 
+import com.codurance.merlin.commitment.Commitment;
 import com.codurance.merlin.commitment.CommitmentData;
 import com.codurance.merlin.commitment.CraftspersonId;
 import com.codurance.merlin.commitment.ProjectId;
@@ -26,5 +27,9 @@ public class CommitmentDataTransformer {
             LocalDate.parse(json.get(START_DATE).getAsString()),
             LocalDate.parse(json.get(END_DATE).getAsString())
         );
+    }
+
+    public String jsonFor(Commitment commitment) {
+        throw new UnsupportedOperationException();
     }
 }
