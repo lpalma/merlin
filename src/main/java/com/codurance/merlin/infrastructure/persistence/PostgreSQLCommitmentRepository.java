@@ -4,6 +4,7 @@ import com.codurance.lightaccess.LightAccess;
 import com.codurance.lightaccess.mapping.LAResultSet;
 import com.codurance.merlin.commitment.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.function.Function;
 
@@ -12,8 +13,8 @@ public class PostgreSQLCommitmentRepository implements CommitmentRepository {
     public static final String SELECT_ALL_COMMITMENTS = "SELECT * FROM commitments";
     public static final String DELETE_ALL_COMMITMENTS = "DELETE FROM commitments;";
     public static final String INSERT_INTO_COMMITMENTS = "INSERT INTO commitments VALUES (?, ?, ?, date(?), date(?))";
-    public static final String COMMITMENTS_SEQUENCE = "commitments_seq";
     private static final String DELETE_FROM_COMMITMENTS = "DELETE FROM commitments WHERE id=?";
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE;
 
     private LightAccess lightAccess;
 
@@ -29,19 +30,15 @@ public class PostgreSQLCommitmentRepository implements CommitmentRepository {
                 .mapResults(toCommitment()));
     }
 
-    public Commitment add(CommitmentData commitmentData) {
-        Commitment commitment = createCommitment(commitmentData);
-
+    public void add(Commitment commitment) {
         lightAccess.executeCommand(connection -> connection
             .prepareStatement(INSERT_INTO_COMMITMENTS)
             .withParam(commitment.id().asString())
             .withParam(commitment.craftspersonId().asString())
             .withParam(commitment.projectId().asString())
-            .withParam(commitment.startDate().toString())
-            .withParam(commitment.endDate().toString())
+            .withParam(commitment.startDate().format(dateTimeFormatter))
+            .withParam(commitment.endDate().format(dateTimeFormatter))
             .executeUpdate());
-
-        return commitment;
     }
 
     public void deleteAll() {
@@ -65,21 +62,5 @@ public class PostgreSQLCommitmentRepository implements CommitmentRepository {
                 laResultSet.getLocalDate(4),
                 laResultSet.getLocalDate(5)
         );
-    }
-
-    private Commitment createCommitment(CommitmentData commitmentData) {
-        return new Commitment(
-                nextId(),
-                commitmentData.craftspersonId(),
-                commitmentData.projectId(),
-                commitmentData.startDate(),
-                commitmentData.endDate()
-        );
-    }
-
-    private CommitmentId nextId() {
-        int id = lightAccess.nextId(COMMITMENTS_SEQUENCE);
-
-        return new CommitmentId(String.valueOf(id));
     }
 }

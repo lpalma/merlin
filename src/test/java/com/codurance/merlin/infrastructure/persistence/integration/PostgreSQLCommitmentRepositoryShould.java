@@ -13,7 +13,9 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.util.List;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PostgreSQLCommitmentRepositoryShould {
@@ -42,31 +44,35 @@ public class PostgreSQLCommitmentRepositoryShould {
 
     @Test
     public void add_commitment() {
-        CommitmentData aCommitmentData = createCommitmentData();
-
-        Commitment commitment = repository.add(aCommitmentData);
-
-        List<Commitment> commitments = repository.all();
-
-        assertThat(commitments).hasSize(1);
-        assertThat(aCommitmentData.equalTo(commitment)).isTrue();
-    }
-
-    @Test
-    public void delete_existing_commitment() {
-        Commitment commitment = repository.add(createCommitmentData());
-
-        repository.delete(commitment.id());
-
-        assertThat(repository.all()).isEqualTo(emptyList());
-    }
-
-    private CommitmentData createCommitmentData() {
-        return new CommitmentData(
+        Commitment commitment = new Commitment(
+                COMMITMENT_ID,
                 new CraftspersonId(CRAFTSPERSON_ID),
                 new ProjectId(PROJECT_ID),
                 LocalDate.parse(START_DATE),
                 LocalDate.parse(END_DATE)
         );
+
+        repository.add(commitment);
+
+        List<Commitment> commitments = repository.all();
+
+        assertThat(commitments).isEqualTo(asList(commitment));
+    }
+
+    @Test
+    public void delete_existing_commitment() {
+        Commitment commitment = new Commitment(
+                COMMITMENT_ID,
+                new CraftspersonId(CRAFTSPERSON_ID),
+                new ProjectId(PROJECT_ID),
+                LocalDate.parse(START_DATE),
+                LocalDate.parse(END_DATE)
+        );
+
+        repository.add(commitment);
+
+        repository.delete(commitment.id());
+
+        assertThat(repository.all()).isEqualTo(emptyList());
     }
 }

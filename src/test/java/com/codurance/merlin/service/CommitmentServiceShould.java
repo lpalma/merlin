@@ -1,26 +1,29 @@
 package com.codurance.merlin.service;
 
-import com.codurance.merlin.commitment.Commitment;
-import com.codurance.merlin.commitment.CommitmentData;
-import com.codurance.merlin.commitment.CommitmentId;
-import com.codurance.merlin.commitment.CommitmentRepository;
-import com.codurance.merlin.infrastructure.commitment.CommitmentJson;
+import com.codurance.merlin.commitment.*;
+import com.codurance.merlin.infrastructure.UniqueIDGenerator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static java.util.Arrays.asList;
+import java.time.LocalDate;
+
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CommitmentServiceShould {
+    private static final String UNIQUE_ID = "uniqueId";
 
-    @Mock
-    private CommitmentJson aCommitmentJson;
+    private static final CommitmentId COMMITMENT_ID = new CommitmentId(UNIQUE_ID);
+    public static final CraftspersonId CRAFTSPERSON_ID = new CraftspersonId("1234");
+    public static final ProjectId PROJECT_ID = new ProjectId("4321");
+    public static final LocalDate START_DATE = LocalDate.of(2018, 1, 1);
+    public static final LocalDate END_DATE = LocalDate.of(2018, 1, 31);
 
     @Mock
     private CommitmentRepository repository;
@@ -29,31 +32,33 @@ public class CommitmentServiceShould {
     private Commitment aCommitment;
 
     @Mock
-    private CommitmentData aCommitmentData;
+    private UniqueIDGenerator uniqueIDGenerator;
 
     private CommitmentService service;
 
-    public static final CommitmentId COMMITMENT_ID = new CommitmentId("commitmentId");
-
     @Before
     public void setUp() {
-        service = new CommitmentService(repository);
+        service = new CommitmentService(repository, uniqueIDGenerator);
     }
 
     @Test
     public void return_all_commitments() {
-        when(repository.all()).thenReturn(asList(aCommitment));
-        when(aCommitment.asJson()).thenReturn(aCommitmentJson);
+        when(repository.all()).thenReturn(singletonList(aCommitment));
 
-        assertThat(service.all()).isEqualTo(asList(aCommitmentJson));
+        assertThat(service.all()).isEqualTo(singletonList(aCommitment));
     }
 
     @Test
     public void add_new_commitment() {
-        when(repository.add(aCommitmentData)).thenReturn(aCommitment);
-        when(aCommitment.asJson()).thenReturn(aCommitmentJson);
+        CommitmentData aCommitmentData = new CommitmentData(CRAFTSPERSON_ID, PROJECT_ID, START_DATE, END_DATE);
+        Commitment commitment = new Commitment(COMMITMENT_ID, CRAFTSPERSON_ID, PROJECT_ID, START_DATE, END_DATE );
 
-        assertThat(service.add(aCommitmentData)).isEqualTo(aCommitmentJson);
+        when(uniqueIDGenerator.nextId()).thenReturn(UNIQUE_ID);
+
+        Commitment commitmentResult = service.add(aCommitmentData);
+
+        verify(repository).add(commitment);
+        assertThat(commitmentResult).isEqualTo(commitment);
     }
 
     @Test
