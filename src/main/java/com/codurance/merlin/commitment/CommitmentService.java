@@ -1,6 +1,5 @@
-package com.codurance.merlin.service;
+package com.codurance.merlin.commitment;
 
-import com.codurance.merlin.commitment.*;
 import com.codurance.merlin.infrastructure.UniqueIDGenerator;
 
 import java.util.List;

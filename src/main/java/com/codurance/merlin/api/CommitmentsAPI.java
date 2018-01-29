@@ -4,7 +4,7 @@ import com.codurance.merlin.commitment.Commitment;
 import com.codurance.merlin.commitment.CommitmentData;
 import com.codurance.merlin.commitment.CommitmentId;
 import com.codurance.merlin.infrastructure.CommitmentJsonTransformer;
-import com.codurance.merlin.service.CommitmentService;
+import com.codurance.merlin.commitment.CommitmentService;
 import spark.Request;
 import spark.Response;
 

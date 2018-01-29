@@ -2,7 +2,7 @@ package com.codurance.merlin.api;
 
 import com.codurance.merlin.commitment.*;
 import com.codurance.merlin.infrastructure.CommitmentJsonTransformer;
-import com.codurance.merlin.service.CommitmentService;
+import com.codurance.merlin.commitment.CommitmentService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

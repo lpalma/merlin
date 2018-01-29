@@ -7,7 +7,7 @@ import com.codurance.merlin.infrastructure.CommitmentJsonTransformer;
 import com.codurance.merlin.infrastructure.JsonTransformer;
 import com.codurance.merlin.infrastructure.UniqueIDGenerator;
 import com.codurance.merlin.infrastructure.persistence.MerlinRepositoryContext;
-import com.codurance.merlin.service.CommitmentService;
+import com.codurance.merlin.commitment.CommitmentService;
 import spark.ModelAndView;
 import spark.TemplateEngine;
 
