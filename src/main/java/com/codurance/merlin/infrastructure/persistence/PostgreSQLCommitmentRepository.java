@@ -12,7 +12,6 @@ public class PostgreSQLCommitmentRepository implements CommitmentRepository {
     public static final String SELECT_ALL_COMMITMENTS = "SELECT * FROM commitments";
     public static final String DELETE_ALL_COMMITMENTS = "DELETE FROM commitments;";
     public static final String INSERT_INTO_COMMITMENTS = "INSERT INTO commitments VALUES (?, ?, ?, date(?), date(?))";
-    public static final String COMMITMENTS_SEQUENCE = "commitments_seq";
     private static final String DELETE_FROM_COMMITMENTS = "DELETE FROM commitments WHERE id=?";
 
     private LightAccess lightAccess;
@@ -61,11 +60,5 @@ public class PostgreSQLCommitmentRepository implements CommitmentRepository {
                 laResultSet.getLocalDate(4),
                 laResultSet.getLocalDate(5)
         );
-    }
-
-    private CommitmentId nextId() {
-        int id = lightAccess.nextId(COMMITMENTS_SEQUENCE);
-
-        return new CommitmentId(String.valueOf(id));
     }
 }
