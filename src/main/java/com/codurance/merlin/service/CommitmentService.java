@@ -15,15 +15,7 @@ public class CommitmentService {
     }
 
     public Commitment add(CommitmentData commitmentData) {
-        String id = uniqueIdGenerator.nextId();
-
-        Commitment commitment = new Commitment(
-            new CommitmentId(id),
-            commitmentData.craftspersonId(),
-            commitmentData.projectId(),
-            commitmentData.startDate(),
-            commitmentData.endDate()
-        );
+        Commitment commitment = createCommitment(commitmentData);
 
         repository.add(commitment);
 
@@ -36,5 +28,17 @@ public class CommitmentService {
 
     public void delete(CommitmentId commitmentId) {
         repository.delete(commitmentId);
+    }
+
+    private Commitment createCommitment(CommitmentData commitmentData) {
+        String id = uniqueIdGenerator.nextId();
+
+        return new Commitment(
+            new CommitmentId(id),
+            commitmentData.craftspersonId(),
+            commitmentData.projectId(),
+            commitmentData.startDate(),
+            commitmentData.endDate()
+        );
     }
 }

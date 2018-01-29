@@ -20,6 +20,10 @@ public class CommitmentServiceShould {
     private static final String UNIQUE_ID = "uniqueId";
 
     private static final CommitmentId COMMITMENT_ID = new CommitmentId(UNIQUE_ID);
+    public static final CraftspersonId CRAFTSPERSON_ID = new CraftspersonId("1234");
+    public static final ProjectId PROJECT_ID = new ProjectId("4321");
+    public static final LocalDate START_DATE = LocalDate.of(2018, 1, 1);
+    public static final LocalDate END_DATE = LocalDate.of(2018, 1, 31);
 
     @Mock
     private CommitmentRepository repository;
@@ -46,27 +50,14 @@ public class CommitmentServiceShould {
 
     @Test
     public void add_new_commitment() {
-        CraftspersonId craftspersonId = new CraftspersonId("1234");
-        ProjectId projectId = new ProjectId("4321");
-        LocalDate startDate = LocalDate.of(2018, 1, 1);
-        LocalDate endDate = LocalDate.of(2018, 1, 31);
-
-        CommitmentData aCommitmentData = new CommitmentData(craftspersonId, projectId, startDate, endDate);
-
-        Commitment commitment = new Commitment(
-            new CommitmentId(UNIQUE_ID),
-            craftspersonId,
-            projectId,
-            startDate,
-            endDate
-        );
+        CommitmentData aCommitmentData = new CommitmentData(CRAFTSPERSON_ID, PROJECT_ID, START_DATE, END_DATE);
+        Commitment commitment = new Commitment(COMMITMENT_ID, CRAFTSPERSON_ID, PROJECT_ID, START_DATE, END_DATE );
 
         when(uniqueIdGenerator.nextId()).thenReturn(UNIQUE_ID);
 
         Commitment commitmentResult = service.add(aCommitmentData);
 
         verify(repository).add(commitment);
-
         assertThat(commitmentResult).isEqualTo(commitment);
     }
 

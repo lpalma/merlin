@@ -53,11 +53,11 @@ public class CommitmentsAPIShould {
     @Mock
     private CommitmentDataTransformer dataTransformer;
 
-    private CommitmentsAPI controller;
+    private CommitmentsAPI api;
 
     @Before
     public void setUp() {
-        controller = new CommitmentsAPI(commitmentService, dataTransformer);
+        api = new CommitmentsAPI(commitmentService, dataTransformer);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class CommitmentsAPIShould {
         when(commitmentService.all()).thenReturn(singletonList(commitment));
         when(dataTransformer.jsonFor(commitment)).thenReturn(COMMITMENT_JSON);
 
-        assertThat(controller.getAll(request, response)).isEqualTo(singletonList(COMMITMENT_JSON));
+        assertThat(api.getAll(request, response)).isEqualTo(singletonList(COMMITMENT_JSON));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class CommitmentsAPIShould {
         when(commitmentService.add(commitmentData)).thenReturn(commitment);
         when(dataTransformer.jsonFor(commitment)).thenReturn(COMMITMENT_JSON);
 
-        String commitment = controller.add(request, response);
+        String commitment = api.add(request, response);
 
         verify(response).status(HTTP_CREATED);
         assertThat(commitment).isEqualTo(COMMITMENT_JSON);
@@ -88,7 +88,7 @@ public class CommitmentsAPIShould {
         CommitmentId commitmentId = new CommitmentId(COMMITMENT_ID);
         when(request.params(ID)).thenReturn(COMMITMENT_ID);
 
-        controller.delete(request, response);
+        api.delete(request, response);
 
         verify(commitmentService).delete(commitmentId);
         verify(response).status(HTTP_NO_CONTENT);
