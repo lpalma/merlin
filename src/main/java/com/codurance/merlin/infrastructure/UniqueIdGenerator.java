@@ -1,7 +1,9 @@
 package com.codurance.merlin.infrastructure;
 
-public class UniqueIdGenerator {
+import java.util.UUID;
+
+public class UniqueIDGenerator {
     public String nextId() {
-        throw new UnsupportedOperationException();
+        return UUID.randomUUID().toString();
     }
 }

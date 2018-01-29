@@ -1,7 +1,7 @@
 package com.codurance.merlin.service;
 
 import com.codurance.merlin.commitment.*;
-import com.codurance.merlin.infrastructure.UniqueIdGenerator;
+import com.codurance.merlin.infrastructure.UniqueIDGenerator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,13 +32,13 @@ public class CommitmentServiceShould {
     private Commitment aCommitment;
 
     @Mock
-    private UniqueIdGenerator uniqueIdGenerator;
+    private UniqueIDGenerator uniqueIDGenerator;
 
     private CommitmentService service;
 
     @Before
     public void setUp() {
-        service = new CommitmentService(repository, uniqueIdGenerator);
+        service = new CommitmentService(repository, uniqueIDGenerator);
     }
 
     @Test
@@ -53,7 +53,7 @@ public class CommitmentServiceShould {
         CommitmentData aCommitmentData = new CommitmentData(CRAFTSPERSON_ID, PROJECT_ID, START_DATE, END_DATE);
         Commitment commitment = new Commitment(COMMITMENT_ID, CRAFTSPERSON_ID, PROJECT_ID, START_DATE, END_DATE );
 
-        when(uniqueIdGenerator.nextId()).thenReturn(UNIQUE_ID);
+        when(uniqueIDGenerator.nextId()).thenReturn(UNIQUE_ID);
 
         Commitment commitmentResult = service.add(aCommitmentData);
 

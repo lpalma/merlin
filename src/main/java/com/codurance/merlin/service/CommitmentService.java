@@ -1,17 +1,17 @@
 package com.codurance.merlin.service;
 
 import com.codurance.merlin.commitment.*;
-import com.codurance.merlin.infrastructure.UniqueIdGenerator;
+import com.codurance.merlin.infrastructure.UniqueIDGenerator;
 
 import java.util.List;
 
 public class CommitmentService {
     private CommitmentRepository repository;
-    private UniqueIdGenerator uniqueIdGenerator;
+    private UniqueIDGenerator uniqueIDGenerator;
 
-    public CommitmentService(CommitmentRepository repository, UniqueIdGenerator uniqueIdGenerator) {
+    public CommitmentService(CommitmentRepository repository, UniqueIDGenerator uniqueIDGenerator) {
         this.repository = repository;
-        this.uniqueIdGenerator = uniqueIdGenerator;
+        this.uniqueIDGenerator = uniqueIDGenerator;
     }
 
     public Commitment add(CommitmentData commitmentData) {
@@ -31,7 +31,7 @@ public class CommitmentService {
     }
 
     private Commitment createCommitment(CommitmentData commitmentData) {
-        String id = uniqueIdGenerator.nextId();
+        String id = uniqueIDGenerator.nextId();
 
         return new Commitment(
             new CommitmentId(id),
