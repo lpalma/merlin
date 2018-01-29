@@ -1,14 +1,14 @@
 package com.codurance.merlin.service;
 
-import com.codurance.merlin.commitment.Commitment;
-import com.codurance.merlin.commitment.CommitmentData;
-import com.codurance.merlin.commitment.CommitmentId;
-import com.codurance.merlin.commitment.CommitmentRepository;
+import com.codurance.merlin.commitment.*;
+import com.codurance.merlin.infrastructure.UniqueIdGenerator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.time.LocalDate;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,6 +17,9 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CommitmentServiceShould {
+    private static final String UNIQUE_ID = "uniqueId";
+
+    private static final CommitmentId COMMITMENT_ID = new CommitmentId(UNIQUE_ID);
 
     @Mock
     private CommitmentRepository repository;
@@ -25,15 +28,13 @@ public class CommitmentServiceShould {
     private Commitment aCommitment;
 
     @Mock
-    private CommitmentData aCommitmentData;
+    private UniqueIdGenerator uniqueIdGenerator;
 
     private CommitmentService service;
 
-    public static final CommitmentId COMMITMENT_ID = new CommitmentId("commitmentId");
-
     @Before
     public void setUp() {
-        service = new CommitmentService(repository);
+        service = new CommitmentService(repository, uniqueIdGenerator);
     }
 
     @Test
@@ -45,9 +46,28 @@ public class CommitmentServiceShould {
 
     @Test
     public void add_new_commitment() {
-        when(repository.add(aCommitmentData)).thenReturn(aCommitment);
+        CraftspersonId craftspersonId = new CraftspersonId("1234");
+        ProjectId projectId = new ProjectId("4321");
+        LocalDate startDate = LocalDate.of(2018, 1, 1);
+        LocalDate endDate = LocalDate.of(2018, 1, 31);
 
-        assertThat(service.add(aCommitmentData)).isEqualTo(aCommitment);
+        CommitmentData aCommitmentData = new CommitmentData(craftspersonId, projectId, startDate, endDate);
+
+        Commitment commitment = new Commitment(
+            new CommitmentId(UNIQUE_ID),
+            craftspersonId,
+            projectId,
+            startDate,
+            endDate
+        );
+
+        when(uniqueIdGenerator.nextId()).thenReturn(UNIQUE_ID);
+
+        Commitment commitmentResult = service.add(aCommitmentData);
+
+        verify(repository).add(commitment);
+
+        assertThat(commitmentResult).isEqualTo(commitment);
     }
 
     @Test

@@ -29,9 +29,7 @@ public class PostgreSQLCommitmentRepository implements CommitmentRepository {
                 .mapResults(toCommitment()));
     }
 
-    public Commitment add(CommitmentData commitmentData) {
-        Commitment commitment = createCommitment(commitmentData);
-
+    public void add(Commitment commitment) {
         lightAccess.executeCommand(connection -> connection
             .prepareStatement(INSERT_INTO_COMMITMENTS)
             .withParam(commitment.id().asString())
@@ -40,8 +38,6 @@ public class PostgreSQLCommitmentRepository implements CommitmentRepository {
             .withParam(commitment.startDate().toString())
             .withParam(commitment.endDate().toString())
             .executeUpdate());
-
-        return commitment;
     }
 
     public void deleteAll() {
@@ -64,16 +60,6 @@ public class PostgreSQLCommitmentRepository implements CommitmentRepository {
                 new ProjectId(laResultSet.getString(3)),
                 laResultSet.getLocalDate(4),
                 laResultSet.getLocalDate(5)
-        );
-    }
-
-    private Commitment createCommitment(CommitmentData commitmentData) {
-        return new Commitment(
-                nextId(),
-                commitmentData.craftspersonId(),
-                commitmentData.projectId(),
-                commitmentData.startDate(),
-                commitmentData.endDate()
         );
     }
 

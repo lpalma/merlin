@@ -15,7 +15,19 @@ public class CommitmentService {
     }
 
     public Commitment add(CommitmentData commitmentData) {
-        return repository.add(commitmentData);
+        String id = uniqueIdGenerator.nextId();
+
+        Commitment commitment = new Commitment(
+            new CommitmentId(id),
+            commitmentData.craftspersonId(),
+            commitmentData.projectId(),
+            commitmentData.startDate(),
+            commitmentData.endDate()
+        );
+
+        repository.add(commitment);
+
+        return commitment;
     }
 
     public List<Commitment> all() {
