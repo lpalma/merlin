@@ -5,6 +5,7 @@ import com.codurance.merlin.authentication.Authenticator;
 import com.codurance.merlin.infrastructure.AuthorisationFilter;
 import com.codurance.merlin.infrastructure.CommitmentDataTransformer;
 import com.codurance.merlin.infrastructure.JsonTransformer;
+import com.codurance.merlin.infrastructure.UniqueIdGenerator;
 import com.codurance.merlin.infrastructure.persistence.MerlinRepositoryContext;
 import com.codurance.merlin.service.CommitmentService;
 import spark.ModelAndView;
@@ -36,7 +37,7 @@ public class Routes {
     }
 
     private void initialiseControllers() {
-        CommitmentService commitmentService = new CommitmentService(MerlinRepositoryContext.getCommitmentRepository());
+        CommitmentService commitmentService = new CommitmentService(MerlinRepositoryContext.getCommitmentRepository(), new UniqueIdGenerator());
 
         authenticationController = new AuthenticationController(this.authenticator);
         commitmentsAPI = new CommitmentsAPI(commitmentService, new CommitmentDataTransformer());
