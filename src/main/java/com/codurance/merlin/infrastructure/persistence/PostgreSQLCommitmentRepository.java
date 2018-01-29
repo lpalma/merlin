@@ -4,6 +4,7 @@ import com.codurance.lightaccess.LightAccess;
 import com.codurance.lightaccess.mapping.LAResultSet;
 import com.codurance.merlin.commitment.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.function.Function;
 
@@ -13,6 +14,7 @@ public class PostgreSQLCommitmentRepository implements CommitmentRepository {
     public static final String DELETE_ALL_COMMITMENTS = "DELETE FROM commitments;";
     public static final String INSERT_INTO_COMMITMENTS = "INSERT INTO commitments VALUES (?, ?, ?, date(?), date(?))";
     private static final String DELETE_FROM_COMMITMENTS = "DELETE FROM commitments WHERE id=?";
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE;
 
     private LightAccess lightAccess;
 
@@ -34,8 +36,8 @@ public class PostgreSQLCommitmentRepository implements CommitmentRepository {
             .withParam(commitment.id().asString())
             .withParam(commitment.craftspersonId().asString())
             .withParam(commitment.projectId().asString())
-            .withParam(commitment.startDate().toString())
-            .withParam(commitment.endDate().toString())
+            .withParam(commitment.startDate().format(dateTimeFormatter))
+            .withParam(commitment.endDate().format(dateTimeFormatter))
             .executeUpdate());
     }
 
