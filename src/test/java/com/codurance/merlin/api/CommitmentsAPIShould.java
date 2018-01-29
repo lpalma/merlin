@@ -1,7 +1,7 @@
 package com.codurance.merlin.api;
 
 import com.codurance.merlin.commitment.*;
-import com.codurance.merlin.infrastructure.CommitmentDataTransformer;
+import com.codurance.merlin.infrastructure.CommitmentJsonTransformer;
 import com.codurance.merlin.service.CommitmentService;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,7 +51,7 @@ public class CommitmentsAPIShould {
     private Commitment commitment;
 
     @Mock
-    private CommitmentDataTransformer dataTransformer;
+    private CommitmentJsonTransformer dataTransformer;
 
     private CommitmentsAPI api;
 

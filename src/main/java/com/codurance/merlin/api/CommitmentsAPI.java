@@ -3,7 +3,7 @@ package com.codurance.merlin.api;
 import com.codurance.merlin.commitment.Commitment;
 import com.codurance.merlin.commitment.CommitmentData;
 import com.codurance.merlin.commitment.CommitmentId;
-import com.codurance.merlin.infrastructure.CommitmentDataTransformer;
+import com.codurance.merlin.infrastructure.CommitmentJsonTransformer;
 import com.codurance.merlin.service.CommitmentService;
 import spark.Request;
 import spark.Response;
@@ -16,9 +16,9 @@ public class CommitmentsAPI {
     public static final String ID = ":id";
     public static final int HTTP_NO_CONTENT = 204;
     private CommitmentService commitmentService;
-    private CommitmentDataTransformer dataTransformer;
+    private CommitmentJsonTransformer dataTransformer;
 
-    public CommitmentsAPI(CommitmentService commitmentService, CommitmentDataTransformer dataTransformer) {
+    public CommitmentsAPI(CommitmentService commitmentService, CommitmentJsonTransformer dataTransformer) {
         this.commitmentService = commitmentService;
         this.dataTransformer = dataTransformer;
     }

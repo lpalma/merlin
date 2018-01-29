@@ -3,7 +3,7 @@ package com.codurance.merlin.api;
 import com.codurance.merlin.authentication.AuthenticationController;
 import com.codurance.merlin.authentication.Authenticator;
 import com.codurance.merlin.infrastructure.AuthorisationFilter;
-import com.codurance.merlin.infrastructure.CommitmentDataTransformer;
+import com.codurance.merlin.infrastructure.CommitmentJsonTransformer;
 import com.codurance.merlin.infrastructure.JsonTransformer;
 import com.codurance.merlin.infrastructure.UniqueIDGenerator;
 import com.codurance.merlin.infrastructure.persistence.MerlinRepositoryContext;
@@ -40,7 +40,7 @@ public class Routes {
         CommitmentService commitmentService = new CommitmentService(MerlinRepositoryContext.getCommitmentRepository(), new UniqueIDGenerator());
 
         authenticationController = new AuthenticationController(this.authenticator);
-        commitmentsAPI = new CommitmentsAPI(commitmentService, new CommitmentDataTransformer());
+        commitmentsAPI = new CommitmentsAPI(commitmentService, new CommitmentJsonTransformer());
     }
 
     private void initialiseMainRoutes(TemplateEngine templateEngine) {
