@@ -5,7 +5,6 @@ import com.codurance.merlin.commitment.CommitmentData;
 import com.codurance.merlin.commitment.CraftspersonId;
 import com.codurance.merlin.commitment.ProjectId;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.time.LocalDate;
@@ -17,7 +16,7 @@ public class CommitmentJsonTransformer {
     private static final String PROJECT_ID = "projectId";
     private static final String START_DATE = "startDate";
     private static final String END_DATE = "endDate";
-    private static final String COMMITMENT_ID = "commitmentId";
+    private static final String COMMITMENT_ID = "id";
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE;
 
     public CommitmentData fromJson(String jsonCommitment) {

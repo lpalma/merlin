@@ -2,12 +2,11 @@ package com.codurance.merlin.api;
 
 import com.codurance.merlin.authentication.AuthenticationController;
 import com.codurance.merlin.authentication.Authenticator;
+import com.codurance.merlin.commitment.CommitmentService;
 import com.codurance.merlin.infrastructure.AuthorisationFilter;
 import com.codurance.merlin.infrastructure.CommitmentJsonTransformer;
-import com.codurance.merlin.infrastructure.JsonTransformer;
 import com.codurance.merlin.infrastructure.UniqueIDGenerator;
 import com.codurance.merlin.infrastructure.persistence.MerlinRepositoryContext;
-import com.codurance.merlin.commitment.CommitmentService;
 import spark.ModelAndView;
 import spark.TemplateEngine;
 
@@ -53,8 +52,8 @@ public class Routes {
 
     private void initialiseApiRoutes() {
         path("/api", () -> {
-            get("/commitments", "application/json", commitmentsAPI::getAll, new JsonTransformer());
-            put("/commitments", "application/json", commitmentsAPI::add, new JsonTransformer());
+            get("/commitments", "application/json", commitmentsAPI::getAll);
+            put("/commitments", "application/json", commitmentsAPI::add);
             delete("/commitments/:id", "application/json", commitmentsAPI::delete);
         });
     }

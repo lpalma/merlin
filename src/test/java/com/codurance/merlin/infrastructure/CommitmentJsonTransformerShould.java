@@ -30,7 +30,7 @@ public class CommitmentJsonTransformerShould {
             "}";
 
     private String COMMITMENT_JSON = "{" +
-            "\"commitmentId\":\"" + COMMITMENT_ID + "\"," +
+            "\"id\":\"" + COMMITMENT_ID + "\"," +
             "\"craftspersonId\":\"" + CRAFTSPERSON_ID + "\"," +
             "\"projectId\":\"" + PROJECT_ID + "\"," +
             "\"startDate\":\"" + START_DATE + "\"," +
