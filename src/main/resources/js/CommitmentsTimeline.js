@@ -98,12 +98,12 @@ class CommitmentsTimeline extends Component {
         commitment.startDate = edge === 'left' ? date : commitment.startDate
         commitment.endDate = edge === 'right' ? date : commitment.endDate
 
-        this.onFormSave(commitment)
+        this.saveCommitment(commitment)
 
         this.loadCommitments()
     }
 
-    onFormSave = async(commitment) => {
+    saveCommitment = async(commitment) => {
         const newCommitment = await this.route.saveCommitment(commitment)
 
         this.setState((prevState) => ({
@@ -199,7 +199,7 @@ class CommitmentsTimeline extends Component {
                     this.state.isEditingCommitment &&
                     <CommitmentModal
                         onClose={this.onFormClose}
-                        onSave={this.onFormSave}
+                        onSave={this.saveCommitment}
                         onDelete={this.onFormDelete}
                         craftspeople={this.state.craftspeople}
                         projects={this.state.projects}
