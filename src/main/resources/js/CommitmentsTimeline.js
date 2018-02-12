@@ -143,7 +143,7 @@ class CommitmentsTimeline extends Component {
         }
     }
 
-    onNewFormOpen = (craftsperson, time, e) => {
+    openNewForm = (craftsperson, time, e) => {
         this.setState((prevState) => ({
             isEditingCommitment: true, 
             commitmentData: {
@@ -156,7 +156,7 @@ class CommitmentsTimeline extends Component {
         }))
     }
 
-    onEditFormOpen = (itemId, e) => {
+    openEditForm = (itemId, e) => {
         const commitment = this.getCommitment(itemId)
 
         this.setState((prevState) => ({
@@ -171,11 +171,11 @@ class CommitmentsTimeline extends Component {
         }))
     }
 
-    onFormClose = () => (
+    closeForm = () => (
         this.setState((prevState) => ({ isEditingCommitment: false }))
     )
 
-    onFormDelete = async() => {
+    deleteCommitment = async() => {
         const id = this.state.commitmentData.id
 
         await this.route.deleteCommitment(id)
@@ -198,9 +198,9 @@ class CommitmentsTimeline extends Component {
                 {
                     this.state.isEditingCommitment &&
                     <CommitmentModal
-                        onClose={this.onFormClose}
+                        onClose={this.closeForm}
                         onSave={this.saveCommitment}
-                        onDelete={this.onFormDelete}
+                        onDelete={this.deleteCommitment}
                         craftspeople={this.state.craftspeople}
                         projects={this.state.projects}
                         defaultCommitment={this.state.commitmentData}
@@ -213,8 +213,8 @@ class CommitmentsTimeline extends Component {
                     defaultTimeEnd={moment().add(6, 'month')}
                     timeSteps={{second: 0, minute: 0, hour: 0, day: 1, month: 1, year: 1}}
                     onItemResize={this.updateCommitment}
-                    onCanvasDoubleClick={this.onNewFormOpen}
-                    onItemDoubleClick={this.onEditFormOpen}
+                    onCanvasDoubleClick={this.openNewForm}
+                    onItemDoubleClick={this.openEditForm}
                     dragSnap={60 * 60 * 1000}
                 />
             </div>
