@@ -50,7 +50,7 @@ public class CommitmentServiceShould {
 
     @Test
     public void add_new_commitment() {
-        CommitmentData aCommitmentData = new CommitmentData(CRAFTSPERSON_ID, PROJECT_ID, START_DATE, END_DATE);
+        CommitmentData aCommitmentData = new CommitmentData(COMMITMENT_ID, CRAFTSPERSON_ID, PROJECT_ID, START_DATE, END_DATE);
         Commitment commitment = new Commitment(COMMITMENT_ID, CRAFTSPERSON_ID, PROJECT_ID, START_DATE, END_DATE );
 
         when(uniqueIDGenerator.nextId()).thenReturn(UNIQUE_ID);

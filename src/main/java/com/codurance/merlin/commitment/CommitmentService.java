@@ -3,6 +3,7 @@ package com.codurance.merlin.commitment;
 import com.codurance.merlin.infrastructure.UniqueIDGenerator;
 
 import java.util.List;
+import java.util.Optional;
 
 public class CommitmentService {
     private CommitmentRepository repository;
@@ -39,5 +40,9 @@ public class CommitmentService {
             commitmentData.startDate(),
             commitmentData.endDate()
         );
+    }
+
+    public Optional<Commitment> update(CommitmentData commitmentData) {
+        throw new UnsupportedOperationException();
     }
 }

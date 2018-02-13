@@ -25,6 +25,7 @@ public class CommitmentJsonTransformer {
         JsonObject json = gson.fromJson(jsonCommitment, JsonObject.class);
 
         return new CommitmentData(
+            null,
             new CraftspersonId(json.get(CRAFTSPERSON_ID).getAsString()),
             new ProjectId(json.get(PROJECT_ID).getAsString()),
             LocalDate.parse(json.get(START_DATE).getAsString(), dateTimeFormatter),

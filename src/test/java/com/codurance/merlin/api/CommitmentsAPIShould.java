@@ -12,8 +12,10 @@ import spark.Request;
 import spark.Response;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static java.util.Collections.singletonList;
+import static java.util.Optional.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -25,6 +27,7 @@ public class CommitmentsAPIShould {
     public static final String PROJECT_ID = "project1";
     public static final String START_DATE = "2017-10-10";
     public static final String END_DATE = "2017-12-10";
+    public static final String COMMITMENT_ID = "commitmentId";
 
     public static final String COMMITMENT_JSON = "{" +
             "\"craftspersonId\": \"" + CRAFTSPERSON_ID + "\"," +
@@ -33,10 +36,18 @@ public class CommitmentsAPIShould {
             "\"endDate\": \"" + END_DATE + "\"" +
             "}";
 
+    private static final String UPDATED_COMMITMENT_JSON = "{" +
+            "\"id\": \"" + COMMITMENT_ID + "\"," +
+            "\"craftspersonId\": \"" + CRAFTSPERSON_ID + "\"," +
+            "\"projectId\": \"" + PROJECT_ID + "\"," +
+            "\"startDate\": \"" + START_DATE + "\"," +
+            "\"endDate\": \"" + END_DATE + "\"" +
+            "}";
+
+    private static final int HTTP_OK = 200;
     public static final int HTTP_CREATED = 201;
     public static final int HTTP_NO_CONTENT = 204;
     public static final String ID = ":id";
-    public static final String COMMITMENT_ID = "commitmentId";
 
     @Mock
     private Request request;
@@ -94,9 +105,24 @@ public class CommitmentsAPIShould {
         verify(response).status(HTTP_NO_CONTENT);
     }
 
+    @Test
+    public void update_an_existing_commitment() {
+        CommitmentData updatedCommitmentData = updatedCommitmentData();
 
-    private CommitmentData aCommitmentData() {
+        when(request.body()).thenReturn(UPDATED_COMMITMENT_JSON);
+        when(dataTransformer.fromJson(UPDATED_COMMITMENT_JSON)).thenReturn(updatedCommitmentData);
+        when(commitmentService.update(updatedCommitmentData)).thenReturn(of(commitment));
+        when(dataTransformer.jsonFor(commitment)).thenReturn(UPDATED_COMMITMENT_JSON);
+
+        String body = api.update(request, response);
+
+        verify(response).status(HTTP_OK);
+        assertThat(body).isEqualTo(UPDATED_COMMITMENT_JSON);
+    }
+
+    private CommitmentData updatedCommitmentData() {
         return new CommitmentData(
+            new CommitmentId(COMMITMENT_ID),
             new CraftspersonId(CRAFTSPERSON_ID),
             new ProjectId(PROJECT_ID),
             LocalDate.parse(START_DATE),
@@ -104,4 +130,13 @@ public class CommitmentsAPIShould {
         );
     }
 
+    private CommitmentData aCommitmentData() {
+        return new CommitmentData(
+            null,
+            new CraftspersonId(CRAFTSPERSON_ID),
+            new ProjectId(PROJECT_ID),
+            LocalDate.parse(START_DATE),
+            LocalDate.parse(END_DATE)
+        );
+    }
 }

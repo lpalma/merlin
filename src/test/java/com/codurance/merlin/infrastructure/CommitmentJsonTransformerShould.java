@@ -16,6 +16,7 @@ public class CommitmentJsonTransformerShould {
     private static final String END_DATE = "2017-12-10";
 
     private static final CommitmentData COMMITMENT_DATA = new CommitmentData(
+            null,
             new CraftspersonId(CRAFTSPERSON_ID),
             new ProjectId(PROJECT_ID),
             LocalDate.parse(START_DATE),

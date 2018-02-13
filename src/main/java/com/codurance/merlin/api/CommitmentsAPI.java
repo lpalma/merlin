@@ -48,4 +48,8 @@ public class CommitmentsAPI {
 
         return response;
     }
+
+    public String update(Request request, Response response) {
+        throw new UnsupportedOperationException();
+    }
 }
